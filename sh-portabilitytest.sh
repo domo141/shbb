@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Thu 03 Apr 2014 17:20:37 +0300 too
+# Last modified: Thu 03 Apr 2014 17:45:26 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -434,7 +434,7 @@ case ${COLUMNS-} in [1-9]|[1-9][0-9]|[1-9][0-9][0-9])
 	then
 		# it is expected that $((...)) works if ${#param} works...
 		cl=13
-		printf 'Found shells:'
+		printf '\nFound shells:'
 		for f in $shells
 		do
 			cl=$((cl + ${#f} + 1))
