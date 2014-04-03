@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Mon 02 Dec 2013 20:48:20 +0200 too
+# Last modified: Thu 03 Apr 2014 17:20:37 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -177,7 +177,7 @@ test_pwdvar ()
 	case $PWD in /tmp) ;; *) exit 1; esac
 }
 
-test_pwd ()
+test_pwdcmd ()
 {
 	e "pwd builtin command"
 	pwd
@@ -213,6 +213,14 @@ test_readonly2 ()
 
 
 test_case_pxcl ()
+{
+	e "case where both '*' and '[!a-z0-9_]' unquoted"
+	case test/echo1 in *[!a-z0-9_]*) ;; *) exit 1; esac
+	case test_echo1 in *[!a-z0-9_]*) exit 1; esac
+}
+
+
+test_case_pxcf ()
 {
 	e "case where both '*' and '[^a-z0-9_]' unquoted"
 	# dash & heirloom sh expected to "fail" here.
