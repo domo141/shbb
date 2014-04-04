@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Thu 03 Apr 2014 17:45:26 +0300 too
+# Last modified: Fri 04 Apr 2014 18:01:58 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -139,6 +139,12 @@ test_test ()
 {
 	e 'builtin test command'
 	test string
+}
+
+test_test_e ()
+{
+	e "test -e file"
+	if test -e "$0"; then exit 0; else exit 1; fi
 }
 
 test_testexcl ()
