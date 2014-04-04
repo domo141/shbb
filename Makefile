@@ -9,6 +9,7 @@ instructions:
 	@echo
 	@echo The following targets can be run with this make:
 	@echo '' heirloom-sh
+	@echo '' pix
 	@echo
 
 
@@ -42,6 +43,27 @@ heirloom-sh.sh:
 	echo To run the shell, execute ./heirloom-sh-050706/sh
 	echo See also: http://heirloom.sourceforge.net/sh.html
 	echo
+#	#eos
+	exit 1 # not reached
+
+# example: pix W=134 H=38 T='Solaris 10...' S=heirloom-sh/sh
+pix:
+	case "$W" in '') false; esac # W=w H=h T=title [S=shells]
+	sed '1,/^$@.sh:/d;/^#.#eos/q' Makefile | /bin/sh -s '$W' '$H' "$T" '$S'
+
+pix.sh:
+	test -n "$1" || exit 1 # internal shell script; not to be made directly
+	die () { exit 1; }
+	set -eux
+	case $3 in '') die Usage: make pix W=w H=h T=title [S=shells] ;; esac
+	hash urxvt 2>/dev/null || die need urxvt '(rxvt-unicode)'
+	hash zsh 2>/dev/null || die need zsh
+	fg=black
+	bg=grey70
+	exec urxvt -b 6 -bl +sb -hold -fg $fg -bg $bg -bd $bg -g ${1}x${2} -e \
+	zsh -c "printf '\\33]4;3;#b7b7b7\\007'
+		printf '%s  \\033[38;5;3m%s\\033[38;5;0m\\n' '$3' '(${1}x${2})'
+		set x $4; shift; . ./sh-portabilitytest.sh"
 #	#eos
 	exit 1 # not reached
 
