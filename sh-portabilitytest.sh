@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Fri 04 Apr 2014 18:01:58 +0300 too
+# Last modified: Sun 06 Apr 2014 20:27:57 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -76,6 +76,16 @@ test_command ()
 	alias echo=/bin/false || :
 	echo () { return 1; }
 	command echo >/dev/null
+}
+
+test_command_v ()
+{
+	e the -v option
+	# first check that there is builtin 'command'
+	command echo >/dev/null || return 1
+	# expect cat reside in /bin, to make this run not fail
+	PATH=/bin; export PATH
+	case `command -v cat` in *cat) ;; *) return 1; esac
 }
 
 test_builtin ()
