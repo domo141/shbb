@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Sat 17 May 2014 11:39:41 +0300 too
+# Last modified: Sat 17 May 2014 21:33:49 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -397,7 +397,7 @@ case ${TEST_LOOP-} in '') ;; *) die "$SHELL: Looping!"
 esac
 TEST_LOOP=1; export TEST_LOOP
 
-which=`env which which`
+which=`exec env which which`
 
 shells=
 findshell ()
@@ -408,7 +408,7 @@ findshell ()
   ;; *)
 	# hash in subshell so heirloom sh can be used as a driver...
 	#(hash "$sh" 2>/dev/null) || return 0 ...but FreeBSD does not have hash
-	shfp=`$which $sh 2>/dev/null` || return 0
+	shfp=`exec $which $sh 2>/dev/null` || return 0
 	# Solaris 10 /usr/bin/which exits always with exitcode 0
 	case $shfp in /*) ;; *) return 0 ;; esac
   esac
@@ -423,7 +423,7 @@ done
 # special-case search for busybox shell
 # Solaris 10 sh yells 'busybox: not found' unless stderr pre-redirected.
 case `exec 2>/dev/null; busybox sh -c 'echo foo' || :` in foo)
-	busybox=`$which busybox`
+	busybox=`exec $which busybox`
 	shells="$shells|busybox sh:$busybox sh"
 esac
 
@@ -501,7 +501,7 @@ fail () {
 }
 
 lprefix=portabilitytest
-logfile=`date +$lprefix-%Y%d%m-%H%M%S.log`
+logfile=`exec date +$lprefix-%Y%d%m-%H%M%S.log`
 
 shx ()
 {
@@ -517,11 +517,11 @@ shx ()
 
 exec 8>&2 # for temp test testing...
 
-WC=`which wc`
+WC=`exec which wc`
 export WC
 
 IFS=$DFL_IFS
-for test in `sed -n '/^test_/ s/ .*//p' "$0"`
+for test in `exec sed -n '/^test_/ s/ .*//p' "$0"`
 do
 	printf '%-14s' $test
 	IFS='|'
