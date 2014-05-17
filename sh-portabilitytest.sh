@@ -5,7 +5,7 @@
 # Author: Tomi Ollila -- too ät iki piste fi
 #
 # Created: Tue 27 Aug 2013 19:07:01 EEST too
-# Last modified: Sun 06 Apr 2014 20:27:57 +0300 too
+# Last modified: Sat 17 May 2014 11:39:41 +0300 too
 #
 # This script has been placed in the public domain.
 #
@@ -155,6 +155,26 @@ test_test_e ()
 {
 	e "test -e file"
 	if test -e "$0"; then exit 0; else exit 1; fi
+}
+
+test_test_ef ()
+{
+	e "test file1 -ef file2"
+	iwhich mktemp; td=`exec $mktemp -d`; ev=1
+	trap '/bin/rm -rf $td; exit $ev' 0
+	: > $td/file1
+	/bin/ln $td/file1 $td/file2
+	if test $td/file1 -ef $td/file2; then ev=0; fi
+}
+
+test_test_nt ()
+{
+	e "test file1 -nt file2 (presumed -ot is also supported if -nt is)"
+	iwhich mktemp; td=`exec $mktemp -d`; ev=1
+	#trap '/bin/rm -rf $td; exit $ev' 0
+	# XXX expects system time & fs times to work as usual
+	: > $td/newfile
+	if test $td/newfile -nt "$0"; then ev=0; fi
 }
 
 test_testexcl ()
