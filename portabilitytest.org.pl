@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 22:07:23 EEST too
-# Last modified: Sun 18 May 2014 23:29:16 +0300 too
+# Last modified: Sun 18 May 2014 23:47:55 +0300 too
 
 use 5.8.1;
 use strict;
@@ -46,8 +46,8 @@ while (<$wd/[0-9][0-9]_*>)
     my $test = $_;
     foreach (@shells) {
 	if (-f "$wd/$test.$_.out") {
-	    my $s = $_; $s =~ tr/ /-/;
-	    print " +[[#f-$test-$s][$_]]+ |";
+	    my $tl = "#f-$test-$_"; $tl =~ tr/A-Z /a-z-/;
+	    print " +[[$tl][$_]]+ |";
 	}
 	else { print " *$_* |"; }
     }

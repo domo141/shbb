@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Sun 18 May 2014 22:57:20 +0300 too
+# Last modified: Sun 18 May 2014 23:38:39 +0300 too
 
 set -eu
 #set -x
@@ -145,7 +145,7 @@ esac
 pass () { printf ' %s: %sPASS%s' "$1" "${TC_GREEN}"  "${TC_RESET}"; }
 fail () { printf ' %s: %sFAIL%s' "$1" "${TC_RED}"    "${TC_RESET}"; }
 
-: > oo
+#: > oo
 
 print_tn () {
 	IFS=_/; set x $1; shift 3; printf %-15s "$*" #; IFS=$saved_IFS
@@ -163,7 +163,7 @@ shx () {
 		rm "$of"
 		pass "$name"
 	else
-		echo $name $of >> oo
+		#echo $name $of >> oo
 		fail "$name"
 	fi
 	IFS='|'

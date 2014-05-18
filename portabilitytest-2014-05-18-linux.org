@@ -33,7 +33,7 @@ Shells: sh, ksh, bash, zsh, dash, mksh, lksh, busybox sh, heirloom sh
 | [[#26_test_at0][26_test_at0]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-26_test_at0-heirloom-sh][heirloom sh]]+ |
 | [[#27_test_at1][27_test_at1]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
 | [[#28_test_at0for][28_test_at0for]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-28_test_at0for-heirloom-sh][heirloom sh]]+ |
-| [[#29_test_echoE][29_test_echoE]] | *sh* | +[[#f-29_test_echoE-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | +[[#f-29_test_echoE-busybox-sh][busybox sh]]+ | *heirloom sh* |
+| [[#29_test_echoE][29_test_echoE]] | *sh* | +[[#f-29_test_echoe-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | +[[#f-29_test_echoe-busybox-sh][busybox sh]]+ | *heirloom sh* |
 | [[#30_test_echoc][30_test_echoc]] | *sh* | +[[#f-30_test_echoc-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-30_test_echoc-mksh][mksh]]+ | +[[#f-30_test_echoc-lksh][lksh]]+ | +[[#f-30_test_echoc-busybox-sh][busybox sh]]+ | *heirloom sh* |
 | [[#31_test_echon][31_test_echon]] | +[[#f-31_test_echon-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-31_test_echon-heirloom-sh][heirloom sh]]+ |
 | [[#32_test_bi_printf][32_test_bi_printf]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | +[[#f-32_test_bi_printf-mksh][mksh]]+ | +[[#f-32_test_bi_printf-lksh][lksh]]+ | *busybox sh* | +[[#f-32_test_bi_printf-heirloom-sh][heirloom sh]]+ |
@@ -409,14 +409,14 @@ test_test_ef
 PATH=/bin:/usr/bin
 + export PATH 
 + exec mktemp -d 
-td=/tmp/tmp.zFH4flgBgy
+td=/tmp/tmp.c0jxBz2zIT
 ev=1
 + trap /bin/rm -rf $td; exit $ev 0 
 + : 
-+ /bin/ln /tmp/tmp.zFH4flgBgy/file1 /tmp/tmp.zFH4flgBgy/file2 
-+ test /tmp/tmp.zFH4flgBgy/file1 -ef /tmp/tmp.zFH4flgBgy/file2 
++ /bin/ln /tmp/tmp.c0jxBz2zIT/file1 /tmp/tmp.c0jxBz2zIT/file2 
++ test /tmp/tmp.c0jxBz2zIT/file1 -ef /tmp/tmp.c0jxBz2zIT/file2 
 portabilitytest/12_test_test_ef: test: unknown operator -ef
-+ /bin/rm -rf /tmp/tmp.zFH4flgBgy 
++ /bin/rm -rf /tmp/tmp.c0jxBz2zIT 
 + exit 1 
 #+END_SRC
 
@@ -446,10 +446,10 @@ test_test_nt
 PATH=/bin:/usr/bin
 + export PATH 
 + exec mktemp -d 
-td=/tmp/tmp.0ny1wY6avR
+td=/tmp/tmp.JRT7eJ1WlC
 ev=1
 + : 
-+ test /tmp/tmp.0ny1wY6avR/newfile -nt portabilitytest/13_test_test_nt 
++ test /tmp/tmp.JRT7eJ1WlC/newfile -nt portabilitytest/13_test_test_nt 
 portabilitytest/13_test_test_nt: test: unknown operator -nt
 #+END_SRC
 
