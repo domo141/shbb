@@ -12,5 +12,10 @@ constructs work with which shell.
 
 __ sh-portabilitytest.sh
 
-See also related pictures in "pix or it didn’t happen" (sorry, hyperlink
-generation failed).
+Now some results (Fedora 20, some others to follow soon) available
+in portabilitytest-2014-05-18-linux.org__
+
+__ portabilitytest-2014-05-18-linux.org
+
+See also related (0ld) pictures in "pix or it didn’t happen" (sorry,
+hyperlink generation failed).
