@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Mon 19 May 2014 23:08:57 +0300 too
+# Last modified: Mon 19 May 2014 23:34:59 +0300 too
 
 set -eu
 #set -x
@@ -28,6 +28,7 @@ case ${ZSH_VERSION-} in *.*)
 	setopt shwordsplit
 	setopt posix_builtins # for test_command()
 	unsetopt equals # for [ 1 == 1 ] (nonstandard usage...)
+	unsetopt bsd_echo # enable echo escape sequences (like \c)
 	#setopt equals # make [ 1 == 1 ] fail for sure...
 	unsetopt function_argzero # $0 being the name of this script always
 	#list_functions () { functions; }
@@ -190,7 +191,7 @@ do
 	echo
 done
 
-exit
+exit # --- tests to follow --- #
 
 test_command () # builtin or system, not function or alias
 {
