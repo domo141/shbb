@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- mode: shell-script; sh-basic-offset: 8; tab-width: 8 -*-
-# $ new2.sh $
+# $ sh-portabilitytest.sh $
 #
 # Author: Tomi Ollila -- too ät iki piste fi
 #
@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Sun 18 May 2014 23:38:39 +0300 too
+# Last modified: Mon 19 May 2014 18:10:37 +0300 too
 
 set -eu
 #set -x
@@ -37,20 +37,8 @@ withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
 
 saved_IFS=$IFS; readonly saved_IFS
 
+# the above was written into `common.sh`, now set PATH for this script.
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
-
-warn () { echo "$@" >&2; }
-die () { echo "$@" >&2; exit 1; }
-
-x () { echo + "$@" >&2; "$@"; }
-x_env () { echo + "$@" >&2; exec env "$@"; }
-x_exec () { echo + "$@" >&2; exec "$@"; die "exec '$*' failed"; }
-x_eval () { echo + "$*" >&2; eval "$*"; }
-
-# alternatives
-warn () { for l in "$@"; do echo "$l"; done; } >&2
-die () { for l in "$@"; do echo "$l"; done; exit 1; } >&2
-
 
 wd=portabilitytest; rm -rf $wd; mkdir $wd
 
@@ -65,6 +53,7 @@ awk 'BEGIN { file="foobar"; fn=""; cnt=0; wd="'"$wd"'" }
 		   print "#!/bin/sh" >> file }
 	{ print >> file }' "$0"
 
+# as hash(1) not supported everywhere, let's make sure we have which(1)
 which=`exec env which which`
 
 shells=
@@ -98,6 +87,8 @@ case `exec 2>/dev/null; busybox sh -c 'echo hello' || :` in hello)
 
 esac
 
+# do this `case $# in 0` check as `for sh`, `for sh in "$@"` and
+# `for sh in ${1+"$@"}` (or any subset) is not supported everywhere.
 case $# in 0) ;; *)
 	for sh # in ${1+"$@"}
 	do
@@ -105,6 +96,7 @@ case $# in 0) ;; *)
 	done
 esac
 
+# in case shell provides $COLUMNS and ${#param} works split shell info lines...
 IFS='|'
 #columns=`stty -a | sed -n 's/.*columns \([^ ;]*\).*/\1/p'`
 case ${COLUMNS-} in [1-9]|[1-9][0-9]|[1-9][0-9][0-9])
@@ -133,10 +125,13 @@ esac
 IFS=$saved_IFS
 ####exit 0
 set +e
+TC_YELLOW=
 [ -t 1 ] &&
 # http://en.wikipedia.org/wiki/Tput
-TC_RESET=`tput sgr0 2>/dev/null` && TC_RED=`tput setaf 1 2>/dev/null` &&
-TC_GREEN=`tput setaf 2 2>/dev/null` && TC_YELLOW=`tput setaf 3 2>/dev/null`
+TC_RESET=`exec tput sgr0 2>/dev/null` &&
+TC_RED=`exec tput setaf 1 2>/dev/null` &&
+TC_GREEN=`exec tput setaf 2 2>/dev/null` &&
+TC_YELLOW=`exec tput setaf 3 2>/dev/null`
 set -e
 case $TC_YELLOW in '')
 	TC_RESET= TC_RED= TC_GREEN=
@@ -145,7 +140,7 @@ esac
 pass () { printf ' %s: %sPASS%s' "$1" "${TC_GREEN}"  "${TC_RESET}"; }
 fail () { printf ' %s: %sFAIL%s' "$1" "${TC_RED}"    "${TC_RESET}"; }
 
-#: > oo
+: > $wd/tstrun
 
 print_tn () {
 	IFS=_/; set x $1; shift 3; printf %-15s "$*" #; IFS=$saved_IFS
@@ -163,13 +158,14 @@ shx () {
 		rm "$of"
 		pass "$name"
 	else
-		#echo $name $of >> oo
+		echo $of >> $wd/tstrun
 		fail "$name"
 	fi
 	IFS='|'
 }
 for tst in $wd/[0-9][0-9]_*
 do
+	echo $tst >> $wd/tstrun
 	print_tn $tst
 	IFS='|'
 	for shell in $shells
