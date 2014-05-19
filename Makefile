@@ -9,7 +9,7 @@ instructions:
 	@echo
 	@echo The following targets can be run with this make:
 	@echo '' heirloom-sh
-	@echo '' pix
+	@echo '' pix '(to be obsoleted)'
 	@echo
 
 
@@ -19,7 +19,8 @@ heirloom-sh-050706.tar.bz2:
 
 heirloom-sh: heirloom-sh-050706.tar.bz2
 	sed '1,/^$@.sh:/d;/^#.#eos/q' Makefile | /bin/sh -s $<
-	ln -sf heirloom-sh-050706 heirloom-sh
+	ln -sf heirloom-sh-050706 heirloom
+	ln -sf heirloom-sh-050706/sh heirloom-sh
 
 heirloom-sh.sh:
 	test -n "$1" || exit 1 # internal shell script; not to be made directly
@@ -71,7 +72,7 @@ clean:
 	rm -f *~
 
 distclean: clean
-	rm -rf heirloom-sh*
+	rm -rf heirloom*
 
 .SUFFIXES:
 #EOF
