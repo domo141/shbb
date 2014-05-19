@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Mon 19 May 2014 21:45:30 +0300 too
+# Last modified: Mon 19 May 2014 23:08:57 +0300 too
 
 set -eu
 #set -x
@@ -280,7 +280,7 @@ test_test_e () # test -e file (well, current directory)
 
 test_test_ef () # test file1 -ef file2
 {
-	td=`withpath mktemp -d`; ev=1
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
 	trap '/bin/rm -rf $td; exit $ev' 0
 	: > $td/file1
 	/bin/ln $td/file1 $td/file2
@@ -289,7 +289,7 @@ test_test_ef () # test file1 -ef file2
 
 test_test_nt () # test file1 -nt file2 (presumed -ot is also supported if -nt is)
 {
-	td=`withpath mktemp -d`; ev=1
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
 	#trap '/bin/rm -rf $td; exit $ev' 0
 	# XXX expects system time & fs times to work as usual
 	: > $td/newfile
