@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Mon 19 May 2014 18:10:37 +0300 too
+# Last modified: Mon 19 May 2014 21:45:30 +0300 too
 
 set -eu
 #set -x
@@ -38,7 +38,7 @@ withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
 saved_IFS=$IFS; readonly saved_IFS
 
 # the above was written into `common.sh`, now set PATH for this script.
-PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin; export PATH
 
 wd=portabilitytest; rm -rf $wd; mkdir $wd
 
@@ -47,14 +47,28 @@ wd=portabilitytest; rm -rf $wd; mkdir $wd
 sed -n '/^set -eu/,/^saved_IFS=/p; /^PATH=\//q' "$0" > $wd/common.sh
 echo 'set -x' >> $wd/common.sh
 
-awk 'BEGIN { file="foobar"; fn=""; cnt=0; wd="'"$wd"'" }
-	/^}/	 { print $0, "\n.",wd "/common.sh\n" fn >> file; file="/dev/null" }
+# as hash(1) not supported everywhere, let's make sure we have which(1)
+#which=`exec env which which`
+# dropped exec's -- FreeBSD 7.1 sh will exit...
+which=`env which which`
+
+# check whether we have nawk...
+# hash in subshell so heirloom sh can be used here...
+#(hash "$sh" 2>/dev/null) || return 0 ...but FreeBSD does not have hash
+if awk=`$which nawk 2>/dev/null`
+then
+	# Solaris 10 /usr/bin/which exits always with exitcode 0
+	case $awk in /*) ;; *) awk=awk ;; esac
+else
+	awk=awk
+fi
+
+$awk 'BEGIN { file="foobar"; fn=""; cnt=0; wd="'"$wd"'" }
+	/^}/ { print $0, "\n.",wd "/common.sh\n" fn >> file; file="/dev/null" }
 	/^test_/ { cnt++; fn=$1; file=sprintf("%s/%02d_%s",wd,cnt,$1);
 		   print "#!/bin/sh" >> file }
 	{ print >> file }' "$0"
-
-# as hash(1) not supported everywhere, let's make sure we have which(1)
-which=`exec env which which`
+# add perl(1) code in case the above fails...
 
 shells=
 findshell ()
@@ -65,7 +79,7 @@ findshell ()
   ;; *)
 	# hash in subshell so heirloom sh can be used here...
 	#(hash "$sh" 2>/dev/null) || return 0 ...but FreeBSD does not have hash
-	shfp=`exec $which $sh 2>/dev/null` || return 0
+	shfp=`$which $sh 2>/dev/null` || return 0
 	# Solaris 10 /usr/bin/which exits always with exitcode 0
 	case $shfp in /*) ;; *) return 0 ;; esac
   esac
@@ -81,7 +95,7 @@ done
 # special-case search for busybox shell
 # Solaris 10 sh yells 'busybox: not found' unless stderr pre-redirected.
 case `exec 2>/dev/null; busybox sh -c 'echo hello' || :` in hello)
-	busybox=`exec $which busybox`
+	busybox=`$which busybox`
 	shells="$shells|busybox sh:$busybox sh"
 	echo busybox sh >> $wd/shells
 
@@ -107,9 +121,11 @@ case ${COLUMNS-} in [1-9]|[1-9][0-9]|[1-9][0-9][0-9])
 		printf '\nShells:'
 		for f in $shells
 		do
-			cl=$((cl + ${#f} + 1))
+			# eval so that Sol10 sh does not fail parsing...
+			eval 'cl=$((cl + ${#f} + 1))' # ... not run there.
 			# cl reset for following lines may not be accurate...
-			test $cl -lt $COLUMNS || { echo; cl=$((${#f} + 1)); }
+			test $cl -lt $COLUMNS || {
+				echo; eval 'cl=$((${#f} + 1))'; } # again...
 			printf ' '%s $f
 		done
 		echo
@@ -128,10 +144,8 @@ set +e
 TC_YELLOW=
 [ -t 1 ] &&
 # http://en.wikipedia.org/wiki/Tput
-TC_RESET=`exec tput sgr0 2>/dev/null` &&
-TC_RED=`exec tput setaf 1 2>/dev/null` &&
-TC_GREEN=`exec tput setaf 2 2>/dev/null` &&
-TC_YELLOW=`exec tput setaf 3 2>/dev/null`
+TC_RESET=`tput sgr0 2>/dev/null` && TC_RED=`tput setaf 1 2>/dev/null` &&
+TC_GREEN=`tput setaf 2 2>/dev/null` && TC_YELLOW=`tput setaf 3 2>/dev/null`
 set -e
 case $TC_YELLOW in '')
 	TC_RESET= TC_RED= TC_GREEN=
@@ -143,6 +157,7 @@ fail () { printf ' %s: %sFAIL%s' "$1" "${TC_RED}"    "${TC_RESET}"; }
 : > $wd/tstrun
 
 print_tn () {
+	# Solaris 10 will print spaces instead of '_'s. too bad...
 	IFS=_/; set x $1; shift 3; printf %-15s "$*" #; IFS=$saved_IFS
 }
 shx () {
@@ -265,7 +280,7 @@ test_test_e () # test -e file (well, current directory)
 
 test_test_ef () # test file1 -ef file2
 {
-	td=`withpath exec mktemp -d`; ev=1
+	td=`withpath mktemp -d`; ev=1
 	trap '/bin/rm -rf $td; exit $ev' 0
 	: > $td/file1
 	/bin/ln $td/file1 $td/file2
@@ -274,7 +289,7 @@ test_test_ef () # test file1 -ef file2
 
 test_test_nt () # test file1 -nt file2 (presumed -ot is also supported if -nt is)
 {
-	td=`withpath exec mktemp -d`; ev=1
+	td=`withpath mktemp -d`; ev=1
 	#trap '/bin/rm -rf $td; exit $ev' 0
 	# XXX expects system time & fs times to work as usual
 	: > $td/newfile
