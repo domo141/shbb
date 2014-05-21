@@ -40,7 +40,7 @@ Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /bin/dash, /bin/mksh, /bin/lksh,
 | [[#30_test_echoc][30_test_echoc]] | *sh* | +[[#f-30_test_echoc-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-30_test_echoc-mksh][mksh]]+ | +[[#f-30_test_echoc-lksh][lksh]]+ | +[[#f-30_test_echoc-busybox-sh][busybox sh]]+ | *heirloom sh* |
 | [[#31_test_echon][31_test_echon]] | +[[#f-31_test_echon-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-31_test_echon-heirloom-sh][heirloom sh]]+ |
 | [[#32_test_bi_printf][32_test_bi_printf]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | +[[#f-32_test_bi_printf-mksh][mksh]]+ | +[[#f-32_test_bi_printf-lksh][lksh]]+ | *busybox sh* | +[[#f-32_test_bi_printf-heirloom-sh][heirloom sh]]+ |
-| [[#33_test_dollar_sq][33_test_dollar_sq]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-33_test_dollar_sq-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-33_test_dollar_sq-heirloom-sh][heirloom sh]]+ |
+| [[#33_test_dollar_sg][33_test_dollar_sg]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-33_test_dollar_sg-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-33_test_dollar_sg-heirloom-sh][heirloom sh]]+ |
 | [[#34_test_hash_fatl][34_test_hash_fatl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-34_test_hash_fatl-heirloom-sh][heirloom sh]]+ |
 | [[#35_test_hash_btin][35_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
 | [[#36_test_iexpr][36_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-36_test_iexpr-heirloom-sh][heirloom sh]]+ |
@@ -996,31 +996,31 @@ portabilitytest/32_test_bi_printf: printf: not found
 
 3 of the tested shells failed to execute this test
 -----
-** 33_test_dollar_sq
+** 33_test_dollar_sg
 
 #+BEGIN_SRC
 #!/bin/sh
-test_dollar_sq () # dollar-single expansion
+test_dollar_sg () # dollar-single expansion
 {
 	x=$'\n'
 	case $x in ?) ;; *) exit 1; esac
 } 
 . portabilitytest/common.sh
-test_dollar_sq
+test_dollar_sg
 #+END_SRC
 
-*** f 33_test_dollar_sq dash
+*** f 33_test_dollar_sg dash
 
 #+BEGIN_SRC
-+ test_dollar_sq
++ test_dollar_sg
 + x=$\n
 + exit 1
 #+END_SRC
 
-*** f 33_test_dollar_sq heirloom sh
+*** f 33_test_dollar_sg heirloom sh
 
 #+BEGIN_SRC
-+ test_dollar_sq 
++ test_dollar_sg 
 x=$\n
 + exit 1 
 #+END_SRC

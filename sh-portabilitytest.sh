@@ -419,7 +419,7 @@ test_bi_printf () # builtin printf
 	case `printf '%s' tstr` in tstr) ;; *) exit 1; esac
 }
 
-test_dollar_sq () # dollar-single expansion
+test_dollar_sg () # dollar-single expansion
 {
 	x=$'\n'
 	case $x in ?) ;; *) exit 1; esac
