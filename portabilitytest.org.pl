@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 22:07:23 EEST too
-# Last modified: Sun 18 May 2014 23:47:55 +0300 too
+# Last modified: Wed 21 May 2014 23:37:13 +0300 too
 
 use 5.8.1;
 use strict;
@@ -19,23 +19,27 @@ die "Usage: $0 dir\n" unless @ARGV == 1;
 my $wd = $ARGV[0];
 die "$!" unless -d $wd;
 
-my @shells;
+my (@shells, @shfp);
 open I, '<', "$wd/shells" or die "$!";
 while (<I>) {
     chomp;
+    my $shfp;
+    ($_, $shfp) = split /:/;
     tr|/| |;
+    push @shfp, $shfp;
     push @shells, $_;
 }
 
 print "\n", '* portabilitytest results', "\n\n";
 
-open I, '<', "$wd/info" or die "$wd/info: $!\n";
+open I, '<', "$wd.info" or die "$wd.info: $!\n";
 while (<I>) {
     print $_;
 }
 
-print "\n", 'Shells: ', join(", ", @shells);
+print "\n", 'Shells: ', join(", ", @shfp);
 print "\n\n";
+undef @shfp;
 
 while (<$wd/[0-9][0-9]_*>)
 {
@@ -53,6 +57,15 @@ while (<$wd/[0-9][0-9]_*>)
     }
     print "\n";
 }
+print "\n";
+
+open I, '<', "$wd/common.sh" or die;
+print "-----\n\n";
+print "** common.sh\n\n";
+print "#+BEGIN_SRC\n";
+print $_ while (<I>);
+print "#+END_SRC\n";
+close I;
 print "\n";
 
 while (<$wd/[0-9][0-9]_*>)

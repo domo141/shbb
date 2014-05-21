@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Mon 19 May 2014 23:34:59 +0300 too
+# Last modified: Wed 21 May 2014 23:32:04 +0300 too
 
 set -eu
 #set -x
@@ -85,7 +85,7 @@ findshell ()
 	case $shfp in /*) ;; *) return 0 ;; esac
   esac
   shells="${shells:+$shells|}$sh:$shfp"
-  echo $sh >> $wd/shells
+  echo $sh:$shfp >> $wd/shells
 }
 
 for sh in sh ksh bash zsh ash dash mksh lksh
@@ -98,7 +98,7 @@ done
 case `exec 2>/dev/null; busybox sh -c 'echo hello' || :` in hello)
 	busybox=`$which busybox`
 	shells="$shells|busybox sh:$busybox sh"
-	echo busybox sh >> $wd/shells
+	echo busybox sh:$busybox sh >> $wd/shells
 
 esac
 

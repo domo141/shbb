@@ -3,7 +3,10 @@
 
 Fedora 20 x86_64: /bin/sh = bash 4.2.47
 
-Shells: sh, ksh, bash, zsh, dash, mksh, lksh, busybox sh, heirloom sh
+Modern linux distribution where the listed shells installed from rpm packages,
+except /The Heirloom Bourne Shell/ run from compiled binary.
+
+Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /bin/dash, /bin/mksh, /bin/lksh, /sbin/busybox sh, heirloom/sh
 
 | [[#01_test_command][01_test_command]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-01_test_command-heirloom-sh][heirloom sh]]+ |
 | [[#02_test_command_v][02_test_command_v]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-02_test_command_v-heirloom-sh][heirloom sh]]+ |
@@ -43,6 +46,41 @@ Shells: sh, ksh, bash, zsh, dash, mksh, lksh, busybox sh, heirloom sh
 | [[#36_test_iexpr][36_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-36_test_iexpr-heirloom-sh][heirloom sh]]+ |
 | [[#37_test_tfft][37_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
 | [[#38_test_icat][38_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-38_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-38_test_icat-busybox-sh][busybox sh]]+ | +[[#f-38_test_icat-heirloom-sh][heirloom sh]]+ |
+
+-----
+
+** common.sh
+
+#+BEGIN_SRC
+set -eu
+#set -x
+
+PATH=; export PATH
+
+case ${BASH_VERSION-} in *.*)
+	# Make echo builtin in bash expands backslash-escape sequences by
+	# default. Without this bash would be less portable compared to
+	# most other shells...
+	shopt -s xpg_echo
+	# make sure pipefail is not set (bash-only feature)...
+	set +o pipefail
+	#list_functions () { set; }
+esac
+case ${ZSH_VERSION-} in *.*)
+	setopt shwordsplit
+	setopt posix_builtins # for test_command()
+	unsetopt equals # for [ 1 == 1 ] (nonstandard usage...)
+	unsetopt bsd_echo # enable echo escape sequences (like \c)
+	#setopt equals # make [ 1 == 1 ] fail for sure...
+	unsetopt function_argzero # $0 being the name of this script always
+	#list_functions () { functions; }
+esac
+
+withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
+
+saved_IFS=$IFS; readonly saved_IFS
+set -x
+#+END_SRC
 
 -----
 ** 01_test_command
@@ -391,7 +429,7 @@ portabilitytest/11_test_test_e: test: argument expected
 #!/bin/sh
 test_test_ef () # test file1 -ef file2
 {
-	td=`withpath exec mktemp -d`; ev=1
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
 	trap '/bin/rm -rf $td; exit $ev' 0
 	: > $td/file1
 	/bin/ln $td/file1 $td/file2
@@ -405,18 +443,20 @@ test_test_ef
 
 #+BEGIN_SRC
 + test_test_ef 
-+ withpath exec mktemp -d 
++ withpath mktemp -d /tmp/tmp.XXXXXX 
 PATH=/bin:/usr/bin
 + export PATH 
-+ exec mktemp -d 
-td=/tmp/tmp.c0jxBz2zIT
++ mktemp -d /tmp/tmp.XXXXXX 
+PATH=
++ export PATH 
+td=/tmp/tmp.ZhJCMf
 ev=1
 + trap /bin/rm -rf $td; exit $ev 0 
 + : 
-+ /bin/ln /tmp/tmp.c0jxBz2zIT/file1 /tmp/tmp.c0jxBz2zIT/file2 
-+ test /tmp/tmp.c0jxBz2zIT/file1 -ef /tmp/tmp.c0jxBz2zIT/file2 
++ /bin/ln /tmp/tmp.ZhJCMf/file1 /tmp/tmp.ZhJCMf/file2 
++ test /tmp/tmp.ZhJCMf/file1 -ef /tmp/tmp.ZhJCMf/file2 
 portabilitytest/12_test_test_ef: test: unknown operator -ef
-+ /bin/rm -rf /tmp/tmp.c0jxBz2zIT 
++ /bin/rm -rf /tmp/tmp.ZhJCMf 
 + exit 1 
 #+END_SRC
 
@@ -428,7 +468,7 @@ portabilitytest/12_test_test_ef: test: unknown operator -ef
 #!/bin/sh
 test_test_nt () # test file1 -nt file2 (presumed -ot is also supported if -nt is)
 {
-	td=`withpath exec mktemp -d`; ev=1
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
 	#trap '/bin/rm -rf $td; exit $ev' 0
 	# XXX expects system time & fs times to work as usual
 	: > $td/newfile
@@ -442,14 +482,16 @@ test_test_nt
 
 #+BEGIN_SRC
 + test_test_nt 
-+ withpath exec mktemp -d 
++ withpath mktemp -d /tmp/tmp.XXXXXX 
 PATH=/bin:/usr/bin
 + export PATH 
-+ exec mktemp -d 
-td=/tmp/tmp.JRT7eJ1WlC
++ mktemp -d /tmp/tmp.XXXXXX 
+PATH=
++ export PATH 
+td=/tmp/tmp.ibKlpD
 ev=1
 + : 
-+ test /tmp/tmp.JRT7eJ1WlC/newfile -nt portabilitytest/13_test_test_nt 
++ test /tmp/tmp.ibKlpD/newfile -nt portabilitytest/13_test_test_nt 
 portabilitytest/13_test_test_nt: test: unknown operator -nt
 #+END_SRC
 
