@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 22 May 2014 00:00:15 +0300 too
+# Last modified: Thu 22 May 2014 00:55:34 +0300 too
 
 set -eu
 #set -x
@@ -229,7 +229,7 @@ test_local () # local variable
 
 test_typeset () # local variable using plain typeset (typeset/declare without opts)
 {
-	# declare: same as typeset (in bash, zsh, ...)
+	# declare: same as typeset (in bash, zsh, ...) but less portable
 	lt () {
 		typeset var=ilval
 		case $var in ilval) ;; *) exit 1 ;; esac
@@ -435,6 +435,14 @@ test_hash_fatl () # some shells (heirloom sh) exits when hash fails
 test_hash_btin () # if there is builtin hash
 {
 	hash /bin/sh || hash sh=/bin/sh # latter for zsh
+}
+
+test_hash_fail () # if hash fails in case command not found
+{
+	if hash this_c0mmand_does_not_existt
+	then exit 1
+	else exit 0
+	fi
 }
 
 test_iexpr () # $((a + b))

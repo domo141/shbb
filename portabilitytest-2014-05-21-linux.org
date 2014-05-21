@@ -43,9 +43,10 @@ Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /bin/dash, /bin/mksh, /bin/lksh,
 | [[#33_test_dollar_sg][33_test_dollar_sg]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-33_test_dollar_sg-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-33_test_dollar_sg-heirloom-sh][heirloom sh]]+ |
 | [[#34_test_hash_fatl][34_test_hash_fatl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-34_test_hash_fatl-heirloom-sh][heirloom sh]]+ |
 | [[#35_test_hash_btin][35_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#36_test_iexpr][36_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-36_test_iexpr-heirloom-sh][heirloom sh]]+ |
-| [[#37_test_tfft][37_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#38_test_icat][38_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-38_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-38_test_icat-busybox-sh][busybox sh]]+ | +[[#f-38_test_icat-heirloom-sh][heirloom sh]]+ |
+| [[#36_test_hash_fail][36_test_hash_fail]] | *sh* | +[[#f-36_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-36_test_hash_fail-mksh][mksh]]+ | +[[#f-36_test_hash_fail-lksh][lksh]]+ | *busybox sh* | +[[#f-36_test_hash_fail-heirloom-sh][heirloom sh]]+ |
+| [[#37_test_iexpr][37_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-37_test_iexpr-heirloom-sh][heirloom sh]]+ |
+| [[#38_test_tfft][38_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#39_test_icat][39_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-39_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-39_test_icat-busybox-sh][busybox sh]]+ | +[[#f-39_test_icat-heirloom-sh][heirloom sh]]+ |
 
 -----
 
@@ -219,7 +220,7 @@ portabilitytest/04_test_local: local: not found
 #!/bin/sh
 test_typeset () # local variable using plain typeset (typeset/declare without opts)
 {
-	# declare: same as typeset (in bash, zsh, ...)
+	# declare: same as typeset (in bash, zsh, ...) but less portable
 	lt () {
 		typeset var=ilval
 		case $var in ilval) ;; *) exit 1 ;; esac
@@ -449,14 +450,14 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.ZhJCMf
+td=/tmp/tmp.oSEdrW
 ev=1
 + trap /bin/rm -rf $td; exit $ev 0 
 + : 
-+ /bin/ln /tmp/tmp.ZhJCMf/file1 /tmp/tmp.ZhJCMf/file2 
-+ test /tmp/tmp.ZhJCMf/file1 -ef /tmp/tmp.ZhJCMf/file2 
++ /bin/ln /tmp/tmp.oSEdrW/file1 /tmp/tmp.oSEdrW/file2 
++ test /tmp/tmp.oSEdrW/file1 -ef /tmp/tmp.oSEdrW/file2 
 portabilitytest/12_test_test_ef: test: unknown operator -ef
-+ /bin/rm -rf /tmp/tmp.ZhJCMf 
++ /bin/rm -rf /tmp/tmp.oSEdrW 
 + exit 1 
 #+END_SRC
 
@@ -488,10 +489,10 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.ibKlpD
+td=/tmp/tmp.evFzyh
 ev=1
 + : 
-+ test /tmp/tmp.ibKlpD/newfile -nt portabilitytest/13_test_test_nt 
++ test /tmp/tmp.evFzyh/newfile -nt portabilitytest/13_test_test_nt 
 portabilitytest/13_test_test_nt: test: unknown operator -nt
 #+END_SRC
 
@@ -1064,7 +1065,56 @@ test_hash_btin
 
 all of the tested shells executed this test successfully
 -----
-** 36_test_iexpr
+** 36_test_hash_fail
+
+#+BEGIN_SRC
+#!/bin/sh
+test_hash_fail () # if hash fails in case command not found
+{
+	if hash this_c0mmand_does_not_existt
+	then exit 1
+	else exit 0
+	fi
+} 
+. portabilitytest/common.sh
+test_hash_fail
+#+END_SRC
+
+*** f 36_test_hash_fail ksh
+
+#+BEGIN_SRC
++ test_hash_fail
++ alias -t -- this_c0mmand_does_not_existt
++ exit 1
+#+END_SRC
+
+*** f 36_test_hash_fail mksh
+
+#+BEGIN_SRC
++ test_hash_fail
++ alias -t this_c0mmand_does_not_existt
++ exit 1
+#+END_SRC
+
+*** f 36_test_hash_fail lksh
+
+#+BEGIN_SRC
++ test_hash_fail
++ alias -t this_c0mmand_does_not_existt
++ exit 1
+#+END_SRC
+
+*** f 36_test_hash_fail heirloom sh
+
+#+BEGIN_SRC
++ test_hash_fail 
++ hash this_c0mmand_does_not_existt 
+portabilitytest/36_test_hash_fail: this_c0mmand_does_not_existt: not found
+#+END_SRC
+
+4 of the tested shells failed to execute this test
+-----
+** 37_test_iexpr
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1078,15 +1128,15 @@ test_iexpr () # $((a + b))
 test_iexpr
 #+END_SRC
 
-*** f 36_test_iexpr heirloom sh
+*** f 37_test_iexpr heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/36_test_iexpr: syntax error at line 5: `c=$' unexpected
+portabilitytest/37_test_iexpr: syntax error at line 5: `c=$' unexpected
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 37_test_tfft
+** 38_test_tfft
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1101,7 +1151,7 @@ test_tfft
 
 all of the tested shells executed this test successfully
 -----
-** 38_test_icat
+** 39_test_icat
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1114,7 +1164,7 @@ test_icat () # whether there is $(< file)
 test_icat
 #+END_SRC
 
-*** f 38_test_icat dash
+*** f 39_test_icat dash
 
 #+BEGIN_SRC
 + test_icat
@@ -1123,7 +1173,7 @@ test_icat
 + exit 1
 #+END_SRC
 
-*** f 38_test_icat busybox sh
+*** f 39_test_icat busybox sh
 
 #+BEGIN_SRC
 + test_icat
@@ -1132,10 +1182,10 @@ test_icat
 + exit 1
 #+END_SRC
 
-*** f 38_test_icat heirloom sh
+*** f 39_test_icat heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/38_test_icat: syntax error at line 4: `d=$' unexpected
+portabilitytest/39_test_icat: syntax error at line 4: `d=$' unexpected
 #+END_SRC
 
 3 of the tested shells failed to execute this test
