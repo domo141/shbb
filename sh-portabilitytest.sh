@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 22 May 2014 00:55:34 +0300 too
+# Last modified: Thu 22 May 2014 01:03:46 +0300 too
 
 set -eu
 #set -x
@@ -439,7 +439,7 @@ test_hash_btin () # if there is builtin hash
 
 test_hash_fail () # if hash fails in case command not found
 {
-	if hash this_c0mmand_does_not_existt
+	if (hash this_c0mmand_does_not_existt) # in subshell for heirloom sh...
 	then exit 1
 	else exit 0
 	fi

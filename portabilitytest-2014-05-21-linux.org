@@ -43,7 +43,7 @@ Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /bin/dash, /bin/mksh, /bin/lksh,
 | [[#33_test_dollar_sg][33_test_dollar_sg]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-33_test_dollar_sg-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-33_test_dollar_sg-heirloom-sh][heirloom sh]]+ |
 | [[#34_test_hash_fatl][34_test_hash_fatl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-34_test_hash_fatl-heirloom-sh][heirloom sh]]+ |
 | [[#35_test_hash_btin][35_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#36_test_hash_fail][36_test_hash_fail]] | *sh* | +[[#f-36_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-36_test_hash_fail-mksh][mksh]]+ | +[[#f-36_test_hash_fail-lksh][lksh]]+ | *busybox sh* | +[[#f-36_test_hash_fail-heirloom-sh][heirloom sh]]+ |
+| [[#36_test_hash_fail][36_test_hash_fail]] | *sh* | +[[#f-36_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-36_test_hash_fail-mksh][mksh]]+ | +[[#f-36_test_hash_fail-lksh][lksh]]+ | *busybox sh* | *heirloom sh* |
 | [[#37_test_iexpr][37_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-37_test_iexpr-heirloom-sh][heirloom sh]]+ |
 | [[#38_test_tfft][38_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
 | [[#39_test_icat][39_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-39_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-39_test_icat-busybox-sh][busybox sh]]+ | +[[#f-39_test_icat-heirloom-sh][heirloom sh]]+ |
@@ -450,14 +450,14 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.oSEdrW
+td=/tmp/tmp.QpVsiz
 ev=1
 + trap /bin/rm -rf $td; exit $ev 0 
 + : 
-+ /bin/ln /tmp/tmp.oSEdrW/file1 /tmp/tmp.oSEdrW/file2 
-+ test /tmp/tmp.oSEdrW/file1 -ef /tmp/tmp.oSEdrW/file2 
++ /bin/ln /tmp/tmp.QpVsiz/file1 /tmp/tmp.QpVsiz/file2 
++ test /tmp/tmp.QpVsiz/file1 -ef /tmp/tmp.QpVsiz/file2 
 portabilitytest/12_test_test_ef: test: unknown operator -ef
-+ /bin/rm -rf /tmp/tmp.oSEdrW 
++ /bin/rm -rf /tmp/tmp.QpVsiz 
 + exit 1 
 #+END_SRC
 
@@ -489,10 +489,10 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.evFzyh
+td=/tmp/tmp.CKgal6
 ev=1
 + : 
-+ test /tmp/tmp.evFzyh/newfile -nt portabilitytest/13_test_test_nt 
++ test /tmp/tmp.CKgal6/newfile -nt portabilitytest/13_test_test_nt 
 portabilitytest/13_test_test_nt: test: unknown operator -nt
 #+END_SRC
 
@@ -1071,7 +1071,7 @@ all of the tested shells executed this test successfully
 #!/bin/sh
 test_hash_fail () # if hash fails in case command not found
 {
-	if hash this_c0mmand_does_not_existt
+	if (hash this_c0mmand_does_not_existt) # in subshell for heirloom sh...
 	then exit 1
 	else exit 0
 	fi
@@ -1104,15 +1104,7 @@ test_hash_fail
 + exit 1
 #+END_SRC
 
-*** f 36_test_hash_fail heirloom sh
-
-#+BEGIN_SRC
-+ test_hash_fail 
-+ hash this_c0mmand_does_not_existt 
-portabilitytest/36_test_hash_fail: this_c0mmand_does_not_existt: not found
-#+END_SRC
-
-4 of the tested shells failed to execute this test
+3 of the tested shells failed to execute this test
 -----
 ** 37_test_iexpr
 
