@@ -10,43 +10,44 @@ Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /bin/dash, /bin/mksh, /bin/lksh,
 
 | [[#01_test_command][01_test_command]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-01_test_command-heirloom-sh][heirloom sh]]+ |
 | [[#02_test_command_v][02_test_command_v]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-02_test_command_v-heirloom-sh][heirloom sh]]+ |
-| [[#03_test_builtin][03_test_builtin]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-03_test_builtin-dash][dash]]+ | *mksh* | *lksh* | +[[#f-03_test_builtin-busybox-sh][busybox sh]]+ | +[[#f-03_test_builtin-heirloom-sh][heirloom sh]]+ |
-| [[#04_test_local][04_test_local]] | *sh* | +[[#f-04_test_local-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-04_test_local-heirloom-sh][heirloom sh]]+ |
-| [[#05_test_typeset][05_test_typeset]] | *sh* | +[[#f-05_test_typeset-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-05_test_typeset-dash][dash]]+ | *mksh* | *lksh* | +[[#f-05_test_typeset-busybox-sh][busybox sh]]+ | +[[#f-05_test_typeset-heirloom-sh][heirloom sh]]+ |
-| [[#06_test_global][06_test_global]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#07_test_function][07_test_function]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-07_test_function-dash][dash]]+ | *mksh* | *lksh* | +[[#f-07_test_function-busybox-sh][busybox sh]]+ | +[[#f-07_test_function-heirloom-sh][heirloom sh]]+ |
-| [[#08_test_function2][08_test_function2]] | *sh* | +[[#f-08_test_function2-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-08_test_function2-dash][dash]]+ | *mksh* | *lksh* | +[[#f-08_test_function2-busybox-sh][busybox sh]]+ | +[[#f-08_test_function2-heirloom-sh][heirloom sh]]+ |
-| [[#09_test_exclmark][09_test_exclmark]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-09_test_exclmark-heirloom-sh][heirloom sh]]+ |
-| [[#10_test_test][10_test_test]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#11_test_test_e][11_test_test_e]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-11_test_test_e-heirloom-sh][heirloom sh]]+ |
-| [[#12_test_test_ef][12_test_test_ef]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-12_test_test_ef-heirloom-sh][heirloom sh]]+ |
-| [[#13_test_test_nt][13_test_test_nt]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-13_test_test_nt-heirloom-sh][heirloom sh]]+ |
-| [[#14_test_testexcl][14_test_testexcl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#15_test_testeqeq][15_test_testeqeq]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-15_test_testeqeq-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-15_test_testeqeq-heirloom-sh][heirloom sh]]+ |
-| [[#16_test_testtest][16_test_testtest]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-16_test_testtest-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-16_test_testtest-heirloom-sh][heirloom sh]]+ |
-| [[#17_test_tildexp][17_test_tildexp]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-17_test_tildexp-heirloom-sh][heirloom sh]]+ |
-| [[#18_test_pwdvar][18_test_pwdvar]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-18_test_pwdvar-heirloom-sh][heirloom sh]]+ |
-| [[#19_test_pwdcmd][19_test_pwdcmd]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#20_test_true][20_test_true]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-20_test_true-heirloom-sh][heirloom sh]]+ |
-| [[#21_test_colon][21_test_colon]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#22_test_export1][22_test_export1]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-22_test_export1-heirloom-sh][heirloom sh]]+ |
-| [[#23_test_readonly2][23_test_readonly2]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#24_test_case_pxcl][24_test_case_pxcl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#25_test_case_pxcf][25_test_case_pxcf]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-25_test_case_pxcf-dash][dash]]+ | +[[#f-25_test_case_pxcf-mksh][mksh]]+ | +[[#f-25_test_case_pxcf-lksh][lksh]]+ | *busybox sh* | +[[#f-25_test_case_pxcf-heirloom-sh][heirloom sh]]+ |
-| [[#26_test_at0][26_test_at0]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-26_test_at0-heirloom-sh][heirloom sh]]+ |
-| [[#27_test_at1][27_test_at1]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#28_test_at0for][28_test_at0for]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-28_test_at0for-heirloom-sh][heirloom sh]]+ |
-| [[#29_test_echoE][29_test_echoE]] | *sh* | +[[#f-29_test_echoe-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | +[[#f-29_test_echoe-busybox-sh][busybox sh]]+ | *heirloom sh* |
-| [[#30_test_echoc][30_test_echoc]] | *sh* | +[[#f-30_test_echoc-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-30_test_echoc-mksh][mksh]]+ | +[[#f-30_test_echoc-lksh][lksh]]+ | +[[#f-30_test_echoc-busybox-sh][busybox sh]]+ | *heirloom sh* |
-| [[#31_test_echon][31_test_echon]] | +[[#f-31_test_echon-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-31_test_echon-heirloom-sh][heirloom sh]]+ |
-| [[#32_test_bi_printf][32_test_bi_printf]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | +[[#f-32_test_bi_printf-mksh][mksh]]+ | +[[#f-32_test_bi_printf-lksh][lksh]]+ | *busybox sh* | +[[#f-32_test_bi_printf-heirloom-sh][heirloom sh]]+ |
-| [[#33_test_dollar_sg][33_test_dollar_sg]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-33_test_dollar_sg-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-33_test_dollar_sg-heirloom-sh][heirloom sh]]+ |
-| [[#34_test_hash_fatl][34_test_hash_fatl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-34_test_hash_fatl-heirloom-sh][heirloom sh]]+ |
-| [[#35_test_hash_btin][35_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#36_test_hash_fail][36_test_hash_fail]] | *sh* | +[[#f-36_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-36_test_hash_fail-mksh][mksh]]+ | +[[#f-36_test_hash_fail-lksh][lksh]]+ | *busybox sh* | *heirloom sh* |
-| [[#37_test_iexpr][37_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-37_test_iexpr-heirloom-sh][heirloom sh]]+ |
-| [[#38_test_tfft][38_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
-| [[#39_test_icat][39_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-39_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-39_test_icat-busybox-sh][busybox sh]]+ | +[[#f-39_test_icat-heirloom-sh][heirloom sh]]+ |
+| [[#03_test_cmdv_fail][03_test_cmdv_fail]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#04_test_builtin][04_test_builtin]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-04_test_builtin-dash][dash]]+ | *mksh* | *lksh* | +[[#f-04_test_builtin-busybox-sh][busybox sh]]+ | +[[#f-04_test_builtin-heirloom-sh][heirloom sh]]+ |
+| [[#05_test_local][05_test_local]] | *sh* | +[[#f-05_test_local-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-05_test_local-heirloom-sh][heirloom sh]]+ |
+| [[#06_test_typeset][06_test_typeset]] | *sh* | +[[#f-06_test_typeset-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-06_test_typeset-dash][dash]]+ | *mksh* | *lksh* | +[[#f-06_test_typeset-busybox-sh][busybox sh]]+ | +[[#f-06_test_typeset-heirloom-sh][heirloom sh]]+ |
+| [[#07_test_global][07_test_global]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#08_test_function][08_test_function]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-08_test_function-dash][dash]]+ | *mksh* | *lksh* | +[[#f-08_test_function-busybox-sh][busybox sh]]+ | +[[#f-08_test_function-heirloom-sh][heirloom sh]]+ |
+| [[#09_test_function2][09_test_function2]] | *sh* | +[[#f-09_test_function2-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-09_test_function2-dash][dash]]+ | *mksh* | *lksh* | +[[#f-09_test_function2-busybox-sh][busybox sh]]+ | +[[#f-09_test_function2-heirloom-sh][heirloom sh]]+ |
+| [[#10_test_exclmark][10_test_exclmark]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-10_test_exclmark-heirloom-sh][heirloom sh]]+ |
+| [[#11_test_test][11_test_test]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#12_test_test_e][12_test_test_e]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-12_test_test_e-heirloom-sh][heirloom sh]]+ |
+| [[#13_test_test_ef][13_test_test_ef]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-13_test_test_ef-heirloom-sh][heirloom sh]]+ |
+| [[#14_test_test_nt][14_test_test_nt]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-14_test_test_nt-heirloom-sh][heirloom sh]]+ |
+| [[#15_test_testexcl][15_test_testexcl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#16_test_testeqeq][16_test_testeqeq]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-16_test_testeqeq-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-16_test_testeqeq-heirloom-sh][heirloom sh]]+ |
+| [[#17_test_testtest][17_test_testtest]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-17_test_testtest-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-17_test_testtest-heirloom-sh][heirloom sh]]+ |
+| [[#18_test_tildexp][18_test_tildexp]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-18_test_tildexp-heirloom-sh][heirloom sh]]+ |
+| [[#19_test_pwdvar][19_test_pwdvar]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-19_test_pwdvar-heirloom-sh][heirloom sh]]+ |
+| [[#20_test_pwdcmd][20_test_pwdcmd]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#21_test_true][21_test_true]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-21_test_true-heirloom-sh][heirloom sh]]+ |
+| [[#22_test_colon][22_test_colon]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#23_test_export1][23_test_export1]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-23_test_export1-heirloom-sh][heirloom sh]]+ |
+| [[#24_test_readonly2][24_test_readonly2]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#25_test_case_pxcl][25_test_case_pxcl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#26_test_case_pxcf][26_test_case_pxcf]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-26_test_case_pxcf-dash][dash]]+ | +[[#f-26_test_case_pxcf-mksh][mksh]]+ | +[[#f-26_test_case_pxcf-lksh][lksh]]+ | *busybox sh* | +[[#f-26_test_case_pxcf-heirloom-sh][heirloom sh]]+ |
+| [[#27_test_at0][27_test_at0]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-27_test_at0-heirloom-sh][heirloom sh]]+ |
+| [[#28_test_at1][28_test_at1]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#29_test_at0for][29_test_at0for]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-29_test_at0for-heirloom-sh][heirloom sh]]+ |
+| [[#30_test_echoE][30_test_echoE]] | *sh* | +[[#f-30_test_echoe-ksh][ksh]]+ | *bash* | *zsh* | *dash* | *mksh* | *lksh* | +[[#f-30_test_echoe-busybox-sh][busybox sh]]+ | *heirloom sh* |
+| [[#31_test_echoc][31_test_echoc]] | *sh* | +[[#f-31_test_echoc-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-31_test_echoc-mksh][mksh]]+ | +[[#f-31_test_echoc-lksh][lksh]]+ | +[[#f-31_test_echoc-busybox-sh][busybox sh]]+ | *heirloom sh* |
+| [[#32_test_echon][32_test_echon]] | +[[#f-32_test_echon-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-32_test_echon-heirloom-sh][heirloom sh]]+ |
+| [[#33_test_bi_printf][33_test_bi_printf]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | +[[#f-33_test_bi_printf-mksh][mksh]]+ | +[[#f-33_test_bi_printf-lksh][lksh]]+ | *busybox sh* | +[[#f-33_test_bi_printf-heirloom-sh][heirloom sh]]+ |
+| [[#34_test_dollar_sg][34_test_dollar_sg]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-34_test_dollar_sg-dash][dash]]+ | *mksh* | *lksh* | *busybox sh* | +[[#f-34_test_dollar_sg-heirloom-sh][heirloom sh]]+ |
+| [[#35_test_hash_fatl][35_test_hash_fatl]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-35_test_hash_fatl-heirloom-sh][heirloom sh]]+ |
+| [[#36_test_hash_btin][36_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#37_test_hash_fail][37_test_hash_fail]] | *sh* | +[[#f-37_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | *dash* | +[[#f-37_test_hash_fail-mksh][mksh]]+ | +[[#f-37_test_hash_fail-lksh][lksh]]+ | *busybox sh* | *heirloom sh* |
+| [[#38_test_iexpr][38_test_iexpr]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | +[[#f-38_test_iexpr-heirloom-sh][heirloom sh]]+ |
+| [[#39_test_tfft][39_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dash* | *mksh* | *lksh* | *busybox sh* | *heirloom sh* |
+| [[#40_test_icat][40_test_icat]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-40_test_icat-dash][dash]]+ | *mksh* | *lksh* | +[[#f-40_test_icat-busybox-sh][busybox sh]]+ | +[[#f-40_test_icat-heirloom-sh][heirloom sh]]+ |
 
 -----
 
@@ -93,7 +94,7 @@ test_command () # builtin or system, not function or alias
 	# one could argue whether command should include builtins...
 	alias echo='exit 1' || :
 	echo () { exit 1; }
-	command echo >/dev/null
+	command echo
 } 
 . portabilitytest/common.sh
 test_command
@@ -119,10 +120,10 @@ portabilitytest/01_test_command: command: not found
 test_command_v () # the -v option
 {
 	# first check that there is builtin 'command'
-	command echo >/dev/null || return 1
+	command echo || exit 1
 	# expect cat reside in /bin, to make this run not fail
 	PATH=/bin; export PATH
-	case `command -v cat` in *cat) ;; *) return 1; esac
+	case `command -v cat` in *cat) ;; *) exit 1; esac
 } 
 . portabilitytest/common.sh
 test_command_v
@@ -134,51 +135,68 @@ test_command_v
 + test_command_v 
 + command echo 
 portabilitytest/02_test_command_v: command: not found
-+ return 1 
++ exit 1 
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 03_test_builtin
+** 03_test_cmdv_fail
+
+#+BEGIN_SRC
+#!/bin/sh
+test_cmdv_fail () # if command -v fails in case command not found
+{
+	if command -v this_c0mmand_does_not_existt
+	then exit 1
+	else exit 0
+	fi
+} 
+. portabilitytest/common.sh
+test_cmdv_fail
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 04_test_builtin
 
 #+BEGIN_SRC
 #!/bin/sh
 test_builtin () # builtin command
 {
 	echo () { return 1; }
-	builtin echo >/dev/null
+	builtin echo
 } 
 . portabilitytest/common.sh
 test_builtin
 #+END_SRC
 
-*** f 03_test_builtin dash
+*** f 04_test_builtin dash
 
 #+BEGIN_SRC
 + test_builtin
 + builtin echo
-portabilitytest/03_test_builtin: 5: portabilitytest/03_test_builtin: builtin: not found
+portabilitytest/04_test_builtin: 5: portabilitytest/04_test_builtin: builtin: not found
 #+END_SRC
 
-*** f 03_test_builtin busybox sh
+*** f 04_test_builtin busybox sh
 
 #+BEGIN_SRC
 + test_builtin
 + builtin echo
-portabilitytest/03_test_builtin: line 1: builtin: not found
+portabilitytest/04_test_builtin: line 1: builtin: not found
 #+END_SRC
 
-*** f 03_test_builtin heirloom sh
+*** f 04_test_builtin heirloom sh
 
 #+BEGIN_SRC
 + test_builtin 
 + builtin echo 
-portabilitytest/03_test_builtin: builtin: not found
+portabilitytest/04_test_builtin: builtin: not found
 #+END_SRC
 
 3 of the tested shells failed to execute this test
 -----
-** 04_test_local
+** 05_test_local
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -196,25 +214,25 @@ test_local () # local variable
 test_local
 #+END_SRC
 
-*** f 04_test_local ksh
+*** f 05_test_local ksh
 
 #+BEGIN_SRC
 + test_local
 + local var=lval
-portabilitytest/04_test_local[8]: local: not found [No such file or directory]
+portabilitytest/05_test_local[8]: local: not found [No such file or directory]
 #+END_SRC
 
-*** f 04_test_local heirloom sh
+*** f 05_test_local heirloom sh
 
 #+BEGIN_SRC
 + test_local 
 + local var=lval 
-portabilitytest/04_test_local: local: not found
+portabilitytest/05_test_local: local: not found
 #+END_SRC
 
 2 of the tested shells failed to execute this test
 -----
-** 05_test_typeset
+** 06_test_typeset
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -233,7 +251,7 @@ test_typeset () # local variable using plain typeset (typeset/declare without op
 test_typeset
 #+END_SRC
 
-*** f 05_test_typeset ksh
+*** f 06_test_typeset ksh
 
 #+BEGIN_SRC
 + test_typeset
@@ -245,33 +263,33 @@ test_typeset
 + exit 1
 #+END_SRC
 
-*** f 05_test_typeset dash
+*** f 06_test_typeset dash
 
 #+BEGIN_SRC
 + test_typeset
 + typeset var=lval
-portabilitytest/05_test_typeset: 9: portabilitytest/05_test_typeset: typeset: not found
+portabilitytest/06_test_typeset: 9: portabilitytest/06_test_typeset: typeset: not found
 #+END_SRC
 
-*** f 05_test_typeset busybox sh
+*** f 06_test_typeset busybox sh
 
 #+BEGIN_SRC
 + test_typeset
 + typeset var=lval
-portabilitytest/05_test_typeset: line 1: typeset: not found
+portabilitytest/06_test_typeset: line 1: typeset: not found
 #+END_SRC
 
-*** f 05_test_typeset heirloom sh
+*** f 06_test_typeset heirloom sh
 
 #+BEGIN_SRC
 + test_typeset 
 + typeset var=lval 
-portabilitytest/05_test_typeset: typeset: not found
+portabilitytest/06_test_typeset: typeset: not found
 #+END_SRC
 
 4 of the tested shells failed to execute this test
 -----
-** 06_test_global
+** 07_test_global
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -290,7 +308,7 @@ test_global
 
 all of the tested shells executed this test successfully
 -----
-** 07_test_function
+** 08_test_function
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -303,30 +321,30 @@ test_function () # function keyword
 test_function
 #+END_SRC
 
-*** f 07_test_function dash
+*** f 08_test_function dash
 
 #+BEGIN_SRC
-portabilitytest/07_test_function: 5: portabilitytest/07_test_function: inner: not found
-portabilitytest/07_test_function: 6: portabilitytest/07_test_function: Syntax error: "}" unexpected
+portabilitytest/08_test_function: 5: portabilitytest/08_test_function: inner: not found
+portabilitytest/08_test_function: 6: portabilitytest/08_test_function: Syntax error: "}" unexpected
 #+END_SRC
 
-*** f 07_test_function busybox sh
+*** f 08_test_function busybox sh
 
 #+BEGIN_SRC
-portabilitytest/07_test_function: line 5: inner: not found
-portabilitytest/07_test_function: line 6: syntax error: unexpected "}"
+portabilitytest/08_test_function: line 5: inner: not found
+portabilitytest/08_test_function: line 6: syntax error: unexpected "}"
 #+END_SRC
 
-*** f 07_test_function heirloom sh
+*** f 08_test_function heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/07_test_function: inner: not found
-portabilitytest/07_test_function: syntax error at line 6: `}' unexpected
+portabilitytest/08_test_function: inner: not found
+portabilitytest/08_test_function: syntax error at line 6: `}' unexpected
 #+END_SRC
 
 3 of the tested shells failed to execute this test
 -----
-** 08_test_function2
+** 09_test_function2
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -339,33 +357,33 @@ test_function2 () # function keyword, with ()
 test_function2
 #+END_SRC
 
-*** f 08_test_function2 ksh
+*** f 09_test_function2 ksh
 
 #+BEGIN_SRC
-portabilitytest/08_test_function2: syntax error at line 4: `(' unexpected
+portabilitytest/09_test_function2: syntax error at line 4: `(' unexpected
 #+END_SRC
 
-*** f 08_test_function2 dash
+*** f 09_test_function2 dash
 
 #+BEGIN_SRC
-portabilitytest/08_test_function2: 4: portabilitytest/08_test_function2: Syntax error: "(" unexpected (expecting "}")
+portabilitytest/09_test_function2: 4: portabilitytest/09_test_function2: Syntax error: "(" unexpected (expecting "}")
 #+END_SRC
 
-*** f 08_test_function2 busybox sh
+*** f 09_test_function2 busybox sh
 
 #+BEGIN_SRC
-portabilitytest/08_test_function2: line 4: syntax error: unexpected "(" (expecting "}")
+portabilitytest/09_test_function2: line 4: syntax error: unexpected "(" (expecting "}")
 #+END_SRC
 
-*** f 08_test_function2 heirloom sh
+*** f 09_test_function2 heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/08_test_function2: syntax error at line 4: `(' unexpected
+portabilitytest/09_test_function2: syntax error at line 4: `(' unexpected
 #+END_SRC
 
 4 of the tested shells failed to execute this test
 -----
-** 09_test_exclmark
+** 10_test_exclmark
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -378,17 +396,17 @@ test_exclmark () # whether '!' as 'not' works (and is builtin)
 test_exclmark
 #+END_SRC
 
-*** f 09_test_exclmark heirloom sh
+*** f 10_test_exclmark heirloom sh
 
 #+BEGIN_SRC
 + test_exclmark 
 + ! /bin/false 
-portabilitytest/09_test_exclmark: !: not found
+portabilitytest/10_test_exclmark: !: not found
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 10_test_test
+** 11_test_test
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -402,7 +420,7 @@ test_test
 
 all of the tested shells executed this test successfully
 -----
-** 11_test_test_e
+** 12_test_test_e
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -414,17 +432,17 @@ test_test_e () # test -e file (well, current directory)
 test_test_e
 #+END_SRC
 
-*** f 11_test_test_e heirloom sh
+*** f 12_test_test_e heirloom sh
 
 #+BEGIN_SRC
 + test_test_e 
-+ test -e portabilitytest/11_test_test_e 
-portabilitytest/11_test_test_e: test: argument expected
++ test -e portabilitytest/12_test_test_e 
+portabilitytest/12_test_test_e: test: argument expected
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 12_test_test_ef
+** 13_test_test_ef
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -440,7 +458,7 @@ test_test_ef () # test file1 -ef file2
 test_test_ef
 #+END_SRC
 
-*** f 12_test_test_ef heirloom sh
+*** f 13_test_test_ef heirloom sh
 
 #+BEGIN_SRC
 + test_test_ef 
@@ -450,20 +468,20 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.QpVsiz
+td=/tmp/tmp.hdTNqs
 ev=1
 + trap /bin/rm -rf $td; exit $ev 0 
 + : 
-+ /bin/ln /tmp/tmp.QpVsiz/file1 /tmp/tmp.QpVsiz/file2 
-+ test /tmp/tmp.QpVsiz/file1 -ef /tmp/tmp.QpVsiz/file2 
-portabilitytest/12_test_test_ef: test: unknown operator -ef
-+ /bin/rm -rf /tmp/tmp.QpVsiz 
++ /bin/ln /tmp/tmp.hdTNqs/file1 /tmp/tmp.hdTNqs/file2 
++ test /tmp/tmp.hdTNqs/file1 -ef /tmp/tmp.hdTNqs/file2 
+portabilitytest/13_test_test_ef: test: unknown operator -ef
++ /bin/rm -rf /tmp/tmp.hdTNqs 
 + exit 1 
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 13_test_test_nt
+** 14_test_test_nt
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -479,7 +497,7 @@ test_test_nt () # test file1 -nt file2 (presumed -ot is also supported if -nt is
 test_test_nt
 #+END_SRC
 
-*** f 13_test_test_nt heirloom sh
+*** f 14_test_test_nt heirloom sh
 
 #+BEGIN_SRC
 + test_test_nt 
@@ -489,16 +507,16 @@ PATH=/bin:/usr/bin
 + mktemp -d /tmp/tmp.XXXXXX 
 PATH=
 + export PATH 
-td=/tmp/tmp.CKgal6
+td=/tmp/tmp.SV5p15
 ev=1
 + : 
-+ test /tmp/tmp.CKgal6/newfile -nt portabilitytest/13_test_test_nt 
-portabilitytest/13_test_test_nt: test: unknown operator -nt
++ test /tmp/tmp.SV5p15/newfile -nt portabilitytest/14_test_test_nt 
+portabilitytest/14_test_test_nt: test: unknown operator -nt
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 14_test_testexcl
+** 15_test_testexcl
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -512,7 +530,7 @@ test_testexcl
 
 all of the tested shells executed this test successfully
 -----
-** 15_test_testeqeq
+** 16_test_testeqeq
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -525,25 +543,25 @@ test_testeqeq () # nonstandard '[ 1 == 1 ]' ('[ 1 = 1 ]' would be standard one)
 test_testeqeq
 #+END_SRC
 
-*** f 15_test_testeqeq dash
+*** f 16_test_testeqeq dash
 
 #+BEGIN_SRC
 + test_testeqeq
 + [ 1 == 1 ]
-portabilitytest/15_test_testeqeq: 5: [: 1: unexpected operator
+portabilitytest/16_test_testeqeq: 5: [: 1: unexpected operator
 #+END_SRC
 
-*** f 15_test_testeqeq heirloom sh
+*** f 16_test_testeqeq heirloom sh
 
 #+BEGIN_SRC
 + test_testeqeq 
 + [ 1 == 1 ] 
-portabilitytest/15_test_testeqeq: test: unknown operator ==
+portabilitytest/16_test_testeqeq: test: unknown operator ==
 #+END_SRC
 
 2 of the tested shells failed to execute this test
 -----
-** 16_test_testtest
+** 17_test_testtest
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -555,25 +573,25 @@ test_testtest () # whether [[ ]] is supported (with 1 == 1)
 test_testtest
 #+END_SRC
 
-*** f 16_test_testtest dash
+*** f 17_test_testtest dash
 
 #+BEGIN_SRC
 + test_testtest
 + [[ 1 == 1 ]]
-portabilitytest/16_test_testtest: 4: portabilitytest/16_test_testtest: [[: not found
+portabilitytest/17_test_testtest: 4: portabilitytest/17_test_testtest: [[: not found
 #+END_SRC
 
-*** f 16_test_testtest heirloom sh
+*** f 17_test_testtest heirloom sh
 
 #+BEGIN_SRC
 + test_testtest 
 + [[ 1 == 1 ]] 
-portabilitytest/16_test_testtest: [[: not found
+portabilitytest/17_test_testtest: [[: not found
 #+END_SRC
 
 2 of the tested shells failed to execute this test
 -----
-** 17_test_tildexp
+** 18_test_tildexp
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -585,7 +603,7 @@ test_tildexp () # tilde expansion
 test_tildexp
 #+END_SRC
 
-*** f 17_test_tildexp heirloom sh
+*** f 18_test_tildexp heirloom sh
 
 #+BEGIN_SRC
 + test_tildexp 
@@ -594,7 +612,7 @@ test_tildexp
 
 1 of the tested shells failed to execute this test
 -----
-** 18_test_pwdvar
+** 19_test_pwdvar
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -611,7 +629,7 @@ test_pwdvar () # '$PWD' variable expansion
 test_pwdvar
 #+END_SRC
 
-*** f 18_test_pwdvar heirloom sh
+*** f 19_test_pwdvar heirloom sh
 
 #+BEGIN_SRC
 + test_pwdvar 
@@ -627,7 +645,7 @@ $PWD: /usr
 
 1 of the tested shells failed to execute this test
 -----
-** 19_test_pwdcmd
+** 20_test_pwdcmd
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -641,7 +659,7 @@ test_pwdcmd
 
 all of the tested shells executed this test successfully
 -----
-** 20_test_true
+** 21_test_true
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -653,17 +671,17 @@ test_true () # true builtin command (cannot test false...)
 test_true
 #+END_SRC
 
-*** f 20_test_true heirloom sh
+*** f 21_test_true heirloom sh
 
 #+BEGIN_SRC
 + test_true 
 + true 
-portabilitytest/20_test_true: true: not found
+portabilitytest/21_test_true: true: not found
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 21_test_colon
+** 22_test_colon
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -677,7 +695,7 @@ test_colon
 
 all of the tested shells executed this test successfully
 -----
-** 22_test_export1
+** 23_test_export1
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -690,17 +708,17 @@ test_export1 () # export VAR=val -- not bourne compatible
 test_export1
 #+END_SRC
 
-*** f 22_test_export1 heirloom sh
+*** f 23_test_export1 heirloom sh
 
 #+BEGIN_SRC
 + test_export1 
 + export VAR=val 
-portabilitytest/22_test_export1: VAR=val: is not an identifier
+portabilitytest/23_test_export1: VAR=val: is not an identifier
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 23_test_readonly2
+** 24_test_readonly2
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -716,7 +734,7 @@ test_readonly2
 
 all of the tested shells executed this test successfully
 -----
-** 24_test_case_pxcl
+** 25_test_case_pxcl
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -731,7 +749,7 @@ test_case_pxcl
 
 all of the tested shells executed this test successfully
 -----
-** 25_test_case_pxcf
+** 26_test_case_pxcf
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -745,36 +763,36 @@ test_case_pxcf () # case where both '*' and '[^a-z0-9_]' unquoted
 test_case_pxcf
 #+END_SRC
 
-*** f 25_test_case_pxcf dash
+*** f 26_test_case_pxcf dash
 
 #+BEGIN_SRC
 + test_case_pxcf
 + exit 1
 #+END_SRC
 
-*** f 25_test_case_pxcf mksh
+*** f 26_test_case_pxcf mksh
 
 #+BEGIN_SRC
 + test_case_pxcf
 + exit 1
 #+END_SRC
 
-*** f 25_test_case_pxcf lksh
+*** f 26_test_case_pxcf lksh
 
 #+BEGIN_SRC
 + test_case_pxcf
 + exit 1
 #+END_SRC
 
-*** f 25_test_case_pxcf heirloom sh
+*** f 26_test_case_pxcf heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/25_test_case_pxcf: syntax error at line 5: `^' unexpected
+portabilitytest/26_test_case_pxcf: syntax error at line 5: `^' unexpected
 #+END_SRC
 
 4 of the tested shells failed to execute this test
 -----
-** 26_test_at0
+** 27_test_at0
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -787,16 +805,16 @@ test_at0 () # "$@" expansion when $# 0
 test_at0
 #+END_SRC
 
-*** f 26_test_at0 heirloom sh
+*** f 27_test_at0 heirloom sh
 
 #+BEGIN_SRC
 + test_at0 
-portabilitytest/26_test_at0: @: parameter not set
+portabilitytest/27_test_at0: @: parameter not set
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 27_test_at1
+** 28_test_at1
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -811,7 +829,7 @@ test_at1
 
 all of the tested shells executed this test successfully
 -----
-** 28_test_at0for
+** 29_test_at0for
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -825,15 +843,15 @@ test_at0for () # implicit "$@" in for loop
 test_at0for
 #+END_SRC
 
-*** f 28_test_at0for heirloom sh
+*** f 29_test_at0for heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/28_test_at0for: syntax error at line 6: `;' unexpected
+portabilitytest/29_test_at0for: syntax error at line 6: `;' unexpected
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 29_test_echoE
+** 30_test_echoE
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -845,7 +863,7 @@ test_echoE () # expect backslash-escapes to be escapes by default
 test_echoE
 #+END_SRC
 
-*** f 29_test_echoE ksh
+*** f 30_test_echoE ksh
 
 #+BEGIN_SRC
 + test_echoE
@@ -859,7 +877,7 @@ test_echoE
 + exit 1
 #+END_SRC
 
-*** f 29_test_echoE busybox sh
+*** f 30_test_echoE busybox sh
 
 #+BEGIN_SRC
 + test_echoE
@@ -875,7 +893,7 @@ test_echoE
 
 2 of the tested shells failed to execute this test
 -----
-** 30_test_echoc
+** 31_test_echoc
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -887,7 +905,7 @@ test_echoc () # expect '\c' to stop producing more output
 test_echoc
 #+END_SRC
 
-*** f 30_test_echoc ksh
+*** f 31_test_echoc ksh
 
 #+BEGIN_SRC
 + test_echoc
@@ -895,7 +913,7 @@ test_echoc
 + exit 1
 #+END_SRC
 
-*** f 30_test_echoc mksh
+*** f 31_test_echoc mksh
 
 #+BEGIN_SRC
 + test_echoc
@@ -903,7 +921,7 @@ test_echoc
 + exit 1
 #+END_SRC
 
-*** f 30_test_echoc lksh
+*** f 31_test_echoc lksh
 
 #+BEGIN_SRC
 + test_echoc
@@ -911,7 +929,7 @@ test_echoc
 + exit 1
 #+END_SRC
 
-*** f 30_test_echoc busybox sh
+*** f 31_test_echoc busybox sh
 
 #+BEGIN_SRC
 + test_echoc
@@ -921,7 +939,7 @@ test_echoc
 
 4 of the tested shells failed to execute this test
 -----
-** 31_test_echon
+** 32_test_echon
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -934,7 +952,7 @@ test_echon () # whether 'echo -n' works
 test_echon
 #+END_SRC
 
-*** f 31_test_echon sh
+*** f 32_test_echon sh
 
 #+BEGIN_SRC
 + test_echon
@@ -945,7 +963,7 @@ test_echon
 + exit 1
 #+END_SRC
 
-*** f 31_test_echon heirloom sh
+*** f 32_test_echon heirloom sh
 
 #+BEGIN_SRC
 + test_echon 
@@ -957,7 +975,7 @@ test_echon
 
 2 of the tested shells failed to execute this test
 -----
-** 32_test_bi_printf
+** 33_test_bi_printf
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -969,35 +987,35 @@ test_bi_printf () # builtin printf
 test_bi_printf
 #+END_SRC
 
-*** f 32_test_bi_printf mksh
+*** f 33_test_bi_printf mksh
 
 #+BEGIN_SRC
 + test_bi_printf
 + printf %s tstr
-portabilitytest/32_test_bi_printf[7]: printf: not found
+portabilitytest/33_test_bi_printf[7]: printf: not found
 + exit 1
 #+END_SRC
 
-*** f 32_test_bi_printf lksh
+*** f 33_test_bi_printf lksh
 
 #+BEGIN_SRC
 + test_bi_printf
 + printf %s tstr
-portabilitytest/32_test_bi_printf[7]: printf: not found
+portabilitytest/33_test_bi_printf[7]: printf: not found
 + exit 1
 #+END_SRC
 
-*** f 32_test_bi_printf heirloom sh
+*** f 33_test_bi_printf heirloom sh
 
 #+BEGIN_SRC
 + test_bi_printf 
 + printf %s tstr 
-portabilitytest/32_test_bi_printf: printf: not found
+portabilitytest/33_test_bi_printf: printf: not found
 #+END_SRC
 
 3 of the tested shells failed to execute this test
 -----
-** 33_test_dollar_sg
+** 34_test_dollar_sg
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1010,7 +1028,7 @@ test_dollar_sg () # dollar-single expansion
 test_dollar_sg
 #+END_SRC
 
-*** f 33_test_dollar_sg dash
+*** f 34_test_dollar_sg dash
 
 #+BEGIN_SRC
 + test_dollar_sg
@@ -1018,7 +1036,7 @@ test_dollar_sg
 + exit 1
 #+END_SRC
 
-*** f 33_test_dollar_sg heirloom sh
+*** f 34_test_dollar_sg heirloom sh
 
 #+BEGIN_SRC
 + test_dollar_sg 
@@ -1028,13 +1046,13 @@ x=$\n
 
 2 of the tested shells failed to execute this test
 -----
-** 34_test_hash_fatl
+** 35_test_hash_fatl
 
 #+BEGIN_SRC
 #!/bin/sh
 test_hash_fatl () # some shells (heirloom sh) exits when hash fails
 {
-	if hash xxx_no_such_prog 2>/dev/null
+	if hash xxx_no_such_prog
 	then :
 	fi
 } 
@@ -1042,16 +1060,17 @@ test_hash_fatl () # some shells (heirloom sh) exits when hash fails
 test_hash_fatl
 #+END_SRC
 
-*** f 34_test_hash_fatl heirloom sh
+*** f 35_test_hash_fatl heirloom sh
 
 #+BEGIN_SRC
 + test_hash_fatl 
 + hash xxx_no_such_prog 
+portabilitytest/35_test_hash_fatl: xxx_no_such_prog: not found
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 35_test_hash_btin
+** 36_test_hash_btin
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1065,7 +1084,7 @@ test_hash_btin
 
 all of the tested shells executed this test successfully
 -----
-** 36_test_hash_fail
+** 37_test_hash_fail
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1080,7 +1099,7 @@ test_hash_fail () # if hash fails in case command not found
 test_hash_fail
 #+END_SRC
 
-*** f 36_test_hash_fail ksh
+*** f 37_test_hash_fail ksh
 
 #+BEGIN_SRC
 + test_hash_fail
@@ -1088,7 +1107,7 @@ test_hash_fail
 + exit 1
 #+END_SRC
 
-*** f 36_test_hash_fail mksh
+*** f 37_test_hash_fail mksh
 
 #+BEGIN_SRC
 + test_hash_fail
@@ -1096,7 +1115,7 @@ test_hash_fail
 + exit 1
 #+END_SRC
 
-*** f 36_test_hash_fail lksh
+*** f 37_test_hash_fail lksh
 
 #+BEGIN_SRC
 + test_hash_fail
@@ -1106,7 +1125,7 @@ test_hash_fail
 
 3 of the tested shells failed to execute this test
 -----
-** 37_test_iexpr
+** 38_test_iexpr
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1120,15 +1139,15 @@ test_iexpr () # $((a + b))
 test_iexpr
 #+END_SRC
 
-*** f 37_test_iexpr heirloom sh
+*** f 38_test_iexpr heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/37_test_iexpr: syntax error at line 5: `c=$' unexpected
+portabilitytest/38_test_iexpr: syntax error at line 5: `c=$' unexpected
 #+END_SRC
 
 1 of the tested shells failed to execute this test
 -----
-** 38_test_tfft
+** 39_test_tfft
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1143,7 +1162,7 @@ test_tfft
 
 all of the tested shells executed this test successfully
 -----
-** 39_test_icat
+** 40_test_icat
 
 #+BEGIN_SRC
 #!/bin/sh
@@ -1156,7 +1175,7 @@ test_icat () # whether there is $(< file)
 test_icat
 #+END_SRC
 
-*** f 39_test_icat dash
+*** f 40_test_icat dash
 
 #+BEGIN_SRC
 + test_icat
@@ -1165,7 +1184,7 @@ test_icat
 + exit 1
 #+END_SRC
 
-*** f 39_test_icat busybox sh
+*** f 40_test_icat busybox sh
 
 #+BEGIN_SRC
 + test_icat
@@ -1174,10 +1193,10 @@ test_icat
 + exit 1
 #+END_SRC
 
-*** f 39_test_icat heirloom sh
+*** f 40_test_icat heirloom sh
 
 #+BEGIN_SRC
-portabilitytest/39_test_icat: syntax error at line 4: `d=$' unexpected
+portabilitytest/40_test_icat: syntax error at line 4: `d=$' unexpected
 #+END_SRC
 
 3 of the tested shells failed to execute this test

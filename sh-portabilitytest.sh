@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 22 May 2014 01:13:59 +0300 too
+# Last modified: Thu 22 May 2014 01:16:53 +0300 too
 
 set -eu
 #set -x
@@ -208,6 +208,14 @@ test_command_v () # the -v option
 	# expect cat reside in /bin, to make this run not fail
 	PATH=/bin; export PATH
 	case `command -v cat` in *cat) ;; *) exit 1; esac
+}
+
+test_cmdv_fail () # if command -v fails in case command not found
+{
+	if command -v this_c0mmand_does_not_existt
+	then exit 1
+	else exit 0
+	fi
 }
 
 test_builtin () # builtin command
