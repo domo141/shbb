@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 22 May 2014 01:03:46 +0300 too
+# Last modified: Thu 22 May 2014 01:13:59 +0300 too
 
 set -eu
 #set -x
@@ -198,22 +198,22 @@ test_command () # builtin or system, not function or alias
 	# one could argue whether command should include builtins...
 	alias echo='exit 1' || :
 	echo () { exit 1; }
-	command echo >/dev/null
+	command echo
 }
 
 test_command_v () # the -v option
 {
 	# first check that there is builtin 'command'
-	command echo >/dev/null || return 1
+	command echo || exit 1
 	# expect cat reside in /bin, to make this run not fail
 	PATH=/bin; export PATH
-	case `command -v cat` in *cat) ;; *) return 1; esac
+	case `command -v cat` in *cat) ;; *) exit 1; esac
 }
 
 test_builtin () # builtin command
 {
 	echo () { return 1; }
-	builtin echo >/dev/null
+	builtin echo
 }
 
 test_local () # local variable
@@ -427,7 +427,7 @@ test_dollar_sg () # dollar-single expansion
 
 test_hash_fatl () # some shells (heirloom sh) exits when hash fails
 {
-	if hash xxx_no_such_prog 2>/dev/null
+	if hash xxx_no_such_prog
 	then :
 	fi
 }
