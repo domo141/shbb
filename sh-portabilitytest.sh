@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Wed 21 May 2014 23:32:04 +0300 too
+# Last modified: Thu 22 May 2014 00:00:15 +0300 too
 
 set -eu
 #set -x
@@ -55,7 +55,7 @@ which=`env which which`
 
 # check whether we have nawk...
 # hash in subshell so heirloom sh can be used here...
-#(hash "$sh" 2>/dev/null) || return 0 ...but FreeBSD does not have hash
+#(hash "$sh" 2>/dev/null) || return 0 ...but... note to self: check this!
 if awk=`$which nawk 2>/dev/null`
 then
 	# Solaris 10 /usr/bin/which exits always with exitcode 0
