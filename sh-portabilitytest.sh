@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 22 May 2014 01:16:53 +0300 too
+# Last modified: Thu 29 May 2014 17:29:58 +0300 too
 
 set -eu
 #set -x
@@ -165,7 +165,7 @@ shx () {
 	IFS=':'
 	set x $1
 	sh=$3
-	IFS='./' set x $2; shift; name=$@
+	IFS='./'; set x $2; shift; name=$@
 	#echo $name; IFS='|'; return 0
 	of="$tst.$name.out"
 	IFS=' '
