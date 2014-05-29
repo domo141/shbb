@@ -7,46 +7,46 @@ The shells available in Solaris 10 default install...
 
 Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /usr/dt/bin/dtksh
 
-| [[#01_test_command][01_test_command]] | +[[#f-01_test_command-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#02_test_command_v][02_test_command_v]] | +[[#f-02_test_command_v-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#03_test_cmdv_fail][03_test_cmdv_fail]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#04_test_builtin][04_test_builtin]] | +[[#f-04_test_builtin-sh][sh]]+ | +[[#f-04_test_builtin-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#05_test_local][05_test_local]] | +[[#f-05_test_local-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#06_test_typeset][06_test_typeset]] | +[[#f-06_test_typeset-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#07_test_global][07_test_global]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#08_test_function][08_test_function]] | +[[#f-08_test_function-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#09_test_function2][09_test_function2]] | +[[#f-09_test_function2-sh][sh]]+ | +[[#f-09_test_function2-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#10_test_exclmark][10_test_exclmark]] | +[[#f-10_test_exclmark-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#11_test_test][11_test_test]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#12_test_test_e][12_test_test_e]] | +[[#f-12_test_test_e-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#13_test_test_ef][13_test_test_ef]] | +[[#f-13_test_test_ef-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#14_test_test_nt][14_test_test_nt]] | +[[#f-14_test_test_nt-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#15_test_testexcl][15_test_testexcl]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#16_test_testeqeq][16_test_testeqeq]] | +[[#f-16_test_testeqeq-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#17_test_testtest][17_test_testtest]] | +[[#f-17_test_testtest-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#18_test_tildexp][18_test_tildexp]] | +[[#f-18_test_tildexp-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#19_test_pwdvar][19_test_pwdvar]] | +[[#f-19_test_pwdvar-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#20_test_pwdcmd][20_test_pwdcmd]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#21_test_true][21_test_true]] | +[[#f-21_test_true-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#22_test_colon][22_test_colon]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#23_test_export1][23_test_export1]] | +[[#f-23_test_export1-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#24_test_readonly2][24_test_readonly2]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#25_test_case_pxcl][25_test_case_pxcl]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#26_test_case_pxcf][26_test_case_pxcf]] | +[[#f-26_test_case_pxcf-sh][sh]]+ | +[[#f-26_test_case_pxcf-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#27_test_at0][27_test_at0]] | +[[#f-27_test_at0-sh][sh]]+ | +[[#f-27_test_at0-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#28_test_at1][28_test_at1]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#29_test_at0for][29_test_at0for]] | +[[#f-29_test_at0for-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#30_test_echoE][30_test_echoE]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#31_test_echoc][31_test_echoc]] | *sh* | *ksh* | *bash* | +[[#f-31_test_echoc-zsh][zsh]]+ | * usr dt bin dtksh* |
-| [[#32_test_echon][32_test_echon]] | +[[#f-32_test_echon-sh][sh]]+ | +[[#f-32_test_echon-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#33_test_bi_printf][33_test_bi_printf]] | +[[#f-33_test_bi_printf-sh][sh]]+ | +[[#f-33_test_bi_printf-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#34_test_dollar_sg][34_test_dollar_sg]] | +[[#f-34_test_dollar_sg-sh][sh]]+ | +[[#f-34_test_dollar_sg-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#35_test_hash_fatl][35_test_hash_fatl]] | +[[#f-35_test_hash_fatl-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#36_test_hash_btin][36_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#37_test_hash_fail][37_test_hash_fail]] | *sh* | +[[#f-37_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#38_test_iexpr][38_test_iexpr]] | +[[#f-38_test_iexpr-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#39_test_tfft][39_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
-| [[#40_test_icat][40_test_icat]] | +[[#f-40_test_icat-sh][sh]]+ | *ksh* | *bash* | *zsh* | * usr dt bin dtksh* |
+| [[#01_test_command][01_test_command]] | +[[#f-01_test_command-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#02_test_command_v][02_test_command_v]] | +[[#f-02_test_command_v-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#03_test_cmdv_fail][03_test_cmdv_fail]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#04_test_builtin][04_test_builtin]] | +[[#f-04_test_builtin-sh][sh]]+ | +[[#f-04_test_builtin-ksh][ksh]]+ | *bash* | *zsh* | *dtksh* |
+| [[#05_test_local][05_test_local]] | +[[#f-05_test_local-sh][sh]]+ | *ksh* | *bash* | *zsh* | +[[#f-05_test_local-dtksh][dtksh]]+ |
+| [[#06_test_typeset][06_test_typeset]] | +[[#f-06_test_typeset-sh][sh]]+ | *ksh* | *bash* | *zsh* | +[[#f-06_test_typeset-dtksh][dtksh]]+ |
+| [[#07_test_global][07_test_global]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#08_test_function][08_test_function]] | +[[#f-08_test_function-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#09_test_function2][09_test_function2]] | +[[#f-09_test_function2-sh][sh]]+ | +[[#f-09_test_function2-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-09_test_function2-dtksh][dtksh]]+ |
+| [[#10_test_exclmark][10_test_exclmark]] | +[[#f-10_test_exclmark-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#11_test_test][11_test_test]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#12_test_test_e][12_test_test_e]] | +[[#f-12_test_test_e-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#13_test_test_ef][13_test_test_ef]] | +[[#f-13_test_test_ef-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#14_test_test_nt][14_test_test_nt]] | +[[#f-14_test_test_nt-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#15_test_testexcl][15_test_testexcl]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#16_test_testeqeq][16_test_testeqeq]] | +[[#f-16_test_testeqeq-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#17_test_testtest][17_test_testtest]] | +[[#f-17_test_testtest-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#18_test_tildexp][18_test_tildexp]] | +[[#f-18_test_tildexp-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#19_test_pwdvar][19_test_pwdvar]] | +[[#f-19_test_pwdvar-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#20_test_pwdcmd][20_test_pwdcmd]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#21_test_true][21_test_true]] | +[[#f-21_test_true-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#22_test_colon][22_test_colon]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#23_test_export1][23_test_export1]] | +[[#f-23_test_export1-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#24_test_readonly2][24_test_readonly2]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#25_test_case_pxcl][25_test_case_pxcl]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#26_test_case_pxcf][26_test_case_pxcf]] | +[[#f-26_test_case_pxcf-sh][sh]]+ | +[[#f-26_test_case_pxcf-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-26_test_case_pxcf-dtksh][dtksh]]+ |
+| [[#27_test_at0][27_test_at0]] | +[[#f-27_test_at0-sh][sh]]+ | +[[#f-27_test_at0-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-27_test_at0-dtksh][dtksh]]+ |
+| [[#28_test_at1][28_test_at1]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#29_test_at0for][29_test_at0for]] | +[[#f-29_test_at0for-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#30_test_echoE][30_test_echoE]] | *sh* | *ksh* | *bash* | *zsh* | +[[#f-30_test_echoe-dtksh][dtksh]]+ |
+| [[#31_test_echoc][31_test_echoc]] | *sh* | *ksh* | *bash* | +[[#f-31_test_echoc-zsh][zsh]]+ | *dtksh* |
+| [[#32_test_echon][32_test_echon]] | +[[#f-32_test_echon-sh][sh]]+ | +[[#f-32_test_echon-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-32_test_echon-dtksh][dtksh]]+ |
+| [[#33_test_bi_printf][33_test_bi_printf]] | +[[#f-33_test_bi_printf-sh][sh]]+ | +[[#f-33_test_bi_printf-ksh][ksh]]+ | *bash* | *zsh* | *dtksh* |
+| [[#34_test_dollar_sg][34_test_dollar_sg]] | +[[#f-34_test_dollar_sg-sh][sh]]+ | +[[#f-34_test_dollar_sg-ksh][ksh]]+ | *bash* | *zsh* | *dtksh* |
+| [[#35_test_hash_fatl][35_test_hash_fatl]] | +[[#f-35_test_hash_fatl-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#36_test_hash_btin][36_test_hash_btin]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#37_test_hash_fail][37_test_hash_fail]] | *sh* | +[[#f-37_test_hash_fail-ksh][ksh]]+ | *bash* | *zsh* | +[[#f-37_test_hash_fail-dtksh][dtksh]]+ |
+| [[#38_test_iexpr][38_test_iexpr]] | +[[#f-38_test_iexpr-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#39_test_tfft][39_test_tfft]] | *sh* | *ksh* | *bash* | *zsh* | *dtksh* |
+| [[#40_test_icat][40_test_icat]] | +[[#f-40_test_icat-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
 
 -----
 
@@ -213,7 +213,15 @@ test_local
 portabilitytest/05_test_local: local: not found
 #+END_SRC
 
-1 of the tested shells failed to execute this test
+*** f 05_test_local dtksh
+
+#+BEGIN_SRC
++ test_local
++ local var=lval
+portabilitytest/05_test_local: line 8: local: not found
+#+END_SRC
+
+2 of the tested shells failed to execute this test
 -----
 ** 06_test_typeset
 
@@ -242,7 +250,19 @@ test_typeset
 portabilitytest/06_test_typeset: typeset: not found
 #+END_SRC
 
-1 of the tested shells failed to execute this test
+*** f 06_test_typeset dtksh
+
+#+BEGIN_SRC
++ test_typeset
++ var=lval
++ typeset var
++ lt
++ var=ilval
++ typeset var
++ exit 1
+#+END_SRC
+
+2 of the tested shells failed to execute this test
 -----
 ** 07_test_global
 
@@ -310,7 +330,13 @@ portabilitytest/09_test_function2: syntax error at line 4: `(' unexpected
 portabilitytest/09_test_function2[2]: syntax error at line 4 : `(' unexpected
 #+END_SRC
 
-2 of the tested shells failed to execute this test
+*** f 09_test_function2 dtksh
+
+#+BEGIN_SRC
+portabilitytest/09_test_function2: syntax error at line 4: `(' unexpected
+#+END_SRC
+
+3 of the tested shells failed to execute this test
 -----
 ** 10_test_exclmark
 
@@ -688,7 +714,14 @@ portabilitytest/26_test_case_pxcf: syntax error at line 5: `^' unexpected
 + test_case_pxcf
 #+END_SRC
 
-2 of the tested shells failed to execute this test
+*** f 26_test_case_pxcf dtksh
+
+#+BEGIN_SRC
++ test_case_pxcf
++ exit 1
+#+END_SRC
+
+3 of the tested shells failed to execute this test
 -----
 ** 27_test_at0
 
@@ -717,7 +750,14 @@ portabilitytest/27_test_at0: @: parameter not set
 portabilitytest/27_test_at0[3]: @: parameter not set
 #+END_SRC
 
-2 of the tested shells failed to execute this test
+*** f 27_test_at0 dtksh
+
+#+BEGIN_SRC
++ test_at0
+portabilitytest/27_test_at0: line 5: @: parameter not set
+#+END_SRC
+
+3 of the tested shells failed to execute this test
 -----
 ** 28_test_at1
 
@@ -768,7 +808,21 @@ test_echoE () # expect backslash-escapes to be escapes by default
 test_echoE
 #+END_SRC
 
-all of the tested shells executed this test successfully
+*** f 30_test_echoE dtksh
+
+#+BEGIN_SRC
++ test_echoE
++ echo '\n'
++ withpath wc
++ PATH=/bin:/usr/bin
++ export PATH
++ wc
++ PATH=''
++ export PATH
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
 -----
 ** 31_test_echoc
 
@@ -824,7 +878,17 @@ test_echon
 -n
 #+END_SRC
 
-2 of the tested shells failed to execute this test
+*** f 32_test_echon dtksh
+
+#+BEGIN_SRC
++ test_echon
++ echo -n
+-n
++ echo -n
++ exit 1
+#+END_SRC
+
+3 of the tested shells failed to execute this test
 -----
 ** 33_test_bi_printf
 
@@ -943,7 +1007,15 @@ test_hash_fail
 + test_hash_fail
 #+END_SRC
 
-1 of the tested shells failed to execute this test
+*** f 37_test_hash_fail dtksh
+
+#+BEGIN_SRC
++ test_hash_fail
++ alias -t -- this_c0mmand_does_not_existt
++ exit 1
+#+END_SRC
+
+2 of the tested shells failed to execute this test
 -----
 ** 38_test_iexpr
 
