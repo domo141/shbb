@@ -1,0 +1,838 @@
+
+* portabilitytest results
+
+FreeBSD 7.1 -- bash version 3.2.39
+
+Shells in FreeBSD installation (w/o anything installed from ports)
+
+Shells: /bin/sh, /usr/local/bin/bash
+
+| [[#01_test_command][01_test_command]] | +[[#f-01_test_command-sh][sh]]+ | *bash* |
+| [[#02_test_command_v][02_test_command_v]] | +[[#f-02_test_command_v-sh][sh]]+ | *bash* |
+| [[#03_test_cmdv_fail][03_test_cmdv_fail]] | *sh* | *bash* |
+| [[#04_test_builtin][04_test_builtin]] | *sh* | *bash* |
+| [[#05_test_local][05_test_local]] | *sh* | *bash* |
+| [[#06_test_typeset][06_test_typeset]] | +[[#f-06_test_typeset-sh][sh]]+ | *bash* |
+| [[#07_test_global][07_test_global]] | *sh* | *bash* |
+| [[#08_test_function][08_test_function]] | +[[#f-08_test_function-sh][sh]]+ | *bash* |
+| [[#09_test_function2][09_test_function2]] | +[[#f-09_test_function2-sh][sh]]+ | *bash* |
+| [[#10_test_exclmark][10_test_exclmark]] | *sh* | *bash* |
+| [[#11_test_test][11_test_test]] | *sh* | *bash* |
+| [[#12_test_test_e][12_test_test_e]] | *sh* | *bash* |
+| [[#13_test_test_ef][13_test_test_ef]] | *sh* | *bash* |
+| [[#14_test_test_nt][14_test_test_nt]] | *sh* | *bash* |
+| [[#15_test_testexcl][15_test_testexcl]] | *sh* | *bash* |
+| [[#16_test_testeqeq][16_test_testeqeq]] | +[[#f-16_test_testeqeq-sh][sh]]+ | *bash* |
+| [[#17_test_testtest][17_test_testtest]] | +[[#f-17_test_testtest-sh][sh]]+ | *bash* |
+| [[#18_test_tildexp][18_test_tildexp]] | *sh* | *bash* |
+| [[#19_test_pwdvar][19_test_pwdvar]] | *sh* | *bash* |
+| [[#20_test_pwdcmd][20_test_pwdcmd]] | *sh* | *bash* |
+| [[#21_test_true][21_test_true]] | *sh* | *bash* |
+| [[#22_test_colon][22_test_colon]] | *sh* | *bash* |
+| [[#23_test_export1][23_test_export1]] | *sh* | *bash* |
+| [[#24_test_readonly2][24_test_readonly2]] | *sh* | *bash* |
+| [[#25_test_case_pxcl][25_test_case_pxcl]] | *sh* | *bash* |
+| [[#26_test_case_pxcf][26_test_case_pxcf]] | *sh* | *bash* |
+| [[#27_test_at0][27_test_at0]] | +[[#f-27_test_at0-sh][sh]]+ | *bash* |
+| [[#28_test_at1][28_test_at1]] | *sh* | *bash* |
+| [[#29_test_at0for][29_test_at0for]] | +[[#f-29_test_at0for-sh][sh]]+ | *bash* |
+| [[#30_test_echoE][30_test_echoE]] | +[[#f-30_test_echoe-sh][sh]]+ | *bash* |
+| [[#31_test_echoc][31_test_echoc]] | +[[#f-31_test_echoc-sh][sh]]+ | *bash* |
+| [[#32_test_echon][32_test_echon]] | *sh* | *bash* |
+| [[#33_test_bi_printf][33_test_bi_printf]] | +[[#f-33_test_bi_printf-sh][sh]]+ | *bash* |
+| [[#34_test_dollar_sg][34_test_dollar_sg]] | +[[#f-34_test_dollar_sg-sh][sh]]+ | *bash* |
+| [[#35_test_hash_fatl][35_test_hash_fatl]] | *sh* | *bash* |
+| [[#36_test_hash_btin][36_test_hash_btin]] | *sh* | *bash* |
+| [[#37_test_hash_fail][37_test_hash_fail]] | +[[#f-37_test_hash_fail-sh][sh]]+ | *bash* |
+| [[#38_test_iexpr][38_test_iexpr]] | *sh* | *bash* |
+| [[#39_test_tfft][39_test_tfft]] | *sh* | *bash* |
+| [[#40_test_icat][40_test_icat]] | +[[#f-40_test_icat-sh][sh]]+ | *bash* |
+
+-----
+
+** common.sh
+
+#+BEGIN_SRC
+set -eu
+#set -x
+
+PATH=; export PATH
+
+case ${BASH_VERSION-} in *.*)
+	# Make echo builtin in bash expands backslash-escape sequences by
+	# default. Without this bash would be less portable compared to
+	# most other shells...
+	shopt -s xpg_echo
+	# make sure pipefail is not set (bash-only feature)...
+	set +o pipefail
+	#list_functions () { set; }
+esac
+case ${ZSH_VERSION-} in *.*)
+	setopt shwordsplit
+	setopt posix_builtins # for test_command()
+	unsetopt equals # for [ 1 == 1 ] (nonstandard usage...)
+	unsetopt bsd_echo # enable echo escape sequences (like \c)
+	#setopt equals # make [ 1 == 1 ] fail for sure...
+	unsetopt function_argzero # $0 being the name of this script always
+	#list_functions () { functions; }
+esac
+
+withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
+
+saved_IFS=$IFS; readonly saved_IFS
+set -x
+#+END_SRC
+
+-----
+** 01_test_command
+
+#+BEGIN_SRC
+#!/bin/sh
+test_command () # builtin or system, not function or alias
+{
+	# one could argue whether command should include builtins...
+	alias echo='exit 1' || :
+	echo () { exit 1; }
+	command echo
+} 
+. portabilitytest/common.sh
+test_command
+#+END_SRC
+
+*** f 01_test_command sh
+
+#+BEGIN_SRC
++ test_command
++ alias echo=exit 1
++ command echo
+command: echo: not found
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 02_test_command_v
+
+#+BEGIN_SRC
+#!/bin/sh
+test_command_v () # the -v option
+{
+	# first check that there is builtin 'command'
+	command echo || exit 1
+	# expect cat reside in /bin, to make this run not fail
+	PATH=/bin; export PATH
+	case `command -v cat` in *cat) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_command_v
+#+END_SRC
+
+*** f 02_test_command_v sh
+
+#+BEGIN_SRC
++ test_command_v
++ command echo
+command: echo: not found
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 03_test_cmdv_fail
+
+#+BEGIN_SRC
+#!/bin/sh
+test_cmdv_fail () # if command -v fails in case command not found
+{
+	if command -v this_c0mmand_does_not_existt
+	then exit 1
+	else exit 0
+	fi
+} 
+. portabilitytest/common.sh
+test_cmdv_fail
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 04_test_builtin
+
+#+BEGIN_SRC
+#!/bin/sh
+test_builtin () # builtin command
+{
+	echo () { return 1; }
+	builtin echo
+} 
+. portabilitytest/common.sh
+test_builtin
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 05_test_local
+
+#+BEGIN_SRC
+#!/bin/sh
+test_local () # local variable
+{
+	lt () {
+		local var=ilval
+		case $var in ilval) ;; *) exit 1 ;; esac
+	}
+	local var=lval
+	lt
+	case $var in lval) ;; *) exit 1 ;; esac
+} 
+. portabilitytest/common.sh
+test_local
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 06_test_typeset
+
+#+BEGIN_SRC
+#!/bin/sh
+test_typeset () # local variable using plain typeset (typeset/declare without opts)
+{
+	# declare: same as typeset (in bash, zsh, ...) but less portable
+	lt () {
+		typeset var=ilval
+		case $var in ilval) ;; *) exit 1 ;; esac
+	}
+	typeset var=lval
+	lt
+	case $var in lval) ;; *) exit 1 ;; esac
+} 
+. portabilitytest/common.sh
+test_typeset
+#+END_SRC
+
+*** f 06_test_typeset sh
+
+#+BEGIN_SRC
++ test_typeset
++ typeset var=lval
+typeset: not found
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 07_test_global
+
+#+BEGIN_SRC
+#!/bin/sh
+test_global () # test whether variable is global always
+{
+	gt () {
+		var=local
+	}
+	var=global
+	gt
+	case $var in local) exit 0 ;; *) exit 1 ;; esac
+} 
+. portabilitytest/common.sh
+test_global
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 08_test_function
+
+#+BEGIN_SRC
+#!/bin/sh
+test_function () # function keyword
+{
+	function inner { :; }
+	inner
+} 
+. portabilitytest/common.sh
+test_function
+#+END_SRC
+
+*** f 08_test_function sh
+
+#+BEGIN_SRC
+inner: not found
+portabilitytest/08_test_function: 6: Syntax error: "}" unexpected
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 09_test_function2
+
+#+BEGIN_SRC
+#!/bin/sh
+test_function2 () # function keyword, with ()
+{
+	function inner () { :; }
+	inner
+} 
+. portabilitytest/common.sh
+test_function2
+#+END_SRC
+
+*** f 09_test_function2 sh
+
+#+BEGIN_SRC
+portabilitytest/09_test_function2: 4: Syntax error: "(" unexpected (expecting "}")
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 10_test_exclmark
+
+#+BEGIN_SRC
+#!/bin/sh
+test_exclmark () # whether '!' as 'not' works (and is builtin)
+{
+	# fails in heirloom sh
+	! /bin/false
+} 
+. portabilitytest/common.sh
+test_exclmark
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 11_test_test
+
+#+BEGIN_SRC
+#!/bin/sh
+test_test () # builtin test command
+{
+	test string
+} 
+. portabilitytest/common.sh
+test_test
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 12_test_test_e
+
+#+BEGIN_SRC
+#!/bin/sh
+test_test_e () # test -e file (well, current directory)
+{
+	if test -e "$0"; then exit 0; else exit 1; fi
+} 
+. portabilitytest/common.sh
+test_test_e
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 13_test_test_ef
+
+#+BEGIN_SRC
+#!/bin/sh
+test_test_ef () # test file1 -ef file2
+{
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
+	trap '/bin/rm -rf $td; exit $ev' 0
+	: > $td/file1
+	/bin/ln $td/file1 $td/file2
+	if test $td/file1 -ef $td/file2; then ev=0; fi
+} 
+. portabilitytest/common.sh
+test_test_ef
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 14_test_test_nt
+
+#+BEGIN_SRC
+#!/bin/sh
+test_test_nt () # test file1 -nt file2 (presumed -ot is also supported if -nt is)
+{
+	td=`withpath mktemp -d /tmp/tmp.XXXXXX`; ev=1
+	#trap '/bin/rm -rf $td; exit $ev' 0
+	# XXX expects system time & fs times to work as usual
+	: > $td/newfile
+	if test $td/newfile -nt "$0"; then ev=0; fi
+} 
+. portabilitytest/common.sh
+test_test_nt
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 15_test_testexcl
+
+#+BEGIN_SRC
+#!/bin/sh
+test_testexcl () # '!' in test
+{
+	if test '!' string; then exit 1; else exit 0; fi
+} 
+. portabilitytest/common.sh
+test_testexcl
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 16_test_testeqeq
+
+#+BEGIN_SRC
+#!/bin/sh
+test_testeqeq () # nonstandard '[ 1 == 1 ]' ('[ 1 = 1 ]' would be standard one)
+{
+	# this can be made to pass in zsh by using '==' or w/ unsetopt equals
+	[ 1 == 1 ]
+} 
+. portabilitytest/common.sh
+test_testeqeq
+#+END_SRC
+
+*** f 16_test_testeqeq sh
+
+#+BEGIN_SRC
++ test_testeqeq
++ [ 1 == 1 ]
+[: 1: unexpected operator
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 17_test_testtest
+
+#+BEGIN_SRC
+#!/bin/sh
+test_testtest () # whether [[ ]] is supported (with 1 == 1)
+{
+	[[ 1 == 1 ]]
+} 
+. portabilitytest/common.sh
+test_testtest
+#+END_SRC
+
+*** f 17_test_testtest sh
+
+#+BEGIN_SRC
++ test_testtest
++ [[ 1 == 1 ]]
+[[: not found
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 18_test_tildexp
+
+#+BEGIN_SRC
+#!/bin/sh
+test_tildexp () # tilde expansion
+{
+	case ~ in /*) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_tildexp
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 19_test_pwdvar
+
+#+BEGIN_SRC
+#!/bin/sh
+test_pwdvar () # '$PWD' variable expansion
+{
+	cd /tmp
+	PWD=/usr
+	echo \$PWD: $PWD
+	cd .
+	echo \$PWD: $PWD
+	case $PWD in /tmp) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_pwdvar
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 20_test_pwdcmd
+
+#+BEGIN_SRC
+#!/bin/sh
+test_pwdcmd () # pwd builtin command
+{
+	pwd
+} 
+. portabilitytest/common.sh
+test_pwdcmd
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 21_test_true
+
+#+BEGIN_SRC
+#!/bin/sh
+test_true () # true builtin command (cannot test false...)
+{
+	true
+} 
+. portabilitytest/common.sh
+test_true
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 22_test_colon
+
+#+BEGIN_SRC
+#!/bin/sh
+test_colon () # colon (:) builtin command
+{
+	:
+} 
+. portabilitytest/common.sh
+test_colon
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 23_test_export1
+
+#+BEGIN_SRC
+#!/bin/sh
+test_export1 () # export VAR=val -- not bourne compatible
+{
+	export VAR=val
+	case $VAR in val) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_export1
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 24_test_readonly2
+
+#+BEGIN_SRC
+#!/bin/sh
+test_readonly2 () # VAR=val; readonly VAR -- then attempt to change VAR
+{
+	VAR=val; readonly VAR
+	# running in subshell as this makes shell exit.
+	( VAR=changed || : ) && exit 1 || :
+} 
+. portabilitytest/common.sh
+test_readonly2
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 25_test_case_pxcl
+
+#+BEGIN_SRC
+#!/bin/sh
+test_case_pxcl () # case where both '*' and '[!a-z0-9_]' unquoted
+{
+	case test/echo1 in *[!a-z0-9_]*) ;; *) exit 1; esac
+	case test_echo1 in *[!a-z0-9_]*) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_case_pxcl
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 26_test_case_pxcf
+
+#+BEGIN_SRC
+#!/bin/sh
+test_case_pxcf () # case where both '*' and '[^a-z0-9_]' unquoted
+{
+	# dash & heirloom sh expected to "fail" here.
+	case test/echo1 in *[^a-z0-9_]*) ;; *) exit 1; esac
+	case test_echo1 in *[^a-z0-9_]*) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_case_pxcf
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 27_test_at0
+
+#+BEGIN_SRC
+#!/bin/sh
+test_at0 () # "$@" expansion when $# 0
+{
+	case $# in 0) ;; *) die "arg count 0 required for this test" ;; esac
+	: "$@"
+} 
+. portabilitytest/common.sh
+test_at0
+#+END_SRC
+
+*** f 27_test_at0 sh
+
+#+BEGIN_SRC
++ test_at0
+portabilitytest/27_test_at0: @: parameter not set
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 28_test_at1
+
+#+BEGIN_SRC
+#!/bin/sh
+test_at1 () # ${1+"$@"} expansion when $# 0
+{
+	case $# in 0) ;; *) die "arg count 0 required for this test" ;; esac
+	: ${1+"$@"}
+} 
+. portabilitytest/common.sh
+test_at1
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 29_test_at0for
+
+#+BEGIN_SRC
+#!/bin/sh
+test_at0for () # implicit "$@" in for loop
+{
+	case $# in 0) ;; *) die "arg count 0 required for this test" ;; esac
+	# FreeBSD 7.1 /bin/sh will complain something like $@ not defined
+	for var; do :; done
+} 
+. portabilitytest/common.sh
+test_at0for
+#+END_SRC
+
+*** f 29_test_at0for sh
+
+#+BEGIN_SRC
++ test_at0for
+portabilitytest/29_test_at0for: @: parameter not set
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 30_test_echoE
+
+#+BEGIN_SRC
+#!/bin/sh
+test_echoE () # expect backslash-escapes to be escapes by default
+{
+	case `echo '\n' | withpath wc` in *2*0*2) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_echoE
+#+END_SRC
+
+*** f 30_test_echoE sh
+
+#+BEGIN_SRC
++ test_echoE
++ echo \n
++ withpath wc
++ PATH=/bin:/usr/bin
++ export PATH
++ wc
++ PATH=
++ export PATH
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 31_test_echoc
+
+#+BEGIN_SRC
+#!/bin/sh
+test_echoc () # expect '\c' to stop producing more output
+{
+	case `echo '\c---'` in '') ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_echoc
+#+END_SRC
+
+*** f 31_test_echoc sh
+
+#+BEGIN_SRC
++ test_echoc
++ echo \c---
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 32_test_echon
+
+#+BEGIN_SRC
+#!/bin/sh
+test_echon () # whether 'echo -n' works
+{
+	echo -n
+	case `echo -n` in '') ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_echon
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 33_test_bi_printf
+
+#+BEGIN_SRC
+#!/bin/sh
+test_bi_printf () # builtin printf
+{
+	case `printf '%s' tstr` in tstr) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_bi_printf
+#+END_SRC
+
+*** f 33_test_bi_printf sh
+
+#+BEGIN_SRC
++ test_bi_printf
++ printf %s tstr
+printf: not found
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 34_test_dollar_sg
+
+#+BEGIN_SRC
+#!/bin/sh
+test_dollar_sg () # dollar-single expansion
+{
+	x=$'\n'
+	case $x in ?) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_dollar_sg
+#+END_SRC
+
+*** f 34_test_dollar_sg sh
+
+#+BEGIN_SRC
++ test_dollar_sg
++ x=$\n
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 35_test_hash_fatl
+
+#+BEGIN_SRC
+#!/bin/sh
+test_hash_fatl () # some shells (heirloom sh) exits when hash fails
+{
+	if hash xxx_no_such_prog
+	then :
+	fi
+} 
+. portabilitytest/common.sh
+test_hash_fatl
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 36_test_hash_btin
+
+#+BEGIN_SRC
+#!/bin/sh
+test_hash_btin () # if there is builtin hash
+{
+	hash /bin/sh || hash sh=/bin/sh # latter for zsh
+} 
+. portabilitytest/common.sh
+test_hash_btin
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 37_test_hash_fail
+
+#+BEGIN_SRC
+#!/bin/sh
+test_hash_fail () # if hash fails in case command not found
+{
+	if (hash this_c0mmand_does_not_existt) # in subshell for heirloom sh...
+	then exit 1
+	else exit 0
+	fi
+} 
+. portabilitytest/common.sh
+test_hash_fail
+#+END_SRC
+
+*** f 37_test_hash_fail sh
+
+#+BEGIN_SRC
++ test_hash_fail
++ hash this_c0mmand_does_not_existt
+this_c0mmand_does_not_existt: not found
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
+-----
+** 38_test_iexpr
+
+#+BEGIN_SRC
+#!/bin/sh
+test_iexpr () # $((a + b))
+{
+	a=1 b=2
+	c=$((a + b))
+	case $c in 3) ;; *) exit 1; esac
+} 
+. portabilitytest/common.sh
+test_iexpr
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 39_test_tfft
+
+#+BEGIN_SRC
+#!/bin/sh
+test_tfft () # true && false && false || true
+{
+	_false () { return 1; }
+	: && _false && _false || :
+} 
+. portabilitytest/common.sh
+test_tfft
+#+END_SRC
+
+all of the tested shells executed this test successfully
+-----
+** 40_test_icat
+
+#+BEGIN_SRC
+#!/bin/sh
+test_icat () # whether there is $(< file)
+{
+	d=$(< "$0")
+	case $d in '') exit 1; esac
+} 
+. portabilitytest/common.sh
+test_icat
+#+END_SRC
+
+*** f 40_test_icat sh
+
+#+BEGIN_SRC
++ test_icat
++ 
++ d=
++ exit 1
+#+END_SRC
+
+1 of the tested shells failed to execute this test
