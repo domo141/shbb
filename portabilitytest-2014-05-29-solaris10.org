@@ -5,6 +5,9 @@ Solaris 10: bash 3.2.41, zsh 4.2.1, ksh88? dtksh=ksh93?
 
 The shells available in Solaris 10 default install...
 
+That =test_echoc= *zsh* failure can probably be sorted out by yet
+another zsh option -- =unsetopt bsd_echo= was not enough...
+
 Shells: /bin/sh, /bin/ksh, /bin/bash, /bin/zsh, /usr/dt/bin/dtksh
 
 | [[#01_test_command][01_test_command]] | +[[#f-01_test_command-sh][sh]]+ | *ksh* | *bash* | *zsh* | *dtksh* |
