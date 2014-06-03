@@ -1,0 +1,116 @@
+
+#+STARTUP: showall
+#+TOC: headlines 1
+
+This file contains a steadily increasing set of shell script constructs
+that are useable in real-world applications. In case any of these are
+not portable to reasonable traditional shell environments those are
+stated explicitly.
+
+* set -eu
+
+Every shell script should start with this line. ~set -e~ makes script
+exit in case any command returns nonzero (with exceptions) and ~set -a~
+makes undefined variable to be an error (which makes script exit at least
+with ~-e~).
+
+The use of these is somewhat related to warning options in ~C~ compilation
+and ~use strict; use warnings~ in perl program.
+
+With ~set -e~ the script must take care of the cases when command may
+return nonzero. The methods are e.g. ~if command; then ... fi~,
+~command [ && ... ] || ...~ and ~while command; do ... done~ and so on...
+
+Some commands, like ~expr~ returns nonzero in special ways, which is
+somewhat unfortunate in this context.
+
+~set -a~ just means all variables needs to be introduced before referenced;
+with positional parameters ~${1-}~ "/fallback/" can be used when there is
+just no other suitable options.
+
+* saved_IFS
+
+With ~$IFS~ manipulations many things can be done within shell script,
+to be able to restore /IFS/ to it's original value following lines
+can be added to the beginning of shell script (after ~set -eu~, of course)
+
+#+BEGIN_SRC
+saved_IFS=$IFS
+readonly saved_IFS
+#+END_SRC
+
+Note that the syntax ~readonly var=$val~ was not used; It is not portable
+to traditional shell; also that format has subtle behavior differences(*),
+and for example ~readonly $var=$val~ will assign /val/ to variable named
+by expanded value of /var/ (this applies also to ~export $var=$val~ and so on).
+
+(*) in bash ~readonly var=$IFS~ would not assign full /IFS/ to /var/,
+~$IFS~ would need to be quoted there (which is not normally needed).
+
+* set -
+
+Traditionally ~set -~ works as ~set +xv~ (but this is not echoed!) --
+just that zsh in native mode clears positional parameters.. AARGH!
+
+In zsh -- ~set - "$@~" would work, too...
+
+to test:
+
+#+BEGIN_SRC
+for shell in zsh bash ksh dash sh
+do
+        $shell -c 'set a b c; echo $#; set -; echo $#'
+        $shell -c 'set a b c; echo $#; set - "$@"; echo $#'
+done
+#+END_SRC
+
+Could not find zsh option to "disable" this feature (~sh_option_letters~
+did not do it). ~emulate ksh~ does it
+
+* which, hash, command -v
+
+Often, one needs to know whether a particular executable is available in
+the system. In many systems ~which~, ~hash~ and ~command -v~ could be used
+to figure this out, but...
+
+~which~, while often printing path to executable and exiting zero in case
+command is found, in some systems prints output to stdout even command is
+not found and in some systems don't exit nonzero even command if not found.
+
+Which is also not usually shell builtin (only in ~zsh~), requiring shell
+to do ~execve(2)~ in addition to 1 or 2 ~fork(2)~s
+
+The user-visible ~hash~ behaviour is exit value, being zero when command
+is found and most often nonzero when not found -- but ~ksh~ exits zero
+even command is not found.
+
+~command -v~ outputs path when found and exits nonzero when not.
+~command -v~ is just least portable. If one is using /Modern/(*) shell,
+then ~command -v~ -- shell builtin (one ~fork~ required to get result)
+is good option to resolve this problem.
+
+(*) http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html
+mentions that the ~-v~ option might not be available in all shells that
+claims to have POSIX compatibility -- all /Modern/ shells I've tested
+have this feature, though.
+
+To have /which/ functionality that works with all shells, one could use
+the following (which may even be fastest as no forks required).
+
+#+BEGIN_SRC
+iwhich ()
+{
+        IFS=:
+        for dir in $PATH
+        do      case $dir in *[!a-zA-Z0-9_/.,-]*) continue; esac
+                test -x "$dir/$1" || continue
+                eval "$1='$dir/$1'"
+                IFS=$saved_IFS
+                return 0
+        done
+        IFS=$saved_IFS
+        return 1
+}
+#+END_SRC
+
+Now, ~iwhich ls~ would assign path of ~ls~ to variable ~$ls~.
