@@ -78,7 +78,7 @@ command is found, in some systems prints output to stdout even command is
 not found and in some systems don't exit nonzero even command if not found.
 
 Which is also not usually shell builtin (only in ~zsh~), requiring shell
-to do ~execve(2)~ in addition to 1 or 2 ~fork(2)~s
+to do ~execve(2)~ in addition to 1 or 2 ~fork(2)~ s
 
 The user-visible ~hash~ behaviour is exit value, being zero when command
 is found and most often nonzero when not found -- but ~ksh~ exits zero
@@ -101,10 +101,10 @@ the following (which may even be fastest as no forks required).
 iwhich ()
 {
         IFS=:
-        for dir in $PATH
-        do      case $dir in *[!a-zA-Z0-9_/.,-]*) continue; esac
-                test -x "$dir/$1" || continue
-                eval "$1='$dir/$1'"
+        for _v in $PATH
+        do      test -x "$_v/$1" || continue
+                _v=$_v/$1
+                eval $1=\$_v
                 IFS=$saved_IFS
                 return 0
         done
