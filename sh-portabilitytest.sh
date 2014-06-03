@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Thu 29 May 2014 17:29:58 +0300 too
+# Last modified: Tue 03 Jun 2014 22:15:27 +0300 too
 
 set -eu
 #set -x
@@ -25,13 +25,15 @@ case ${BASH_VERSION-} in *.*)
 	#list_functions () { set; }
 esac
 case ${ZSH_VERSION-} in *.*)
-	setopt shwordsplit
-	setopt posix_builtins # for test_command()
-	unsetopt equals # for [ 1 == 1 ] (nonstandard usage...)
-	unsetopt bsd_echo # enable echo escape sequences (like \c)
+	#--setopt shwordsplit
+	#--setopt posix_builtins # for test_command()
+	#--unsetopt equals # for [ 1 == 1 ] (nonstandard usage...)
+	#--unsetopt bsd_echo # enable echo escape sequences (like \c)
 	#setopt equals # make [ 1 == 1 ] fail for sure...
-	unsetopt function_argzero # $0 being the name of this script always
+	#--unsetopt function_argzero # $0 being the name of this script always
 	#list_functions () { functions; }
+	# heh, 'emulate sh', and "fails" like ksh, 'emulate ksh' and doesnt fail
+	emulate ksh
 esac
 
 withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
@@ -319,6 +321,27 @@ test_testeqeq () # nonstandard '[ 1 == 1 ]' ('[ 1 = 1 ]' would be standard one)
 test_testtest () # whether [[ ]] is supported (with 1 == 1)
 {
 	[[ 1 == 1 ]]
+}
+
+test_set_dash () # whether sh - is potentially like sh +xv...
+{
+	set a b c
+	case $# in 3) ;; *) exit 1 ;; esac
+	set - # as a bonus this line is not echoed (like set +x)
+	case $# in 3) ;; *) exit 1 ;; esac
+	# well we don't actually know wheether +xv was effective
+}
+
+test_set__abc () # whether set -- a b c yields $# = 3
+{
+	set -- a b c
+	echo $*
+	# interestingly zsh produced strange results w/ $#$1$2$3
+	case ${#}$1$2$3 in 3abc) ;; *) exit 1 ;; esac
+
+	set --
+	echo $*
+	case $# in 0) ;; *) exit 1 ;; esac
 }
 
 test_tildexp () # tilde expansion
