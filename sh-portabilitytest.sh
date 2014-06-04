@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Tue 03 Jun 2014 22:15:27 +0300 too
+# Last modified: Wed 04 Jun 2014 22:51:38 +0300 too
 
 set -eu
 #set -x
@@ -53,17 +53,23 @@ echo 'set -x' >> $wd/common.sh
 # as hash(1) not supported everywhere, let's make sure we have which(1)
 #which=`exec env which which`
 # dropped exec's -- FreeBSD 7.1 sh will exit...
-which=`env which which`
+# ... and replaced w/ internal which (dogfooding feature described in shbb.org)
+# (now we also avoid problem with exit value differences...)
+iwhich () {
+        IFS=:
+        for _v in $PATH
+        do      test -x "$_v/$1" || continue
+                _v=$_v/$1;
+		case $# in 2) eval $2\$_v ;; *) eval $1=\$_v ;; esac
+		IFS=$saved_IFS; return 0
+        done
+        IFS=$saved_IFS; return 1
+}
 
 # check whether we have nawk...
-# hash in subshell so heirloom sh can be used here...
-#(hash "$sh" 2>/dev/null) || return 0 ...but... note to self: check this!
-if awk=`$which nawk 2>/dev/null`
-then
-	# Solaris 10 /usr/bin/which exits always with exitcode 0
-	case $awk in /*) ;; *) awk=awk ;; esac
-else
-	awk=awk
+if iwhich nawk
+then	awk=$nawk
+else	awk=awk
 fi
 
 $awk 'BEGIN { file="foobar"; fn=""; cnt=0; wd="'"$wd"'" }
@@ -80,11 +86,7 @@ findshell ()
 	test -x $sh || return 0
 	shfp=$sh
   ;; *)
-	# hash in subshell so heirloom sh can be used here...
-	#(hash "$sh" 2>/dev/null) || return 0 ...but FreeBSD does not have hash
-	shfp=`$which $sh 2>/dev/null` || return 0
-	# Solaris 10 /usr/bin/which exits always with exitcode 0
-	case $shfp in /*) ;; *) return 0 ;; esac
+	iwhich $sh shfp= || return 0
   esac
   shells="${shells:+$shells|}$sh:$shfp"
   echo $sh:$shfp >> $wd/shells
@@ -95,14 +97,12 @@ do
 	findshell $sh
 done
 
-# special-case search for busybox shell
-# Solaris 10 sh yells 'busybox: not found' unless stderr pre-redirected.
-case `exec 2>/dev/null; busybox sh -c 'echo hello' || :` in hello)
-	busybox=`$which busybox`
+# special-case check for busybox shell
+if iwhich busybox
+then
 	shells="$shells|busybox sh:$busybox sh"
 	echo busybox sh:$busybox sh >> $wd/shells
-
-esac
+fi
 
 # do this `case $# in 0` check as `for sh`, `for sh in "$@"` and
 # `for sh in ${1+"$@"}` (or any subset) is not supported everywhere.
