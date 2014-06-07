@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Wed 04 Jun 2014 22:51:38 +0300 too
+# Last modified: Sat 07 Jun 2014 12:08:55 +0300 too
 
 set -eu
 #set -x
@@ -454,6 +454,12 @@ test_dollar_sg () # dollar-single expansion
 {
 	x=$'\n'
 	case $x in ?) ;; *) exit 1; esac
+}
+
+test_varlen () # variable length feature ${#var}
+{
+	x=abcde
+	case ${#x} in 5) ;; *) exit 1; esac
 }
 
 test_hash_fatl () # some shells (heirloom sh) exits when hash fails
