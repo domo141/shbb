@@ -8,7 +8,7 @@
 #	    All rights reserved
 #
 # Created: Sun 18 May 2014 19:42:28 EEST too
-# Last modified: Sat 07 Jun 2014 12:08:55 +0300 too
+# Last modified: Wed 05 Nov 2014 08:55:42 +0200 too
 
 set -eu
 #set -x
@@ -33,7 +33,7 @@ case ${ZSH_VERSION-} in *.*)
 	#--unsetopt function_argzero # $0 being the name of this script always
 	#list_functions () { functions; }
 	# heh, 'emulate sh', and "fails" like ksh, 'emulate ksh' and doesnt fail
-	emulate ksh
+	emulate ksh; set -eu # ... and re-set eu ...
 esac
 
 withpath () { PATH=/bin:/usr/bin; export PATH; "$@"; PATH=; export PATH; }
