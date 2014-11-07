@@ -100,11 +100,15 @@ the following (which may even be fastest as no forks required).
 #+BEGIN_SRC
 iwhich ()
 {
+        case $1 in */*)
+                test -x "$1" || return 1
+                case $# in 3) eval $3=\$1 ;; *) return 1 ;; esac
+        esac
         IFS=:
         for _v in $PATH
         do      test -x "$_v/$1" || continue
                 _v=$_v/$1
-                eval $1=\$_v
+                case $# in 3) eval $3=\$_v ;; *) eval $1=\$_v ;; esac
                 IFS=$saved_IFS
                 return 0
         done
@@ -114,3 +118,6 @@ iwhich ()
 #+END_SRC
 
 Now, ~iwhich ls~ would assign path of ~ls~ to variable ~$ls~.
+
+And, ~iwhich ssh-agent as ssh_agent~ would assing path of ~ssh-agent~
+to variable ~ssh_agent~.
