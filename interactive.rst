@@ -50,13 +50,6 @@ add such a feature to bash (mimics zsh behaviour):
 simple command line calculator
 ------------------------------
 
-zsh version
-'''''''''''
+Look into interactive/command-line-calculator.md__
 
-    alias c='LC_ALL=C noglob perl -e '\''shift; $x = eval qq(@ARGV); print $x; printf "  0x%x  0%o  %b\n", $x, $x, $x'\'' _'
-
-
-bash version
-''''''''''''
-
-I did have something somewhere...
+__ interactive/command-line-calculator.md
