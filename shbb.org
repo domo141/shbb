@@ -7,10 +7,25 @@ that are useable in real-world applications. In case any of these are
 not portable to reasonable traditional shell environments those are
 stated explicitly.
 
-* set -eu
+* beginning of a shell script
+
+The most reliable way to start shell script is to have string ~#!/bin/sh~
+as the first line. In that case portability should be taken care very
+well. Perhaps in these days requirement to support traditional bourne
+shell constructs could (in most cases) be skipped (and ported whenever
+necessary (if ever)). Modern shell constructs are just so much convenient
+to use, and tested.
+
+~#!/bin/sh~ may be ~dash~, ~bash~ (linux) and something closer to ~dash~
+in bsd systems. I'd guess solaris derivatives use something ~ksh~ related.
+Android devices have something based on ~mksh~. macOS uses ~bash~ 3.2.
+
+To make the shell script more robust, the next line should be:
+
+** ~set -eu~
 
 Every shell script should start with this line. ~set -e~ makes script
-exit in case any command returns nonzero (with exceptions) and ~set -a~
+exit in case any command returns nonzero (with exceptions) and ~set -u~
 makes undefined variable to be an error (which makes script exit at least
 with ~-e~).
 
@@ -24,11 +39,59 @@ return nonzero. The methods are e.g. ~if command; then ... fi~,
 Some commands, like ~expr~ returns nonzero in special ways, which is
 somewhat unfortunate in this context.
 
-~set -a~ just means all variables needs to be introduced before referenced;
+~set -u~ just means all variables needs to be introduced before referenced;
 with positional parameters ~${1-}~ "/fallback/" can be used when there is
 just no other suitable options.
 
-* saved_IFS
+** ~set -f~
+
+~set -f~ makes script not do filename expansion using glob patterns. This
+can make the script more robust -- just that is initially (like with ~-eu~
+developers forget this and the filename expansions they try fails...)
+
+** ~#!/bin/bash --posix~
+
+In case script is bash, appending ~--posix~ to the command line gives
+chance that the developer script works more like simpler modern shells.
+That also prohibits some shell builtins to be overwritten by bash
+functions defined in environment (like ~unset () { echo rm -rf /; }~),
+which it at least a bit of a security enchancement.
+
+
+** ~#!/usr/bin/env~ command
+
+Systems have ~/bin/sh~ for sure, but e.g. ~bash~ may be somewhere else
+in $PATH. The common convention is to use ~#!/usr/bin/env~ to run
+the another shell. With that no further options can be added to the
+command line (but look ideas in templates/ directory for that, if needed).
+
+** new
+
+Latest info: since bash 4.3 after declaring (associative) arrays, some
+access of those gives 'unbound variable' errors. To fix these, add
+~=()~ to the declare line; as an example
+
+#+BEGIN_SRC
+declare -A associative_array=()
+#+END_SRC
+
+Just tested:
+#+BEGIN_SRC
+$ bash -c 'set -u; declare -a a; echo ${#a[*]}'
+bash: a: unbound variable
+#+END_SRC
+#+BEGIN_SRC
+$ bash -c 'set -u; declare -a a=(); echo ${#a[*]}'
+0
+#+END_SRC
+
+* WIP
+
+more or less the rest of this script is work in progress -- I decided
+*not* to delete those, in case someone finds it useful...
+
+
+** saved_IFS
 
 With ~$IFS~ manipulations many things can be done within shell script,
 to be able to restore /IFS/ to it's original value following lines
@@ -47,7 +110,9 @@ by expanded value of /var/ (this applies also to ~export $var=$val~ and so on).
 (*) in bash ~readonly var=$IFS~ would not assign full /IFS/ to /var/,
 ~$IFS~ would need to be quoted there (which is not normally needed).
 
-* set -
+*** ~set --~
+
+(use instead of ~set -~)
 
 Traditionally ~set -~ works as ~set +xv~ (but this is not echoed!) --
 just that zsh in native mode clears positional parameters.. AARGH!
@@ -67,7 +132,7 @@ done
 Could not find zsh option to "disable" this feature (~sh_option_letters~
 did not do it). ~emulate ksh~ does it
 
-* which, hash, command -v
+** which..., hash... -- use ~command -v~
 
 Often, one needs to know whether a particular executable is available in
 the system. In many systems ~which~, ~hash~ and ~command -v~ could be used

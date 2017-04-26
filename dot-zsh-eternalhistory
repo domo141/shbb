@@ -1,0 +1,87 @@
+
+# Works, tested with ZDOTDIR=$PWD zsh and then sourcing this.
+# I stripped this from my zsh configuration file; based on interest
+# I'll make this more generic...
+
+setopt hist_ignore_dups append_history
+
+case $ZSH_VERSION in
+	[456789]*) setopt inc_append_history hist_expire_dups_first
+esac
+
+# note: very old code, for this purpose should 1) drop periodic use
+# and 2) use strftime
+
+function periodic ()
+{
+    local yearmon day wday hhmmsss datepid
+    eval `LC_ALL=C date '+yearmon=%Y%m day=%Y%m%d wday=%a hhmmss=%H%M%S'`
+    wday=${${wday%?}:l}; datepid=$day-$wday-$hhmmss.$$
+    test -d ~/.shhistories/$yearmon || {
+	mkdir -p ~/.shhistories/$yearmon
+	test -O ~/.shhistories || {
+	    command -v stat 2>/dev/null &&
+		chown `stat -c %U ~/.shhistories` ~/.shhistories/$yearmon ||
+		chown `ls -ld ~/.shhistories | awk '{ print $3 }'` \
+			~/.shhistories/$yearmon
+	}
+    }
+    test -O ~/.shhistories &&
+	HISTFILE=~/.shhistories/$yearmon/$datepid ||
+	case $USER
+	   in root)	HISTFILE=~/.shhistories/$yearmon/root
+	   ;; *)	HISTFILE=~/.shhistories/$yearmon/$datepid
+	esac
+    case $mmsg in ?*) echo; echo $mmsg; echo; esac
+}
+HISTSIZE=1280
+SAVEHIST=65536
+
+mmsg=''
+PERIOD=86400 # one day
+
+function h ()
+{
+    case $HISTFILE in *"'"*) return; esac
+    case $1 in
+	del|delete) (e=": >! '$HISTFILE'"; printf %s\\n "$e"; eval "$e") ;;
+	nohistory) SAVEHIST=0; h delete; rm "$HISTFILE"; HISTFILE= ;;
+	cat) cat "$HISTFILE" ;;
+	file) echo "'$HISTFILE'" ;;
+	[0-9-]*) fc -l -d -D "$@" ;;
+	*=*) fc -l -d -D "$@" ;;
+	'') fc -l -d -D "$@" ;;
+	*) fc -l -d -D | grep -i "$*" ;;
+    esac
+}
+
+zmodload zsh/datetime
+function _gh () (
+	d=$1; shift
+	strftime -s t %Y%m $((EPOCHSECONDS - $d * 86400))
+	cd -q $HOME/.shhistories
+	s=true
+	for n in 2*
+	do	$s || { dirs=($dirs $n); continue; }
+		if [[ $n == $t || $n > $t ]]
+		then  dirs=($n); s=false
+		fi
+	done
+	setopt rc_expand_param
+	exec grep -hi "$@" ~/.shhistories/$dirs/*[0-9](m-$d)
+	exec echo grep -hi "$@" "~/.shhistories/"$dirs"/*[0-9](m-$d)"
+)
+
+function gh () {
+	case $#
+	in  0)	echo "Usage: gh [daysback] [grep opts (-Hn etc.)] pattern..."
+		return 1
+	;;  1)	_gh 4 "$1"
+	;;  *)
+		case $1
+		in  [1-9] | [1-9][0-9] | [1-9][0-9][0-9]) _gh "$@"
+		;;  [1-9][0-9][0-9][0-9] | [1-9][0-9][0-9][0-9][0-9]) _gh "$@"
+		;;  *) _gh 4 "$@"
+		esac
+	esac
+}

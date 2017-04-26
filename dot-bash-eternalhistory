@@ -1,0 +1,68 @@
+
+# edit, then copy this content or source this from ~/.bashrc (Public Domain)
+
+# printf '%(...)T' requires bash 4.2+ (use `exec date` if older desired)
+
+printf -v HISTFILE $HOME/.shhistories/'%(%Y%m/%Y%m%d-%H%M%S)T'.$$ -1
+histdir__=${HISTFILE%/*}
+test -d "$histdir__" || mkdir "$histdir__"
+unset histdir__
+
+test "$HISTSIZE" -gt 1 || HISTSIZE=500
+#HISTCONTROL=
+
+# $ set | grep HIST
+# $ man bash ;: search HIST (especially HISTCONTROL)
+HISTFILESIZE=-1
+unset HISTTIMEFORMAT
+
+# append history immediately (after command run ?)
+case $PROMPT_COMMAND in *'history -a'*) ;; *)
+	PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }history -a"
+esac
+
+# grep history
+function gh () {
+	local a f=true d=4
+	for a
+	do	$f || { set -- "$@" "$a"; f=true; shift; continue; }
+		case $a in -e) set -- "$@" -e; f=false
+			;; -[1-9]*y) a=${a%y} d=$(( ${a#-} * 366 ))
+			;; -[1-9]*m) a=${a%m} d=$(( ${a#-} * 32 ))
+			;; -[1-9]*w) a=${a%w} d=$(( ${a#-} * 7 ))
+			;; -[1-9]*)  a=${a%d} d=${a#-}
+			;; *) set -- "$@" "$a"
+		esac
+		shift
+	done
+	case $d in *[!0-9]*) echo "'$d': not a number"; return ;; esac
+	if test $# = 0
+	then	echo "Usage: gh [-daysback] [grep options (-Hn etc.)] pattern..."
+		return 1
+	fi
+	#echo $d -- "$@" >&2; return
+	(
+		#set -x
+		cd $HOME/.shhistories
+		printf -v seconds '%(%s)T'
+		printf -v ym '%(%Y%m)T' $(( seconds - d * 86400 ))
+		#echo $seconds $ym >&2
+		set -- *
+		#echo ym: $ym // dirs: "$@" >&2
+		while test $# -gt 0
+		do	[[ "$1" < "$ym" ]] || break
+			shift
+		done
+		#echo jäi: "$@" >&2
+		if test "$1" = "$ym" && test -d "$1"
+		then	shift
+			find "$PWD/$ym" -type f -name '*[0-9]' -mtime -$d | sort
+		fi
+		for dir
+		do	test -d "$dir" || continue
+			echo "$PWD/$dir"/*
+		done
+	) | xargs grep -hi "$@"
+}
+
+alias h="HISTTIMEFORMAT='%d/%H:%M:%S  ' history"
