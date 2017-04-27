@@ -23,7 +23,7 @@ esac
 
 # grep history
 function gh () {
-	local a f=true d=4
+	local a f=true d=7
 	for a
 	do	$f || { set -- "$@" "$a"; f=true; shift; continue; }
 		case $a in -e) set -- "$@" -e; f=false
@@ -44,7 +44,7 @@ function gh () {
 	(
 		#set -x
 		cd $HOME/.shhistories
-		printf -v seconds '%(%s)T'
+		printf -v seconds '%(%s)T' -1
 		printf -v ym '%(%Y%m)T' $(( seconds - d * 86400 ))
 		#echo $seconds $ym >&2
 		set -- *

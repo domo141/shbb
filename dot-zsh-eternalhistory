@@ -76,12 +76,12 @@ function gh () {
 	case $#
 	in  0)	echo "Usage: gh [daysback] [grep opts (-Hn etc.)] pattern..."
 		return 1
-	;;  1)	_gh 4 "$1"
+	;;  1)	_gh 7 "$1"
 	;;  *)
 		case $1
 		in  [1-9] | [1-9][0-9] | [1-9][0-9][0-9]) _gh "$@"
 		;;  [1-9][0-9][0-9][0-9] | [1-9][0-9][0-9][0-9][0-9]) _gh "$@"
-		;;  *) _gh 4 "$@"
+		;;  *) _gh 7 "$@"
 		esac
 	esac
 }
