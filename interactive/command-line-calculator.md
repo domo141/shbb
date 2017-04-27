@@ -2,11 +2,11 @@
 alias c: simple command line calculator
 =======================================
 
-This provides command line alias `c`, which gives the following expressions
-for perl(1) to compute.
+This defines shell alias `c`, which passes the following command line
+expressions for perl(1) to evaluate and print results.
 
-output is in float, hexadecimal, octal and binary formats (fractional parts
-only in float numbers).
+Output is in float, hexadecimal, octal and binary formats (fractional
+parts printed only in float numbers).
 
 This works pretty well in most common cases; e.g:
 
@@ -42,7 +42,7 @@ ditto
 
 
 The zsh part is simple, the `noglob` prefix disables pathname expansion for
-the rest of the command line. In bash we had to do some tricks...
+the rest of the command line. For bash some tricks had to be done...
 
 
 zsh
@@ -60,7 +60,7 @@ bash
 
     reset_expansion () { local cmd="$1"; shift; "$cmd" "$@"; set +f; }
 
-### note: clobbers `$__` and resets `set -f` if set
+### note: clobbers `$__`.
 
 ### simple command-line calculator
 
