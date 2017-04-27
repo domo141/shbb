@@ -23,30 +23,32 @@ esac
 
 # grep history
 function gh () {
-	local a f=true d=7
-	for a
-	do	$f || { set -- "$@" "$a"; f=true; shift; continue; }
-		case $a in -e) set -- "$@" -e; f=false
-			;; -[1-9]*y) a=${a%y} d=$(( ${a#-} * 366 ))
-			;; -[1-9]*m) a=${a%m} d=$(( ${a#-} * 32 ))
-			;; -[1-9]*w) a=${a%w} d=$(( ${a#-} * 7 ))
-			;; -[1-9]*)  a=${a%d} d=${a#-}
-			;; *) set -- "$@" "$a"
+	case $#
+	in 0)	echo "Usage: gh [daysback] [grep opts (-Hn etc.)] pattern..."
+		return 1
+	;; 1)	set 7 "$1"
+	;; *)
+		case $1
+		in [1-9] | [1-9][0-9] | [1-9][0-9][0-9]) set -- "$@"
+		;; [1-9][0-9][0-9][0-9] | [1-9][0-9][0-9][0-9][0-9]) set -- "$@"
+		;; *) set 7 "$@"
 		esac
-		shift
-	done
-	case $d in *[!0-9]*) echo "'$d': not a number"; return ;; esac
-	if test $# = 0
-	then	echo "Usage: gh [-daysback] [grep options (-Hn etc.)] pattern..."
+	esac
+
+	case $1 in *[!0-9]*) echo "'$1': not a number"; return ;; esac
+	if test $# = 1
+	then	echo "Usage: gh [daysback] [grep options (-Hn etc.)] pattern..."
 		return 1
 	fi
-	#echo $d -- "$@" >&2; return
+	#echo "$@" >&2; return
 	(
 		#set -x
+		d=$1
 		cd $HOME/.shhistories
 		printf -v seconds '%(%s)T' -1
 		printf -v ym '%(%Y%m)T' $(( seconds - d * 86400 ))
 		#echo $seconds $ym >&2
+		set +f
 		set -- *
 		#echo ym: $ym // dirs: "$@" >&2
 		while test $# -gt 0
@@ -62,7 +64,7 @@ function gh () {
 		do	test -d "$dir" || continue
 			echo "$PWD/$dir"/*
 		done
-	) | xargs grep -hi "$@"
+	) | ( shift; exec xargs grep -hi "$@" )
 }
 
 alias h="HISTTIMEFORMAT='%d/%H:%M:%S  ' history"

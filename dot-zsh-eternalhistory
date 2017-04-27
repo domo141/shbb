@@ -55,33 +55,31 @@ function h ()
     esac
 }
 
-zmodload zsh/datetime
-function _gh () (
-	d=$1; shift
-	strftime -s t %Y%m $((EPOCHSECONDS - $d * 86400))
-	cd -q $HOME/.shhistories
-	s=true
-	for n in 2*
-	do	$s || { dirs=($dirs $n); continue; }
+function gh () {
+	case $#
+	in 0)	echo "Usage: gh [daysback] [grep opts (-Hn etc.)] pattern..."
+		return 1
+	;; 1)	set 7 "$1"
+	;; *)
+		case $1
+		in [1-9] | [1-9][0-9] | [1-9][0-9][0-9]) set -- "$@"
+		;; [1-9][0-9][0-9][0-9] | [1-9][0-9][0-9][0-9][0-9]) set -- "$@"
+		;; *) set 7 "$@"
+		esac
+	esac
+	(zmodload zsh/datetime
+	 d=$1; shift
+	 strftime -s t %Y%m $((EPOCHSECONDS - $d * 86400))
+	 cd -q $HOME/.shhistories
+	 s=true
+	 for n in 2*
+	 do	$s || { dirs=($dirs $n); continue; }
 		if [[ $n == $t || $n > $t ]]
 		then  dirs=($n); s=false
 		fi
-	done
-	setopt rc_expand_param
-	exec grep -hi "$@" ~/.shhistories/$dirs/*[0-9](m-$d)
-	exec echo grep -hi "$@" "~/.shhistories/"$dirs"/*[0-9](m-$d)"
-)
-
-function gh () {
-	case $#
-	in  0)	echo "Usage: gh [daysback] [grep opts (-Hn etc.)] pattern..."
-		return 1
-	;;  1)	_gh 7 "$1"
-	;;  *)
-		case $1
-		in  [1-9] | [1-9][0-9] | [1-9][0-9][0-9]) _gh "$@"
-		;;  [1-9][0-9][0-9][0-9] | [1-9][0-9][0-9][0-9][0-9]) _gh "$@"
-		;;  *) _gh 7 "$@"
-		esac
-	esac
+	 done
+	 setopt rc_expand_param
+	 exec grep -hi "$@" ~/.shhistories/$dirs/*[0-9](m-$d)
+	 exec echo grep -hi "$@" "~/.shhistories/"$dirs"/*[0-9](m-$d)"
+	)
 }
