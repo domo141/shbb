@@ -12,6 +12,9 @@ of shell scripts.
 
 __ shbb.org
 
+snippets.md__ is somewhat like shbb.org, but without explanations.
+
+__ snippets.md
 
 interactive shell blocks
 ------------------------
