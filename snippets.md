@@ -5,6 +5,9 @@ Snippets
 For simplicity, echo is often used to display output. In case of
 user input, use e.g. printf %s\\n ... instead.
 
+· [last argument of a function (script)](#last-argument-of-a-function-script)\
+· [drop last argument](#drop-last-argument)\
+· [redefining function](#redefining-function)
 
 last argument of a function (script)
 ------------------------------------
@@ -57,4 +60,3 @@ another:
      }
      do_it_once
      do_it_once
-
