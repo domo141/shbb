@@ -65,6 +65,10 @@ didn't work -- perhaps the original in stack overflow is so different
 that this latest version in this paragraph was unsuitable there. as
 I barely use bash, it might take some time before this is tested...)
 
+(but that perhaps should be
+`reset_expansion () { "$@"; set -- $?; set +f; return $1; }`
+-- to be tested with all possible imput)
+
 ### simple command-line calculator
 
 #### note: clobbers `$__`.
