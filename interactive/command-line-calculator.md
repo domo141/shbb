@@ -60,8 +60,13 @@ bash
 
     reset_expansion () { local cmd="$1"; shift; "$cmd" "$@"; set +f; }
 
-### note: clobbers `$__`.
+(actually, I don't know whether `reset_expansion () { "$@"; set +f; }`
+didn't work -- perhaps the original in stack overflow is so different
+that this latest version in this paragraph was unsuitable there. as
+I barely use bash, it might take some time before this is tested...)
 
 ### simple command-line calculator
+
+#### note: clobbers `$__`.
 
     alias c='case $- in *f*) __x= ;; *) __=reset_expansion; set -f ;; esac; LC_ALL=C $__ perl -e '\''shift; $x = eval qq(@ARGV); printf "%s  0x%x  0%o  %b\n", $x, $x, $x, $x'\'' _'
