@@ -73,4 +73,4 @@ I barely use bash, it might take some time before this is tested...)
 
 #### note: clobbers `$__`.
 
-    alias c='case $- in *f*) __x= ;; *) __=reset_expansion; set -f ;; esac; LC_ALL=C $__ perl -e '\''shift; $x = eval qq(@ARGV); printf "%s  0x%x  0%o  %b\n", $x, $x, $x, $x'\'' _'
+    alias c='case $- in *f*) __= ;; *) __=reset_expansion; set -f ;; esac; LC_ALL=C $__ perl -e '\''shift; $x = eval qq(@ARGV); printf "%s  0x%x  0%o  %b\n", $x, $x, $x, $x'\'' _'
