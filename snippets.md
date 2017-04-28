@@ -7,7 +7,10 @@ user input, use e.g. printf %s\\n ... instead.
 
 · [last argument of a function (script)](#last-argument-of-a-function-script)\
 · [drop last argument](#drop-last-argument)\
-· [redefining function](#redefining-function)
+· [redefining function](#redefining-function)\
+· [check whitespace characters](#check-whitespace-IFS-characters)\
+· [](#)
+
 
 last argument of a function (script)
 ------------------------------------
@@ -60,3 +63,12 @@ another:
      }
      do_it_once
      do_it_once
+
+check whitespace (IFS) characters
+---------------------------------
+
+    case $var in *["$IFS"]*) echo "whitespace!" >&2; exit 1; esac
+
+or '
+
+    case $var in *"'"*) echo "apostrophe[s] (')!" >&2; exit 1; esac
