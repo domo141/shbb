@@ -46,7 +46,7 @@ redefining function
          demonstrate_lazy_init () {
              echo doing further stuff: args "$@"
          }
-         demonstrate_lazy_init
+         demonstrate_lazy_init "$@"
      }
 
      demonstrate_lazy_init first call
