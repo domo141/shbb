@@ -16,9 +16,10 @@ shell constructs could (in most cases) be skipped (and ported whenever
 necessary (if ever)). Modern shell constructs are just so much convenient
 to use, and tested.
 
-~#!/bin/sh~ may be ~dash~, ~bash~ (linux) and something closer to ~dash~
-in bsd systems. I'd guess solaris derivatives use something ~ksh~ related.
-Android devices have something based on ~mksh~. macOS uses ~bash~ 3.2.
+~#!/bin/sh~ may be ~dash~ (linux), ~bash~ (linux) and something that works
+pretty much like ~dash~ in bsd systems. I'd guess newer solaris derivatives
+use something ~ksh~ related.  Android devices have something based on
+~mksh~. macOS uses ~bash~ 3.2.
 
 To make the shell script more robust, the next line should be:
 
@@ -55,7 +56,7 @@ In case script is bash, appending ~--posix~ to the command line gives
 chance that the developer script works more like simpler modern shells.
 That also prohibits some shell builtins to be overwritten by bash
 functions defined in environment (like ~unset () { echo rm -rf /; }~),
-which it at least a bit of a security enchancement.
+which is at least a bit of a security enchancement.
 
 
 ** ~#!/usr/bin/env~ command
