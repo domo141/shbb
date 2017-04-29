@@ -85,6 +85,52 @@ $ bash -c 'set -u; declare -a a=(); echo ${#a[*]}'
 0
 #+END_SRC
 
+* fixing script environment
+
+In year 2002 I was writing a shell script on a Solaris box. For convenience
+it had e.g. GNU coreutils software installed on /opt/gnu/bin (which was
+included in $PATH). After I got the script ready, I shipped it to another
+machine, where it -- (un)surprisingly -- failed to work properly.
+
+As all of you have guessed, the problem was using GNU extensions in the
+script. Since then I've had
+#+BEGIN_SRC
+PATH='/sbin:/usr/sbin:/bin:/usr/bin'; export PATH
+#+END_SRC
+(with some variations) in near beginning of my shell scripts...
+
+Whenever needed in some systems, the PATH= line is outcommented, but
+in general it is there.
+
+Another thing that is usually there is:
+#+BEGIN_SRC
+LANG=C LC_ALL=C; export LANG LC_ALL; unset LANGUAGE
+#+END_SRC
+
+Too bad there are no other locales than ~C~ there by default. Latest
+try was ~C.UTF-8~ but that still failed to exist on some systems.
+Previously I've set ~en_US.UTF-8~ but there is some pain points
+with e.g. ~script(1)~ printing dates in 12 hour format (awful!). I'd
+use ~en_IE.UTF-8~ but that is even more uncommon than ~C.UTF-8~.
+
+With ~C~, ~python3(1)~ suffers. With any unknown local, ~perl(1)~
+shrieks. Based on the needs I have to set the locale variables
+accordingly, change in mid-script or (sometimes) drop the setting
+altogether.
+
+Sometimes the environment variables must be set exactly: then
+the only way may be:
+
+#+BEGIN_SRC
+test ${__CLEAR_ENV} = yep ||
+    exec /usr/bin/env -i __CLEAR_ENV=yep "USER=$USER" ... /bin/sh "$0" "$@"
+unset __CLEAR_ENV
+#+END_SRC
+
+Ulimit and umask may matter. Note that in bash umask can take same symbolic
+options as chmod() but e.g. dash cannot (~dash: 1: umask: Illegal mode: umask~)
+
+
 * WIP
 
 more or less the rest of this script is work in progress -- I decided
