@@ -16,10 +16,14 @@ snippets.md__ is somewhat like shbb.org, but without explanations.
 
 __ snippets.md
 
+specifics.md__ contain constructs that don't work on all modern shells
+(at least not on dash(1) -- and something specicifs to one particular
+shell).
+
 interactive shell blocks
 ------------------------
 
-code that can be used in configuration files of interactive__ shells
+Code that can be used in configuration files of interactive__ shells
 
 (e.g. bash & zsh eternal histories)
 
@@ -38,7 +42,7 @@ __ templates
 sh-portabilitytest.sh
 ---------------------
 
-this script__ is valuable hac^H^H^H^H tool to determine which (builtin!)
+This script__ is valuable hac^H^H^H^H tool to determine which (builtin!)
 shell constructs work with which shell.
 
 __ portabilitytest/sh-portabilitytest.sh
@@ -53,5 +57,5 @@ __ portabilitytest/portabilitytest-2014-05-29-solaris10.org
 
 ------
 
-see also related (0ld, now deprecated, may be dropped in the future)
+See also related (0ld, now deprecated, may be dropped in the future)
 pictures in "pix or it didn’t happen" (hyperlink generation failed).
