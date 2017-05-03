@@ -20,6 +20,8 @@ specifics.md__ contain constructs that don't work on all modern shells
 (at least not on dash(1) -- and something specicifs to one particular
 shell).
 
+__ specifics.md
+
 interactive shell blocks
 ------------------------
 
@@ -48,7 +50,7 @@ shell constructs work with which shell.
 __ portabilitytest/sh-portabilitytest.sh
 
 now some results available
-in portabilitytest-*.org (linux__, freebsd7.1__, solaris10__).
+in portabilitytest-\*.org (linux__, freebsd7.1__, solaris10__).
 
 __ portabilitytest/portabilitytest-2014-05-21-linux.org
 __ portabilitytest/portabilitytest-2014-05-29-freebsd7.1.org

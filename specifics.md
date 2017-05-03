@@ -2,13 +2,16 @@
 Things not working on all modern shells
 =======================================
 
-Most often the common denominator is dash(1) (or e.g bsd equivalents
+Most often the common denominator is dash(1) (or e.g. bsd equivalents
 -- so let's start with such) examples:
 
 dollar-single
 -------------
 
-(notice `"'` quote switch before ${#var} in lines below.)
+e.g. `var=$'line 1\nline 2 with\ttab'`
+
+(notice `"'` quote switch before ${#var} in lines below
+ -- as an attempt to simplify presentation)
 
     $ dash -c "var=\$'\n'; printf '%s %s\n' "' ${#var} $var'
     3 $\n
@@ -20,9 +23,8 @@ dollar-single
     1
      
 
-By default zsh does not use `$IFS` to split (and to drop $IFS on)
-unquoted $variables, so there is one "extra" newline above in
-zsh output.
+By default zsh does not use `$IFS` to split (and to drop $IFS characters on)
+unquoted $variables, so there is one "extra" newline above in zsh output.
 
 [[ ]]
 -----
