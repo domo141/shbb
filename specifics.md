@@ -34,6 +34,14 @@ behaviour, have to test).
 
 todo: examples
 
+test "$var1" == "$var2"
+-----------------------
+
+To test (string) equality, the comparison operator is single `=`. Use it!
+(also as `[ "$var1" = "$var2" ]) `The test 16 (`test_eqeq`) in
+[portabilitytest](portabilitytest/portabilitytest-2014-05-21-linux.org#16_test_testeqeq)
+shows that on (linux) shells, `dash(1)` does not support double equals sign.
+
 
 using ^ to negate in case pattern
 ---------------------------------
