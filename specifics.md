@@ -51,10 +51,21 @@ is no need to use it, `[!...]` works in all modern shells. See
 ["Default deny" in snippets](snippets.md#default-deny---everything-not-explicitly-permitted-is-forbidden)
 for an example.
 
+stdout & stderr redirection
+---------------------------
+
+While convenient in `bash` and `zsh` interactive usage, `&>`
+should not be used in shell scripts, use
+
+    sh -c '(echo to-out; echo to-err >&2) >/dev/null 2>&1'
+
+instead (play by removing redirections).
+
+
 something not working in bash
 -----------------------------
 
-single command shell function:
+Single command shell function:
 
     $ dash -c 'pl () printf %s\\n "$@"; pl einz deux kol'
     einz
