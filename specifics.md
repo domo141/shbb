@@ -50,3 +50,27 @@ Does not work in dash (may even not be defined in any standard). there
 is no need to use it, `[!...]` works in all modern shells. See
 ["Default deny" in snippets](snippets.md#default-deny---everything-not-explicitly-permitted-is-forbidden)
 for an example.
+
+something not working in bash
+-----------------------------
+
+single command shell function:
+
+    $ dash -c 'pl () printf %s\\n "$@"; pl einz deux kol'
+    einz
+    deux
+    kol
+
+    $ bash -c 'pl () printf %s\\n "$@"; pl einz deux kol'
+    bash: -c: line 0: syntax error near unexpected token `printf'
+    bash: -c: line 0: `pl () printf %s\\n "$@"; pl einz deux kol'
+
+    $ zsh -c 'pl () printf %s\\n "$@"; pl einz deux kol'
+    einz
+    deux
+    kol
+
+    $ ksh -c 'pl () printf %s\\n "$@"; pl einz deux kol'
+    einz
+    deux
+    kol
