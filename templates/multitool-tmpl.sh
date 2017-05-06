@@ -88,7 +88,7 @@ cmd_sample3 () # exec me in almost empty env, and print that env
 	{ case $- in *x*) x=-x ;; *) x= ;; esac; } 2>/dev/null
 	test "${CLEAN_ENV-}" = //true// ||
 		exec env -i CLEAN_ENV=//true// HOME="$HOME" USER="$USER" \
-			/bin/sh "$0" $x $cmd "$@"
+			/bin/sh "$0" $x cmd_$cmd "$@"
 	unset CLEAN_ENV
 	{ set -x; } 2>/dev/null
 	id
@@ -111,6 +111,13 @@ cmd_source () # view source of given '$0' command
 	esac;	exec sed -n "/^cmd_$1.*(/,/^}/p" "$0"
 	exit not reached
 }
+
+case ${1-} in cmd_*)
+	cmd=${1#cmd_}; readonly cmd; shift
+	$setx && { unset setx; set -x; } || unset setx
+	cmd_"$cmd" "$@"
+	exit
+esac
 
 # ---
 
