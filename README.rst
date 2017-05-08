@@ -22,6 +22,10 @@ shell).
 
 __ specifics.md
 
+misc.md__ contains stuff that did not seem to fit elsewhere (so far...).
+
+__ misc.md
+
 interactive shell blocks
 ------------------------
 
