@@ -37,3 +37,45 @@ One could use `exec $command` (to drop that "extra" fork) in the scripts
 is effective -- with builtin commands the effect is negative -- external
 command is executed instead. In pipeline `exec` has no effect, and trying
 to do `$(exec shell_function)` will fail.
+
+
+bash seeks!
+-----------
+
+When reading from seekable file bash builtin seeks (here-doc is
+implemented using temporary file)...
+
+    strace -Te trace=read,lseek bash -c 'read line; read line; read line' <<EOF
+    line 1
+    line 2
+    EOF
+    ...
+    lseek(0, 0, SEEK_CUR)                   = 0 <0.000015>
+    read(0, "line 1\nline 2\n", 128)        = 14 <0.000020>
+    lseek(0, -7, SEEK_CUR)                  = 7 <0.000015>
+    lseek(0, 0, SEEK_CUR)                   = 7 <0.000015>
+    read(0, "line 2\n", 128)                = 7 <0.000015>
+    read(0, "", 128)                        = 0 <0.000017>
+
+Otoh, e.g. dash and zsh
+
+    strace -Te trace=read,lseek zsh -c 'read line; read line; read line' <<EOF
+    line 1
+    line 2
+    EOF
+    ...
+    read(0, "l", 1)                         = 1 <0.000018>
+    read(0, "i", 1)                         = 1 <0.000016>
+    read(0, "n", 1)                         = 1 <0.000015>
+    read(0, "e", 1)                         = 1 <0.000015>
+    read(0, " ", 1)                         = 1 <0.000015>
+    read(0, "1", 1)                         = 1 <0.000015>
+    read(0, "\n", 1)                        = 1 <0.000015>
+    read(0, "l", 1)                         = 1 <0.000015>
+    read(0, "i", 1)                         = 1 <0.000015>
+    read(0, "n", 1)                         = 1 <0.000015>
+    read(0, "e", 1)                         = 1 <0.000016>
+    read(0, " ", 1)                         = 1 <0.000015>
+    read(0, "2", 1)                         = 1 <0.000015>
+    read(0, "\n", 1)                        = 1 <0.000015>
+    read(0, "", 1)                          = 0 <0.000016>
