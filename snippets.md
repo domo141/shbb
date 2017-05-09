@@ -9,7 +9,8 @@ user input, use e.g. printf %s\\n ... instead.
 · [drop last argument](#drop-last-argument)\
 · [redefining function](#redefining-function)\
 · [check whitespace characters](#check-whitespace-IFS-characters)\
-· [printf multiple lines](#printf-multiple-lines)
+· [printf multiple lines](#printf-multiple-lines)\
+· [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)
 
 
 last argument of a function (script)
@@ -101,3 +102,19 @@ another (to stdout):
 
     set +f
     echo "Files in $PWD:"; printf '  %s\n' *
+
+
+check whether directory contains just one item
+----------------------------------------------
+
+    case ${ZSH_VERSION-} in *.*) PATH=/ emulate ksh; esac # or setopt no_nomatch
+
+    onefile=
+    onefile () {
+        test $# = 1 || return 0
+        case $1 in '*' | */'*' ) return; esac # filename '*' not supported ;/
+        onefile=$1
+    }
+    set +f
+    onefile * # also onefile subdir/* would work
+    test "$onefile" && echo $onefile || echo less or more than one file
