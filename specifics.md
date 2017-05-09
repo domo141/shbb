@@ -64,12 +64,13 @@ for an example.
 stdout & stderr redirection
 ---------------------------
 
-While convenient in `bash` and `zsh` interactive usage, `&>`
+While convenient in `bash` and `zsh` interactive usage, `&>` (or `>&`)
 should not be used in shell scripts, use
 
     sh -c '(echo to-out; echo to-err >&2) >/dev/null 2>&1'
 
-instead (play by removing redirections).
+(i.e. `>/dev/null 2>&1`, the above is test example) instead
+(play by removing redirections in the example).
 
 
 $(< file)
