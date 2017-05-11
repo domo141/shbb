@@ -8,7 +8,7 @@ user input, use e.g. printf %s\\n ... instead.
 · [last argument of a function (script)](#last-argument-of-a-function-script)\
 · [drop last argument](#drop-last-argument)\
 · [redefining function](#redefining-function)\
-· [check whitespace characters](#check-whitespace-IFS-characters)\
+· [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)
 
