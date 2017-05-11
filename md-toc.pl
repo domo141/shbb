@@ -2,7 +2,7 @@
 # -*- mode: cperl; cperl-indent-level: 4 -*-
 # $ md-toc.pl $
 
-# Output new .md content in case the TOC
+# Write new .md content in case the TOC
 # part of the input file has changed.
 # In case of file does not already have
 # TOC, it needs seed line beginning with
@@ -11,6 +11,12 @@
 use 5.8.1;
 use strict;
 use warnings;
+
+die "Usage: $0 filename\n" unless @ARGV;
+
+my $fn = $ARGV[0];
+
+die "$fn.bak exists" if -e "$fn.bak";
 
 open I, '<', $ARGV[0] or die;
 
@@ -47,7 +53,13 @@ if ($current_toc eq $new_toc) {
     print "No changes in TOC.\n";
 }
 else {
-    print @lh, $new_toc, "\n", @lr;
+    print "Renaming to '$fn.bak'\n";
+    die "Could not rename\n"
+      unless rename "$fn", "$fn.bak";
+    open O, '>', "$fn" or die;
+    print O @lh, $new_toc, "\n", @lr;
+    close O;
+    print "Wrote '$fn'\n";
 }
 exit;
 #}
