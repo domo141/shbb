@@ -10,7 +10,8 @@ user input, use e.g. printf %s\\n ... instead.
 · [redefining function](#redefining-function)\
 · [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
-· [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)
+· [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
+· [silence set +x](#silence-set-x)
 
 
 last argument of a function (script)
@@ -118,3 +119,12 @@ check whether directory contains just one item
     set +f
     onefile * # also onefile subdir/* would work
     test "$onefile" && echo $onefile || echo less or more than one file
+
+
+silence set +x
+--------------
+
+    set -x
+    : message when XTRACE on :
+    { set +x; } 2>/dev/null
+    : now quiet :
