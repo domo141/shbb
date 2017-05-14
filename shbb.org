@@ -40,6 +40,13 @@ return nonzero. The methods are e.g. ~if command; then ... fi~,
 Some commands, like ~expr~ returns nonzero in special ways, which is
 somewhat unfortunate in this context.
 
+But in some cases the nonzero exit value of the command does not cause
+the shell to exit. A non-last command in pipeline is obvious case, but
+also at least in 2 command substitution cases: command arguments
+(~printf %s\\n `false`; echo $?~) or when variable is declared with
+e.g. `export` and `readonly` (~readonly rov=`false`~) (there are more
+of these, e.g. local -- but these don't work on all modern shells...).
+
 ~set -u~ just means all variables needs to be introduced before referenced;
 with positional parameters ~${1-}~ "/fallback/" can be used when there is
 just no other suitable options.
