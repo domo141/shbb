@@ -11,7 +11,8 @@ user input, use e.g. printf %s\\n ... instead.
 · [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
-· [silence set +x](#silence-set-x)
+· [silence set +x](#silence-set-x)\
+· [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)
 
 
 last argument of a function (script)
@@ -128,3 +129,9 @@ silence set +x
     : message when XTRACE on :
     { set +x; } 2>/dev/null
     : now quiet :
+
+
+create or truncate existing to empty file
+-----------------------------------------
+
+    : > empty_file
