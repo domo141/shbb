@@ -138,6 +138,39 @@ unset __CLEAR_ENV
 Ulimit and umask may matter. Note that in bash umask can take same symbolic
 options as chmod() but e.g. dash cannot (~dash: 1: umask: Illegal mode: umask~)
 
+* command substitution
+
+Command substitution allows the output of a command to be substituted in
+place of the command name itself.
+
+There are 2 formats for command substitution; the legacy "backquoted":
+
+#+BEGIN_SRC
+`command [args]`
+#+END_SRC
+
+and the new:
+
+#+BEGIN_SRC
+$(command [args])
+#+END_SRC
+
+I like to use the `legacy` version because (whenever the command line is
+"simple"):
+
++ it looks clearer
++ it is portable to older shells
++ it works on Amigashell ;)
+
+These formats works almost the same, but not exactly. e.g.:
+
+#+BEGIN_SRC
+$ printf %s\\n `printf %s 's/\\(.\\)/\\1/'`
+s/\(.\)/\1/
+$ printf %s\\n $(printf %s 's/\\(.\\)/\\1/')
+s/\\(.\\)/\\1/
+#+END_SRC
+
 
 * WIP
 
