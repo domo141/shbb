@@ -178,16 +178,26 @@ more or less the rest of this script is work in progress -- I decided
 *not* to delete those, in case someone finds it useful...
 
 
-** saved_IFS
+** $IFS
 
-With ~$IFS~ manipulations many things can be done within shell script,
-to be able to restore /IFS/ to it's original value following lines
-can be added to the beginning of shell script (after ~set -eu~, of course)
+IFS -- the internal field separator, is a variable containing (multiple
+ascii characters) that are used to split unquoted $variables to separate
+arguments to function or command. By default it contains characteds space,
+tab and newline (in this order) (but to make things more complicated, e.g.
+zsh appends ~\0~ to this list, making e.g. extraction of single characters
+from this variable harder...)
+
+By changing contents of $IFS to something else, many things can be done
+within a shell script, to be able to restore /IFS/ to it's original value
+following lines can be added to the beginning of shell script.
 
 #+BEGIN_SRC
 saved_IFS=$IFS
 readonly saved_IFS
 #+END_SRC
+
+XXX move next content elsewere, and continue with what can be done
+with changed $IFS
 
 Note that the syntax ~readonly var=$val~ was not used; It is not portable
 to traditional shell; also that format has subtle behavior differences(*),
