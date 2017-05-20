@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Created: Wed 30 Apr 2003 11:41:13 EET too
-# Last Modified: Tue 09 May 2017 19:40:53 +0300 too
+# Last Modified: Sat 20 May 2017 11:49:37 +0300 too
 # Public Domain (this template)
 
 # This is self-extracting archive. You can use this to create new
@@ -37,7 +37,7 @@ case $0 in /*) this=$0 ;; *) this=$PWD/$0 ;; esac
 #case $0 in /*) this=$0 ;; *) this=`pwd`/$0 ;; esac
 
 mk_tmpdir () {
-	tmpdir=`exec mktemp -d _sfxa.XXXXXX`
+	tmpdir=`exec mktemp -d ${1:+$1/}_sfxa.XXXXXX`
 	trap "rm -rf $tmpdir" 0
 }
 
@@ -47,6 +47,10 @@ mk_tmpdir () {
 # This template asks more options...
 
 case ${1-} in -i) # fall through to installation part
+
+;; -l)	test $# = 1 || die "'-l' takes no arguments"
+	head -n +$SKIP "$this"
+	exit
 
 ;; -v)	test $# = 1 || die "'-v' takes no arguments"
 	tail -n +$SKIP "$this" | gzip -dc | tar -tvf -
@@ -80,9 +84,10 @@ case ${1-} in -i) # fall through to installation part
 	echo
 	echo Usage: "$0 ( -v | -i | -x )"
 	echo
-	echo ' ' -v: '' view archive content embedded in $0
+	echo ' ' -l: '' list the leading program part of $0
+	echo ' ' -v: '' view archive content appended in $0
 	echo ' ' -x: '' extract archive content embedded in $0
-	echo '      ' and
+	echo '    ' and
 	echo ' ' -i: '"install"' i.e. also do pre and post extraction commands
 	echo
 	exit
