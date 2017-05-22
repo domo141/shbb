@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Created: Wed 30 Apr 2003 11:41:13 EET too
-# Last Modified: Sat 20 May 2017 11:49:37 +0300 too
+# Last Modified: Mon 22 May 2017 20:50:21 +0300 too
 # Public Domain (this template)
 
 # This is self-extracting archive. You can use this to create new
@@ -82,7 +82,7 @@ case ${1-} in -i) # fall through to installation part
 	exit
 ;; *)
 	echo
-	echo Usage: "$0 ( -v | -i | -x )"
+	echo Usage: "$0 ( -l | -v | -x | -i )"
 	echo
 	echo ' ' -l: '' list the leading program part of $0
 	echo ' ' -v: '' view archive content appended in $0
