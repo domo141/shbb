@@ -14,7 +14,8 @@ user input, use e.g. printf %s\\n ... instead.
 · [silence set +x](#silence-set-x)\
 · [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)\
 · [test whether variable is unset](#test-whether-variable-is-unset)\
-· [test whether variable is null (empty)](#test-whether-variable-is-null-empty)
+· [test whether variable is null (empty)](#test-whether-variable-is-null-empty)\
+· [at_exit_functions](#at_exit_functions)
 
 
 last argument of a function (script)
@@ -154,3 +155,38 @@ test whether variable is null (empty)
     then
         echo "Variable 'var' is set but empty"
     fi
+
+at_exit_functions
+-----------------
+
+bash, zsh, ...
+
+    declare -a _exit_functions=()
+
+    at_exit_function () {
+        _exit_functions=($1 ${_exit_functions[@]/$1})
+    }
+
+    rm_exit_function () {
+        _exit_functions=(${_exit_functions[@]/$1})
+    }
+
+    trap 'for _fn in ${_exit_functions[@]}; do $_fn; done' 0
+
+shell w/o arrays (or array syntax is a bit different)
+
+    _exit_functions=
+
+    at_exit_function () {
+        _rm_exit_function $1
+        _exit_functions=$exit_functions' '$1
+    }
+
+    rm_exit_function () {
+        case $exit_functions
+        in *' '$1) exit_functions=${exit_functions% $1}
+        ;; *' '$1' '*) exit_functions=${exit_functions% $1 *}' '${exit_functions#* $1 }
+        esac
+    }
+
+    trap 'for _fn in $_exit_functions; do $_fn; done' 0
