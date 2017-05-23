@@ -12,7 +12,9 @@ user input, use e.g. printf %s\\n ... instead.
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
 · [silence set +x](#silence-set-x)\
-· [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)
+· [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)\
+· [test whether variable is unset](#test-whether-variable-is-unset)\
+· [test whether variable is null (empty)](#test-whether-variable-is-null-empty)
 
 
 last argument of a function (script)
@@ -135,3 +137,20 @@ create or truncate existing to empty file
 -----------------------------------------
 
     : > empty_file
+
+
+test whether variable is unset
+------------------------------
+
+    if test "${var-u1}" = u1 && test "${var-u2}" = u2
+    then
+        echo "Variable 'var' is unset"
+    fi
+
+test whether variable is null (empty)
+-------------------------------------
+
+    if test "${var:-e}" = e && test "${var-e}" = ''
+    then
+        echo "Variable 'var' is set but empty"
+    fi
