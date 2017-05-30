@@ -21,15 +21,15 @@ user input, use e.g. printf %s\\n ... instead.
 last argument of a function (script)
 ------------------------------------
 
-    eval la='$'$#
+    eval la='${'$#'}'
 
 test it:
 
-    sh -c 'fn () { eval la='\''$'\''$#; echo $la; }; fn 1st 2nd last'
+    sh -c 'fn () { eval la='\''${'\''$#'\''}'\''; echo $la; }; fn 1st 2nd last'
 
-or
+or (effectively same eval)
 
-    sh -c 'eval la='\''$'\''$#; echo $la' 0th 1st 2nd last
+    sh -c 'eval la=\$"{$#}"; echo $la' 0 1 2 3 4 5 6 7 8 9 a last
 
 
 drop last argument
