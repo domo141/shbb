@@ -15,7 +15,8 @@ user input, use e.g. printf %s\\n ... instead.
 · [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)\
 · [test whether variable is unset](#test-whether-variable-is-unset)\
 · [test whether variable is null (empty)](#test-whether-variable-is-null-empty)\
-· [at_exit_functions](#at_exit_functions)
+· [at_exit_functions](#at_exit_functions)\
+· [(exit) traps in stack](#-exit-traps-in-stack)
 
 
 last argument of a function (script)
@@ -47,6 +48,7 @@ test it (in current shell):
     l=$1; shift; for arg; do set -- "$@" "$l"; l=$arg; shift; done
     echo "$@"
 
+
 redefining function
 -------------------
 
@@ -70,6 +72,7 @@ another:
     do_it_once
     do_it_once
 
+
 check whitespace (IFS) characters
 ---------------------------------
 
@@ -85,8 +88,7 @@ both (including ")
 
 data to test the above (note: shell will exit):
 
-`var='x y'`, `var='x"y'` and `var="x'y"`.
-
+`var='x y'`, `var='x"y'` and `var="x'y"`. <!-- " -->
 
 ### Default deny - "Everything, not explicitly permitted, is forbidden":
 
@@ -148,6 +150,7 @@ test whether variable is unset
         echo "Variable 'var' is unset"
     fi
 
+
 test whether variable is null (empty)
 -------------------------------------
 
@@ -155,6 +158,7 @@ test whether variable is null (empty)
     then
         echo "Variable 'var' is set but empty"
     fi
+
 
 at_exit_functions
 -----------------
@@ -190,3 +194,38 @@ shell w/o arrays (or array syntax is a bit different)
     }
 
     trap 'for _fn in $_exit_functions; do $_fn; done' 0
+
+
+(exit) traps in stack
+---------------------
+
+one alternative to [at_exit_functions](#at_exit_functions) above; a "stack"
+of evaluable statements (separated by '; ') which can be managed by `pushtrap`
+and `poptrap` functions. the top statement can be cached to `traptop` variable
+with `settraptrop` function.
+
+    traps=
+    pushtrap () {
+            test "$traps" || trap 'set +eu; eval $traps' 0;
+            traps="$*; $traps"
+    }
+    poptrap () {
+        case $traps in *'; '*'; '*) traps=${traps#*'; '}
+                    ;; *) traps=; trap - 0
+        esac
+    }
+    settraptop () {
+            traptop=${traps%%'; '*}
+    }
+
+### some simple tests executable on shell command line
+
+    $ ( set -x && pushtrap : 1 && pushtrap : 2 && settraptop )
+
+    $ ( set -x && pushtrap : 1 && pushtrap : 2 && poptrap )
+
+    $ ( set -x && pushtrap ': 1 ;: 2' && pushtrap ': a ;: b' && pushtrap : 3
+        poptrap && poptrap )
+
+    $ ( set -x && pushtrap ': 1 ;: 2' && pushtrap ': a ;: b' && pushtrap : 3
+        poptrap && poptrap && poptrap )
