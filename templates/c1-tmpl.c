@@ -21,6 +21,7 @@
 #endif
 
 // gcc -dM -E -xc /dev/null | grep -i gnuc
+// clang -dM -E -xc /dev/null | grep -i gnuc
 #if defined (__GNUC__)
 
 // to relax, change 'error' to 'warning' -- or even 'ignored'
