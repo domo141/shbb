@@ -15,6 +15,17 @@
 
 // (Ø) public domain, like https://creativecommons.org/publicdomain/zero/1.0/
 
+// on linux: man feature_test_macros -- try ftm.c at the end of it
+// outcomment on demand...
+#define _DEFAULT_SOURCE 1
+// for older glibc's on linux (e.g. rhel 6 era)
+#define _BSD_SOURCE 1
+#define _SVID_SOURCE 1
+#define _POSIX_C_SOURCE 299809L
+#define _ATFILE_SOURCE 1
+// more extensions (less portability?)
+//#define _GNU_SOURCE 1
+
 #if 0 // change to '#if 1' whenever there is desire to see these...
 #pragma GCC diagnostic warning "-Wpadded"
 #pragma GCC diagnostic warning "-Wpedantic"
