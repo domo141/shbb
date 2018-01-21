@@ -16,7 +16,7 @@ user input, use e.g. printf %s\\n ... instead.
 · [test whether variable is unset](#test-whether-variable-is-unset)\
 · [test whether variable is null (empty)](#test-whether-variable-is-null-empty)\
 · [at_exit_functions](#at_exit_functions)\
-· [(exit) traps in stack](#-exit-traps-in-stack)
+· [(exit) traps in stack](#exit-traps-in-stack)
 
 
 last argument of a function (script)

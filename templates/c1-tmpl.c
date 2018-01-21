@@ -18,7 +18,7 @@
 // on linux: man feature_test_macros -- try ftm.c at the end of it
 // outcomment on demand...
 #define _DEFAULT_SOURCE 1
-// for older glibc's on linux (e.g. rhel 6 era)
+// for older glibc's on linux (< 2.19 -- e.g. rhel7 uses 2.17...)
 #define _BSD_SOURCE 1
 #define _SVID_SOURCE 1
 #define _POSIX_C_SOURCE 299809L
