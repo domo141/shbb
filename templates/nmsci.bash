@@ -1,16 +1,9 @@
 #!/bin/bash
-# -*- mode: shell-script; sh-basic-offset: 8; tab-width: 8 -*-
-#
-# Author: Tomi Ollila -- too ät iki piste fi
-#
-#       Copyright (c) 2018 Tomi Ollila
-#           All rights reserved
-#
-# Created: Sat 13 Jan 2018 19:21:08 EET too
-# Last modified: Sun 21 Jan 2018 22:27:07 +0200 too
 
 # numbered multi-subcommand interface
 # run this and you'll get the point..
+
+# (Ø) public domain, like https://creativecommons.org/publicdomain/zero/1.0/
 
 set -euf
 # to debug, enter bash -x thisfile ...
@@ -35,20 +28,21 @@ case ${1-}
 in '')
    echo; echo Commands available:; echo
    cmd_num=0
+   declare -A cmds=()
    add_cmd () {
+        printf '%3d: %-21s' "$1" "$2"; echo $3
         cmd_num=$((cmd_num + 1))
         test $cmd_num = $1 || die $cmd_num != $1 # internal consistency
-        printf '%3d: %-21s' "$1" "$2"; echo $3
+        test -z "${cmds[$2]-}" || die "'$2' already defined"
+        cmds[$2]=t
    }
    run_cmd () { echo; echo "Usage: ${0##*/} (#nr|name) [args]"; echo; exit; }
 ;; [0-9]*)
    cmd_num=0
    add_cmd () {
         cmd_num=$((cmd_num + 1))
-        test $cmd_num = $1 || die $cmd_num != $1 # internal consistency
         readonly -f cmd_$2
-        # since 'readonly' we do not need 'eval'
-        # some lost 'unset' protection but...
+        # since 'readonly' 'eval' not needed (set -u not in effect, though)
         readonly cmd_$1=$2
    }
    run_cmd () {
