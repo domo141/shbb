@@ -48,7 +48,7 @@ in '')
    run_cmd () {
         test $1 -le $cmd_num || die "'$1': unknown command (max $cmd_num)"
         cmd=$1; shift
-        eval cmd_'$'cmd_$cmd "$@"
+        eval cmd_'$'cmd_$cmd '"$@"'
    }
 ;; *)
    add_cmd () { :; }
@@ -80,6 +80,14 @@ cmd_estimate_disk_usage ()
         x_exec du "$@"
 }
 add_cmd 4 estimate_disk_usage 'simple wrapper for `du`'
+
+
+cmd_argtest ()
+{
+        printf 'argN: %s\n' "$@"
+}
+add_cmd 5 argtest 'test parameter expansion'
+
 
 
 run_cmd "$@"
