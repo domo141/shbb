@@ -5,7 +5,7 @@
 
 printf -v HISTFILE $HOME/.shhistories/'%(%Y%m/%Y%m%d-%H%M%S)T'.$$ -1
 histdir__=${HISTFILE%/*}
-test -d "$histdir__" || mkdir "$histdir__"
+test -d "$histdir__" || mkdir -p "$histdir__"
 unset histdir__
 
 test "$HISTSIZE" -gt 1 || HISTSIZE=500
