@@ -15,17 +15,21 @@ test $# -gt 0 || {
 	exec >&2;
 	printf '\n%s\n\n' "Usage: $0 [NAME=VALUE]... (-* | [--] command [args])"
 	printf '  %s\n' \
+	'Setup your environment, then execute $SHELL or command [args]' '' \
 	"NAME=VALUE args adds/modfies environment (like env(1))." '' \
-	"With '-*' $SHELL is executed with given options (e.g. '-i'...)" \
+	"With '-*' $SHELL (\$SHELL) is executed with given options (e.g. '-i')"\
 	"otherwise command [args], and without command env(1) -- is executed."\
 	'' \
 	"Note that the 'rc' files $SHELL may source may re-modify the" \
 	"environment this 'wrapper' creates. If that breaks the intended use" \
 	"of this, \"fix\" the related rc files accordingly, or use --no-rcs," \
 	"--posix or other options to avoid sourcing the rc files in question."\
-	''
-	echo : remove this test, and next 2 lines
-	echo : try $0 SOURCE_A=B -- \| grep SOURCE_
+	'' \
+	'If command [args] are given, command is executed without $SHELL' \
+	'so the above re-modification notice does not apply there.' ''
+
+	echo : remove these three example lines, this and next 2 lines...
+	echo : : try\; $0 SOURCE_A=B -- \| grep SOURCE_
 	echo :
 	exit 1
 }
