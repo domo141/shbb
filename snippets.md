@@ -36,18 +36,21 @@ or (effectively same eval)
 drop last argument
 ------------------
 
-    l=$1; shift; for arg; do set -- "$@" "$l"; l=$arg; shift; done
+... from "$@", but have it set in $la as as "side effect"
+
+
+    la=$1; shift; for arg; do set -- "$@" "$la"; la=$arg; shift; done
 
 or (somewhat hairier)
 
-    l=$1; shift; for _; do set -- "$@" "$l"; l=$1; shift; done
+    la=$1; shift; for _; do set -- "$@" "$la"; la=$1; shift; done
 
 test it (in current shell):
 
     set a b c d
-    l=$1; shift; for arg; do set -- "$@" "$l"; l=$arg; shift; done
+    la=$1; shift; for arg; do set -- "$@" "$la"; la=$arg; shift; done
     echo "$@"
-
+    echo "$la"
 
 redefining function
 -------------------
