@@ -47,6 +47,30 @@ also at least in 2 command substitution cases: command arguments
 e.g. `export` and `readonly` (~readonly rov=`false`~) (there are more
 of these, e.g. local -- but these don't work on all modern shells...).
 
+New to me (2021-05): The following does not cause shell to exit:
+
+~false && true~ (i.e not ~false && true || true~)
+
+Between executed commands. If ~false && true~ is last in a function
+and the caller does not handle nonzero return value of a function, shell
+will exit (i.e. ~funcall~ vs. ~funcall && :~ -- the difference with
+~funcall || :~ is that former sets ~$?~ to some nonzero value and with ~|| :~
+the ~$?~ will be zero (0)).
+
+Ok, let's sample (before short information of so important ~set -u~)
+#+BEGIN_SRC
+$ sh -ec 'fn() { false && :; }; fn; echo foo'
+zsh: exit 1     sh -ec 'fn() { false; }; fn; echo $?'
+$ sh -ec 'fn() { false; }; fn && :; echo $?'
+1
+$ sh -ec 'fn() { false; }; fn || :; echo $?'
+0
+$ sh -ec 'fn() { false && :; :; }; fn; echo $?'
+0
+
+#+END_SRC
+
+
 ~set -u~ just means all variables needs to be introduced before referenced;
 with positional parameters ~${1-}~ "/fallback/" can be used when there is
 just no other suitable options.
