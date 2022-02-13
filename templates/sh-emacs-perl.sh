@@ -2,9 +2,6 @@
 :;
 :; exec "${EMACS:-emacs}" --debug-init --load "$0" "$@"; exit
 
-;; note: many things broken after load-read-function change.
-;;       some hook to continue elsewhere (if possible) might help...
-
 (unless inhibit-startup-screen (split-window))
 
 (insert "elisp: " load-file-name)
@@ -14,21 +11,19 @@
 ;; do not do this -- as I did first: ;// (process deliberately typoed)
 ;; (call-prozezz load-file-name nil "*scratch*" nil "Hey there!")
 
-;; stop reading this file as emacs lisp code
-(setq load-read-function
-      (lambda (stream)
-        (prog1 nil (condition-case nil (read stream) ((debug error) nil)))))
+;; ref: emacsninja.com/posts/forbidden-emacs-lisp-knowledge-block-comments.html
+#@00 /* We've just seen #@00, which means "skip to end". */
 
-;; c-x c-e at the end of these lines to change modes...
+^^ emacs no longer evaluates this file ^^
+
+## c-x c-e at the end of these lines to change modes...
 ;; (cperl-mode)
-;; (emacs-lisp-mode)
+## (emacs-lisp-mode)
 ;; (sh-mode)
 
-#'` <-- these 2 chars may help for cperl-mode to work correctly (when not)
-
 #!perl
-#line 29
-#'''' 29
+#line 26
+#'''' 26
 
 use 5.10.1; # 5.10 provides say; and \K in regexps...
 use strict;
