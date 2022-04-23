@@ -1,14 +1,16 @@
 
 # edit, then copy this content or source this from ~/.bashrc (Public Domain)
 
-# printf '%(...)T' requires bash 4.2+ (use `exec date` if older desired)
+# printf '%(...)T' requires bash 4.2+ (use `date` if older desired)
 
 printf -v HISTFILE $HOME/.shhistories/'%(%Y%m/%Y%m%d-%H%M%S)T'.$$ -1
 histdir__=${HISTFILE%/*}
-test -d "$histdir__" || mkdir -p "$histdir__"
+test -d "$histdir__" || mkdir "$histdir__" 2>/dev/null ||
+	mkdir -p "$histdir__" || unset HISTFILE
+
 unset histdir__
 
-test "$HISTSIZE" -gt 1 || HISTSIZE=500
+test "${HISTSIZE:-0}" -gt 1 || HISTSIZE=500
 #HISTCONTROL=
 
 # $ set | grep HIST
@@ -68,3 +70,5 @@ function gh () {
 }
 
 alias h="HISTTIMEFORMAT='%d/%H:%M:%S  ' history"
+
+trap 'echo -n bash: exit $? \ \ ; fc -nl -1 -1' ERR
