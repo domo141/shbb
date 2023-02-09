@@ -253,7 +253,11 @@ done
 Could not find zsh option to "disable" this feature (~sh_option_letters~
 did not do it). ~emulate ksh~ does it
 
-** which..., hash... -- use ~command -v~
+** which..., hash... -- ~command -v~
+
+(New info 2023-03: zsh ~command -v~ outputs aliases as those are defined,
+and just the names of functions, so it cannot be used to find path to an
+executable for sure. That is unfortunate. (++) below.)
 
 Often, one needs to know whether a particular executable is available in
 the system. In many systems ~which~, ~hash~ and ~command -v~ could be used
@@ -270,10 +274,11 @@ The user-visible ~hash~ behaviour is exit value, being zero when command
 is found and most often nonzero when not found -- but ~ksh~ exits zero
 even command is not found.
 
-~command -v~ outputs path when found and exits nonzero when not.
-~command -v~ is just least portable. If one is using /Modern/(*) shell,
-then ~command -v~ -- shell builtin (one ~fork~ required to get result)
-is good option to resolve this problem.
+~command -v~ outputs path when found and exits nonzero when not
+-- except on zsh -- see (++) above. Therefore dropping suggestion to
+use ~command -v~ to store path of an executable (perhaps use which on zsh,
+and command -v on other shell - or use ~iwhich~ shown below). One note
+about the ~-v~ option of ~command~ on /Modern/(*) shell below.
 
 (*) http://pubs.opengroup.org/onlinepubs/009695399/utilities/command.html
 mentions that the ~-v~ option might not be available in all shells that

@@ -9,6 +9,8 @@ bash forks
 When running external command in command substition, bash seems to
 always fork at least twice. In simplest cases one would suffice.
 
+(may not be true (anymore, perhaps not with newer bash))
+
     $ ltrace -f -e trace=clone bash -c ': `/bin/true`'
     [pid 4046] --- Called exec() ---
     [pid 4046] +++ exited (status 0) +++
