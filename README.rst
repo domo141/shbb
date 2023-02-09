@@ -16,6 +16,11 @@ snippets.md__ is somewhat like shbb.org, but without explanations.
 
 __ snippets.md
 
+larger.md__ is a place for shell code that can get some things done
+in neat ways usually containing just a bit more lines than a few...
+
+__ larger.md
+
 specifics.md__ contain constructs that don't work on all modern shells
 (at least not on dash(1) -- and something specicifs to one particular
 shell).
