@@ -8,6 +8,7 @@ user input, use e.g. printf %s\\n ... instead.
 · [last argument of a function (script)](#last-argument-of-a-function-script)\
 · [drop last argument](#drop-last-argument)\
 · [redefining function](#redefining-function)\
+· ["dots to dashes"](#dots-to-dashes)\
 · [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
@@ -51,6 +52,26 @@ test it (in current shell):
     la=$1; shift; for arg; do set -- "$@" "$la"; la=$arg; shift; done
     echo "$@"
     echo "$la"
+
+
+dots to dashes
+--------------
+
+may one have a value with dots, e.g. `1.2.3.4`. one desires to change
+those dots to dashes, e.g. to get `1-2-3-4`...
+
+    dots_to_dashes () {
+        saved_IFS=$IFS; IFS=.; set -- $1;
+        IFS=-; dashed=$*; IFS=$saved_IFS; unset saved_IFS
+    }
+    # the version where (readonly) $saved_IFS is available
+    # dots_to_dashes () { IFS=.; set -- $1; IFS=-; dashed=$*; IFS=$saved_IFS; }
+    dots_to_dashes 1.2.3.4
+    echo "$dashed"
+
+works w/ any one character, be it 'dot' or 'dash' to be changed; adjust
+your target var, or eval it to a var if more generic function desired
+
 
 redefining function
 -------------------
