@@ -1,5 +1,7 @@
 #!/bin/sh
 # -*- mode: shell-script; sh-indentation: 8; tab-width: 8 -*-
+#
+# SPDX-License-Identifier: Unlicense
 
 case ~ in '~') echo "'~' does not expand. old /bin/sh?" >&2; exit 1; esac
 
@@ -18,8 +20,7 @@ saved_IFS=$IFS
 readonly saved_IFS
 
 warn () { printf %s\\n "$*"; } >&2
-die ()  { printf %s\\n "$*"; exit 1; } >&2
-diev () { printf %s\\n "$@"; exit 1; } >&2
+die () { printf %s\\n "$@"; exit 1; } >&2
 
 x () { printf '+ %s\n' "$*" >&2; "$@"; }
 x_env () { printf '+ %s\n' "$*" >&2; env "$@"; }
@@ -32,7 +33,7 @@ case ${1-} in -x) setx=true; shift ;; *) setx=false ;; esac
 
 # -- "uid 0" block -- remove in scripts where not needed --
 
-u0_test ()
+u0_chroot ()
 {
 	die () { exit 1; }
 	set -x
@@ -40,18 +41,14 @@ u0_test ()
 	: "take extra care writing these, for e.g sudo NOPASSWD usage" :
 	: $# -all unused- args: "$@"
 	id
-	if command -v docker >/dev/null
-	then	{ fmt='{{.CreatedAt}}  {{.Repository}}:{{.Tag}}'; } 2>/dev/null
-		docker images --format "$fmt" || die systemctl start docker '?'
-		:; docker ps -a --format '{{.CreatedAt}}  {{.Names}}'
-	fi
+	exec chroot "$@"
 }
 
 u0_another () { : unused so far... :
 }
 
 case ${1-} in u0_*)
-	case ' u0_test u0_another ' in *" $1 "*)
+	case ' u0_chroot u0_another ' in *" $1 "*)
 		u0=$1; readonly $u0; shift
 		$setx && { unset setx; set -x; } || unset setx
 		$u0 "$@"
@@ -77,9 +74,9 @@ cmd_test1 () # simple test (or it originally was)
 	x uptime
 }
 
-cmd_example2 () # demo wrapped sudo execution
+cmd_chroot2 () # demo wrapped sudo execution
 {
-	x sudo /bin/sh "$0" u0_test "$@"
+	x sudo /bin/sh "$0" u0_chroot "$@"
 	:
 }
 
@@ -123,7 +120,7 @@ esac
 
 case ${1-} in '')
 	echo
-	echo Usage: $0 '<command> [args]'
+	echo Usage: $0 '{command} [args]'
 	echo
 	echo $0 commands available:
 	echo
