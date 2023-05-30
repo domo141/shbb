@@ -26,15 +26,15 @@ x_exec () { printf '+ %s\n' "$*" >&2; exec "$@"; die "exec '$*' failed"; }
 #test $# -gt 0 || die "Usage: ${0##*/} ..."
 
 test $# = 0 && { exec >&2; echo
-        echo "Usage: ${0##*/} command [args]"
-        echo
-        echo Commands:
+	echo "Usage: ${0##*/} command [args]"
+	echo
+	echo Commands:
 	exec awk -v c="${0##*/}" '/^case .cmd/ {
 		sub(".* in ", "");sub("^[^)]*[|]", "")
 		sub(")", ""); printf "  %-9s %s\n", $0, pl; next }
 	 { sub("# ", ""); sub("%0", c); pl = $0 }
 	 END { print "\nSome '\'command\''s may be abbreviated.\n" }' "$0"
-        exit not reached
+	exit not reached
 }
 
 cmd=$1; shift;
@@ -49,6 +49,7 @@ case $cmd in dd)
 	x_exec dd ${if:+if="$if"} ${of:+of="$of"} bs=65536 status=progress "$@"
 	exit not reached
 esac
+
 
 # clear screen, stty sane
 case $cmd in cls)
@@ -88,7 +89,6 @@ case $cmd in pngsh|pngshr|pngshri|pngshrin|pngshrink)
 	x_exec mv "$ofile.wip" "$ofile"
 	exit not reached
 esac
-
 
 
 # view source of given '%0' command
