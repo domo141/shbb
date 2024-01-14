@@ -18,10 +18,10 @@ SHELL = /bin/dash
 
 override MAKEFILE := $(MAKEFILE_LIST)  # hint: make -pn -f /dev/null
 
-# utf-8 middle dot (0xb7)
+# utf-8 middle dot (\u00b7)
 override P := ·
 #override P := ?
-.DEFAULT_GOAL: $Phelp
+.DEFAULT_GOAL: $Phelp$P
 
 override CMD := $(firstword $(MAKECMDGOALS))
 ifdef CMD
@@ -29,6 +29,8 @@ override ARGS := $(wordlist 2, 9999, $(MAKECMDGOALS))
 .PHONY: $(ARGS)
 endif
 
+# fyi: more .PHONYs, less *stat(2)s
+.PHONY: $(CMD) $P$(CMD)$P
 $(CMD): $P$(CMD)$P
 
 override define sh :=
