@@ -11,8 +11,8 @@
 
 .ONESHELL: # gnu make >= 3.82 feature
 SHELL = /bin/dash
-.SHELLFLAGS = -euc
-#.SHELLFLAGS = -xeuc
+.SHELLFLAGS = -eufc
+#.SHELLFLAGS = -xeufc
 .NOTPARALLEL:
 .SILENT:
 
