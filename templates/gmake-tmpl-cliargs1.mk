@@ -11,8 +11,8 @@
 # but if any of those are added on command line after first goal,
 # those will be .phonified (and (re)made if no errors before...).
 
-# first target in command line "made". rest cli args as args for it,
-# and after that rest targets made no-ops (early exit 0 shell exit)
+# compared to *-cliargs0 one can execute some "phony targets" first,
+# and if any left then first as command and rest args for it
 
 # strace hints:
 ## strace make ... s ... 2>&1 | grep stat
@@ -34,24 +34,26 @@ override MAKEFILE := $(MAKEFILE_LIST)# hint: make -pn -f /dev/null
 # fyi: more .PHONYs, less *stat(2)s
 .PHONY: $(MAKEFILE)
 
-#$(error $(MAKECMDGOALS))
-override CMD := $(firstword $(MAKECMDGOALS))
-ifdef CMD
-override ARGS := $(wordlist 2, 9999, $(MAKECMDGOALS))
-ifdef ARGS
-.PHONY: $(filter-out $(CMD), $(ARGS))
-$(filter-out $(CMD), $(ARGS)): prexit0
-endif
-endif
+# utf-8 middle dot (\u00b7)
+override P := ·
+#override P := ?
+rcip ?=
+override FOTS :=
 
-.DEFAULT_GOAL = help
-.PHONY: prexit0
-prexit0: ; $(eval override .VARIABLES :=)
-# using .VARIABLES is hack to "disable" vars.
+override define cmd_and_args =
+override rcip := $P$(strip $1)$P
+.PHONY: $1 $(rcip)
+endef
 
-# for recipes (note: deferred)
-override define sh =
-test '$(.VARIABLES)' || exit 0
+override define phony_target =
+override rcip := $P$(strip $1)$P
+.PHONY: $1 $(rcip)
+override FOTS += $1
+endef
+# define for phonyless target useless...
+
+# for recipes (note: immediate)
+override define sh :=
 #set -x
 die () { printf '%s\n' '' "$$@" ''; exit 1; } >&2
 x () { printf '+ %s\n' "$$*" >&2; "$$@"; }
@@ -61,23 +63,41 @@ endef
 
 # a few simple sample functions
 
-.PHONY: help
-help:   # helep
-	$(sh)
+$(eval $(call phony_target, help ))
+$(rcip):
 	echo Commands:
 #	#set -x
-	sed -n '/^[a-z][^ ]*:/ { s/^/  /; s/#//p; }' '$(MAKEFILE)'
+	awk '$$1 == "$$(eval" { C = $$4 }
+		/^\$$\(rcip.*#/ { sub(".*#",""); printf "  %-6s %s\n",C,$$0 }'\
+	$(MAKEFILE)
 	printf %s\\n '' 'Note: recipes may "eval" code in args...' ''
 
-.PHONY: echo
-echo:   # echo args
-	$(sh)
-	test '$(ARGS)' || die 'No args'
-	set -- $(ARGS) # example; could have used this in place of $$@ below
-	echo $$# - "$$@"
+# note: if these kept, e.g. `make source build` will also make `build`.
+#       such things could be handled like gmake-tmpl-cliargs0.mk do...
+build:
+	set -x
+	mkdir $@
 
-.PHONY: mkwt
-mkwt:   # make worktree from commit (for temporary use, execute in repo root)
+build/true: | build
+	$(sh)
+	x_eval ':> $@'
+	x chmod 755 $@
+
+$(eval $(call cmd_and_args, b ))
+$(rcip): build/true
+$(rcip): # build build/true ("touch")
+	echo all done for $@
+
+$(eval $(call phony_target, clean ))
+$(rcip):
+	set -x
+	rm -rf build
+
+$(eval $(call cmd_and_args, rb ))
+$(rcip):    $Pclean$P $Pb$P ## rebuild build/true
+
+$(eval $(call cmd_and_args, mkwt ))
+$(rcip): # make worktree from commit (for temporary use, execute in repo root)
 	$(sh)
 	test -d .git || die "$$PWD/.git: no such directory"
 	test -h .git && die "$$PWD/.git: is a symbolic link"
@@ -90,8 +110,8 @@ mkwt:   # make worktree from commit (for temporary use, execute in repo root)
 	test -d $$dir && die "'$$dir' exists. remove for rebuild"
 	x git worktree add $$dir "$$cref"
 
-.PHONY: prwt
-prwt:   # prune worktrees (created by mkwt)
+$(eval $(call cmd_and_args, prwt ))
+$(rcip): # prune worktrees (created by mkwt)
 	$(sh)
 	test -d .git || die "$$PWD/.git: no such directory"
 	test -h .git && die "$$PWD/.git: is a symbolic link"
@@ -103,25 +123,53 @@ prwt:   # prune worktrees (created by mkwt)
 	x rm -rf $(ARGS)
 	x_exec git worktree prune -v
 
-.PHONY: ls
-ls:     # list filez (not very useful) (fyi: e.g. "'-l'" gets thru as '-l')
-	$(sh)
-	set -x
-	exec ls $(ARGS)
-
-.PHONY: vars.
-vars.:  # list make .VARIABLES
+# hidden, due to no # in rcip line, shows in source if one knows to give it
+$(eval $(call phony_target, vars. ))
+$(rcip):
 	$(foreach v,$(.VARIABLES),$(info $(origin $v) $(flavor $v) $v = $($v)))
 
-.PHONY: source
-source: # show code of any of the commands listed here
-	$(sh)
+$(eval $(call cmd_and_args, source ))
+$(rcip): # show code of any of the commands listed here
 	echo
 	e=
 	for a in $(ARGS)
-	do e=$$e"/^$$a"':/,/^$$/p;'
+	do e=$$e"/eval.*, $$a/,"'/^$$/p;'
 	done
 	exec sed -n "$$e" '$(MAKEFILE)'
+
+# -----
+
+.PHONY: .cmdone.
+.cmdone.: ; $(eval override FOTS :=)
+
+override define cmdone =
+ifneq ($(FOTS),)
+$$(error '$(subst $P,,$1)': command/target not found)
+endif
+endef
+
+#DEFAULT: ; $(info $(call cmdone,$@))
+.DEFAULT: ; $(eval $(call cmdone,$@))
+
+# recursively set args after cmd, fyi: $(info $(call ... used to figure out $$s
+override define setargs =
+ifeq ($(CMD),$(firstword $1))
+ARGS := $$(wordlist 2, 9999, $1)
+else
+$(eval $(firstword $1): $P$(firstword $1)$P)
+$$(eval $$(call setargs, $(wordlist 2, 9999, $1)))
+endif
+endef
+
+override CMD := $(firstword $(filter-out $(FOTS), $(MAKECMDGOALS)))
+ifdef CMD
+#(info $(call setargs, $(MAKECMDGOALS)))
+$(eval $(call setargs, $(MAKECMDGOALS)))
+.PHONY: $(CMD)
+$(CMD): $P$(CMD)$P .cmdone.
+else
+$(foreach var, $(FOTS), $(eval $(var): $P$(var)$P))
+endif
 
 # Local variables:
 # mode: makefile
