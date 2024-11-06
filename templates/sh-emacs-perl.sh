@@ -1,6 +1,17 @@
 #!/bin/sh
-:;
-:; exec "${EMACS:-emacs}" --debug-init --load "$0" "$@"; exit
+#@0
+
+set -euf
+exec "${EMACS:-emacs}" --debug-init --load "$0" "$@"
+exit not reached
+
+ ;; <- \037 -- see ref: emacsninja.com/... in line 24 below
+
+:; exec "${EMACS:-emacs}" --debug-init --load "$0" "$@"; exit (not reached)
+
+;; for short sh part, could just have used something like the line above...
+;; ^^colon : (emacs/shell "null" command) & ; (emacs comment pfx/shell cmd sep)
+;; ...instead of the #@0 ... \037 () block (and \037 "confuses" file(1))
 
 (unless inhibit-startup-screen (split-window))
 
@@ -22,8 +33,8 @@
 ;; (sh-mode)
 
 #!perl
-#line 26
-#'''' 26
+#line 37
+#'''' 37
 
 use 5.10.1; # 5.10 provides say; and \K in regexps...
 use strict;
