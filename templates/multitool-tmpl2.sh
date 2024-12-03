@@ -4,6 +4,9 @@
 #
 # SPDX-License-Identifier: Unlicense
 
+# If dropped the $# = 0 case I'd use this when need to be more "careful"
+# otherwise, multitool-tmpl3.sh is the way to go these days...
+
 case ${BASH_VERSION-} in *.*) set -o posix; shopt -s xpg_echo; esac
 case ${ZSH_VERSION-} in *.*) emulate ksh; esac
 

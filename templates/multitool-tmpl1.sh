@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: Unlicense
 
+# This looks so old these days - I practically always use the tmpl3 in new one
+
 case ~ in '~') echo "'~' does not expand. old /bin/sh?" >&2; exit 1; esac
 
 case ${BASH_VERSION-} in *.*) set -o posix; shopt -s xpg_echo; esac
