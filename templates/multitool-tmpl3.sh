@@ -144,6 +144,61 @@ cmd_cwds ()
 		print pid "\t" $10 "\t" cmd }'
 }
 
+# last -- too wide but works here (made later than the simpler one below)
+cmds=$cmds'
+cmd_cmdcols_sample demo the options for showing cmd names in columns...'
+cmd_cmdcols_sample ()
+{
+	test -t 1 && echo "try also: $0 $cmd | sed 's/$/$/' | less"
+
+	echo
+	echo The code in this sample function
+	IFS='
+';	set -- $cmds # xx x x x x
+	rows=$((($# + 4) / 5))
+	cols=$((($# + ($rows - 1)) / $rows))
+	#echo argc $# - rows $rows - cols $cols
+	echo
+	c=0; while test $c -lt $rows; do eval r$c="'  '"; c=$((c + 1)); done
+	c=0; i=0; l=0; s=
+	for arg
+	do arg=${arg%% *}; arg=${arg#cmd_}
+	   test ${#arg} -gt $l && l=${#arg}
+	   s=$s$IFS$arg
+	   c=$((c + 1)); c=$((c % rows))
+	   if test $c = 0
+	   then for arg in $s
+		do test $i -lt $(($# - rows)) && {
+			d=$((l - ${#arg} + 3))
+			test $((d & 8)) = 8 && arg=$arg'        '
+			test $((d & 4)) = 4 && arg=$arg'    '
+			test $((d & 2)) = 2 && arg=$arg'  '
+			test $((d & 1)) = 1 && arg=$arg' '
+		   }
+		   eval r$c='$r'$c'$arg'
+		   #printf '%2d - %d  |%s|\n' $i $c $arg
+		   i=$((i + 1)); c=$((i % rows))
+		done
+		l=0; s=
+	   fi
+	done
+	c=0; for arg in $s; do eval r$c='$r'$c'$arg'; c=$((c + 1)); done
+	#as $IFS is \n, no need to quote \$r$c
+	c=0; while test $c -lt $rows; do eval echo \$r$c; c=$((c + 1)); done
+	echo
+	echo perl -x "$0" cmdcols
+	echo
+	perl -x "$0" cmdcols
+	echo
+	echo 'echo "$cmds" | sed '\''s/ .*//; s/cmd_/  /'\'' | column'
+	echo
+	echo "$cmds" | sed 's/ .*//; s/cmd_/  /' | column
+	echo
+	echo and, /bin/sh "$0"
+	exec /bin/sh "$0"
+	exit 0
+}
+
 # ---
 
 ifs=$IFS; readonly ifs
@@ -223,8 +278,7 @@ unset cc cp cm
 cmd'_'$cmd "$@"
 exit
 
-# -v- unused but could be used -v- see #perl -x "$0" cmdcols above
-#
+
 #!perl
 #line 219
 #---- 219
@@ -252,8 +306,8 @@ if ($ARGV[0] eq 'cmdcols') {
 		$w = length $cmds[$i+$c*4];  $ws[4] = $w if $w > $ws[4];
 	}
 	for (my $i = 0; $i < $c; $i++) {
-		printf  " %-$ws[0]s   %-$ws[1]s   %-$ws[2]s  " .
-			" %-$ws[3]s   %-$ws[4]s\n", $cmds[$i],
+		printf  "  %-$ws[0]s   %-$ws[1]s   %-$ws[2]s  " .
+			"  %-$ws[3]s   %-$ws[4]s\n", $cmds[$i],
 			$cmds[$i+$c], $cmds[$i+$c*2],
 			$cmds[$i+$c*3], $cmds[$i+$c*4]
 	}
