@@ -297,7 +297,7 @@ if ($ARGV[0] eq 'cmdcols') {
 	close I;
 	my @ws = (0, 0, 0, 0, 0);
 	my $cc = scalar @cmds; my $c = int(($cc + 4) / 5);
-	push @cmds, ""; push @cmds, ""; push @cmds, ""; push @cmds, "";
+	push @cmds, ('','','','','');
 	for (my $i = 0; $i < $c; $i++) {
 		my $w = length $cmds[$i];    $ws[0] = $w if $w > $ws[0];
 		$w = length $cmds[$i+$c];    $ws[1] = $w if $w > $ws[1];
@@ -306,10 +306,12 @@ if ($ARGV[0] eq 'cmdcols') {
 		$w = length $cmds[$i+$c*4];  $ws[4] = $w if $w > $ws[4];
 	}
 	for (my $i = 0; $i < $c; $i++) {
-		printf  "  %-$ws[0]s   %-$ws[1]s   %-$ws[2]s  " .
-			"  %-$ws[3]s   %-$ws[4]s\n", $cmds[$i],
-			$cmds[$i+$c], $cmds[$i+$c*2],
-			$cmds[$i+$c*3], $cmds[$i+$c*4]
+		$_ = sprintf(
+			"  %-$ws[0]s   %-$ws[1]s   %-$ws[2]s   %-$ws[3]s   %-$ws[4]s",
+			$cmds[$i], $cmds[$i+$c], $cmds[$i+$c*2],
+			$cmds[$i+$c*3], $cmds[$i+$c*4]);
+		s/\s+$//;
+		print $_, "\n";
 	}
 	exit
 }
