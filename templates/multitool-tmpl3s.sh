@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# multitool-tmpl3.sh -- perhaps the best of these in multitool-tmpl series
+# multitool-tmpl3s.sh -- multitool-tmpl3.sh w/o default cmdcols
 #
 # SPDX-License-Identifier: Unlicense
 #
@@ -144,10 +144,9 @@ cmd_cwds ()
 		print pid "\t" $10 "\t" cmd }'
 }
 
-# last -- too wide but works here (made later than the simpler one below)
 cmds=$cmds'
-cmd_cmdcols_sample demo the options for showing cmd names in columns...'
-cmd_cmdcols_sample ()
+cmd_cmdcols the cmds in this file shown in columns in 2 ways'
+cmd_cmdcols ()
 {
 	test -t 1 && echo "try also: $0 $cmd | sed 's/$/$/' | less"
 
@@ -186,17 +185,12 @@ cmd_cmdcols_sample ()
 	#as $IFS is \n, no need to quote \$r$c
 	c=0; while test $c -lt $rows; do eval echo \$r$c; c=$((c + 1)); done
 	echo
-	echo perl -x "$0" cmdcols
-	echo
-	perl -x "$0" cmdcols
-	echo
 	echo 'echo "$cmds" | sed '\''s/ .*//; s/cmd_/  /'\'' | column'
 	echo
 	echo "$cmds" | sed 's/ .*//; s/cmd_/  /' | column
 	echo
-	echo and, /bin/sh "$0"
-	exec /bin/sh "$0"
-	exit 0
+	echo more versions in multitool-tmpl3.sh ...
+	exit
 }
 
 # ---
@@ -208,38 +202,7 @@ test $# = 0 && {
 	echo
 	echo Usage: $0 '{command} [args]'
 	echo
-	echo Commands of $bn0 "('.' to list, '.. cmd(pfx)' to view source):"
-	echo
-	# 2 outcommented alternatives to the fork(2)less shell implementation
-	#echo "$cmds" | sed 's/ .*//; s/cmd_/  /' | column
-	#perl -x "$0" cmdcols
-	set -- $cmds # xx x x x x
-	rows=$((($# + 4) / 5))
-	cols=$((($# + ($rows - 1)) / $rows))
-	#echo argc $# - rows $rows - cols $cols
-	c=0; while test $c -lt $rows; do eval r$c="'  '"; c=$((c + 1)); done
-	c=0; i=0
-	for arg
-	do arg=${arg%% *}; arg=${arg#cmd_}
-	   test $i -lt $(($# - rows)) && {
-	      # one ' ' less than '?'s can handle cmd that has just 1 char
-	      arg=$arg'          '; arg=${arg%${arg#???????????}}; } # 10, 11
-	   eval r$c='$r'$c'$arg'
-	   #printf '%2d - %d  |%s|\n' $i $c $arg
-	   i=$((i + 1)); c=$((i % rows))
-	done
-	#as $IFS is \n, no need to quote \$r$c
-	c=0; while test $c -lt $rows; do eval echo \$r$c; c=$((c + 1)); done
-	echo
-	echo Command can be abbreviated to any unambiguous prefix.
-	echo
-	exit 0
-}
-cm=$1; shift
-
-case $#/$cm
-in 0/.)
-	# in a multitool w/ just a few commands this can be above when $# = 0
+	echo Commands " ($bn0 '..' cmd(pfx) to view source):"
 	set -- $cmds
 	IFS=' '
 	echo
@@ -248,15 +211,20 @@ in 0/.)
 		printf ' %-9s  %s\n' $cmd "$*"
 	done
 	echo
-	exit
-;; 1/..)
+	echo Command can be abbreviated to any unambiguous prefix.
+	echo
+	exit 0
+}
+cm=$1; shift
+
+case $#/$cm
+in 1/..)
 	set +x
 	# $1 not sanitized but that should not be too much of a problem...
 	exec sed -n "/^cmd_$1/,/^}/p; \${g;p}" "$0"
-;; */.) cm=$1; shift
 ;; */..) cmd=..; usage cmd-prefix
 
-#;; */d) cm=diff
+#;;	*/d) cm=diff
 esac
 
 cc= cp=
@@ -277,41 +245,3 @@ unset cc cp cm
 #set -x
 cmd'_'$cmd "$@"
 exit
-
-
-#!perl
-#line 284
-#---- 284
-
-use 5.8.1;
-use strict;
-use warnings;
-
-if ($ARGV[0] eq 'cmdcols') {
-	open I, '<', $0 or die $!;
-	my @cmds;
-	while (<I>) {
-		next unless /^cmd_(\S+)\s[^(]+\w/;
-		push @cmds, $1
-	}
-	close I;
-	my @ws = (0, 0, 0, 0, 0);
-	my $cc = scalar @cmds; my $c = int(($cc + 4) / 5);
-	push @cmds, ('','','','','');
-	for (my $i = 0; $i < $c; $i++) {
-		my $w = length $cmds[$i];    $ws[0] = $w if $w > $ws[0];
-		$w = length $cmds[$i+$c];    $ws[1] = $w if $w > $ws[1];
-		$w = length $cmds[$i+$c*2];  $ws[2] = $w if $w > $ws[2];
-		$w = length $cmds[$i+$c*3];  $ws[3] = $w if $w > $ws[3];
-		$w = length $cmds[$i+$c*4];  $ws[4] = $w if $w > $ws[4];
-	}
-	for (my $i = 0; $i < $c; $i++) {
-		$_ = sprintf(
-			"  %-$ws[0]s   %-$ws[1]s   %-$ws[2]s   %-$ws[3]s   %-$ws[4]s",
-			$cmds[$i], $cmds[$i+$c], $cmds[$i+$c*2],
-			$cmds[$i+$c*3], $cmds[$i+$c*4]);
-		s/\s+$//;
-		print $_, "\n";
-	}
-	exit
-}
