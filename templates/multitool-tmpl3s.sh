@@ -230,10 +230,10 @@ esac
 cc= cp=
 for m in $cmds
 do
-	m=${m#cmd_}; m=${m%% *}
+	m=${m%% *}; m=${m#cmd_}
 	case $m in
 		$cm) cp= cc=1 cmd=$cm; break ;;
-		$cm*) cp=$cc; cc="$m $cc"; cmd=$m ;;
+		$cm*) cp=$cc; cc=$m${cc:+, $cc}; cmd=$m
 	esac
 done
 IFS=$ifs
