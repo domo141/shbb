@@ -163,6 +163,7 @@ cmd_cmdcols_sample ()
 	c=0; i=0; l=0; s=
 	for arg
 	do arg=${arg%% *}; arg=${arg#cmd_}
+	   case $arg in *_*) arg=${arg%_*}-${arg#*_}; esac
 	   test ${#arg} -gt $l && l=${#arg}
 	   s=$s$IFS$arg
 	   c=$((c + 1)); c=$((c % rows))
@@ -190,9 +191,9 @@ cmd_cmdcols_sample ()
 	echo
 	perl -x "$0" cmdcols
 	echo
-	echo 'echo "$cmds" | sed '\''s/ .*//; s/cmd_/  /'\'' | column'
+	echo 'echo "$cmds" | sed '\''s/ .*//; s/cmd_/  /; y/_/-/'\'' | column'
 	echo
-	echo "$cmds" | sed 's/ .*//; s/cmd_/  /' | column
+	echo "$cmds" | sed 's/ .*//; s/cmd_/  /; y/_/-/' | column
 	echo
 	echo and, /bin/sh "$0"
 	exec /bin/sh "$0"
@@ -221,6 +222,7 @@ test $# = 0 && {
 	c=0; i=0
 	for arg
 	do arg=${arg%% *}; arg=${arg#cmd_}
+	   case $arg in *_*) arg=${arg%_*}-${arg#*_}; esac
 	   test $i -lt $(($# - rows)) && {
 	      # one ' ' less than '?'s can handle cmd that has just 1 char
 	      arg=$arg'          '; arg=${arg%${arg#???????????}}; } # 10, 11
@@ -245,6 +247,7 @@ in 0/.)
 	echo
 	for cmd
 	do	set -- $cmd; cmd=${1#cmd_}; shift
+		case $cmd in *_*) cmd=${cmd%_*}-${cmd#*_}; esac
 		printf ' %-9s  %s\n' $cmd "$*"
 	done
 	echo
@@ -257,8 +260,8 @@ in 0/.)
 ;; */..) cmd=..; usage cmd-prefix
 
 #;; */d) cm=diff
-#;; *-*-*) die "'$cm' with too many '-'s"
-#;; *-*) cm=${cm%-*}_${cm#*-}
+;; *-*-*) die "'$cm' with too many '-'s"
+;; *-*) cm=${cm%-*}_${cm#*-}
 esac
 
 cc= cp=
@@ -294,7 +297,8 @@ if ($ARGV[0] eq 'cmdcols') {
 	my @cmds;
 	while (<I>) {
 		next unless /^cmd_(\S+)\s[^(]+\w/;
-		push @cmds, $1
+		$_ = $1; tr/_/-/;
+		push @cmds, $_
 	}
 	close I;
 	my @ws = (0, 0, 0, 0, 0);

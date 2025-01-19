@@ -208,6 +208,7 @@ test $# = 0 && {
 	echo
 	for cmd
 	do	set -- $cmd; cmd=${1#cmd_}; shift
+		case $cmd in *_*) cmd=${cmd%_*}-${cmd#*_}; esac
 		printf ' %-9s  %s\n' $cmd "$*"
 	done
 	echo
