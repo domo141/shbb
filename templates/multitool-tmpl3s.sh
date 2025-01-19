@@ -224,7 +224,9 @@ in 1/..)
 	exec sed -n "/^cmd_$1/,/^}/p; \${g;p}" "$0"
 ;; */..) cmd=..; usage cmd-prefix
 
-#;;	*/d) cm=diff
+#;; */d) cm=diff
+#;; *-*-*) die "'$cm' with too many '-'s"
+#;; *-*) cm=${cm%-*}_${cm#*-}
 esac
 
 cc= cp=
