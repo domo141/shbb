@@ -151,7 +151,7 @@ done
 
 case $cc in '') echo $0: $cm -- command not found.; exit 1
 esac
-case $cp in '') ;; *) echo $0: $cm -- ambiguous command: matches $cc; exit 1
+case $cp in '') ;; *) echo $0: $cm -- ambiguous command: matches $cc.; exit 1
 esac
 unset cc cp cm
 readonly cmd

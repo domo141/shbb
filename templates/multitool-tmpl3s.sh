@@ -242,7 +242,7 @@ done
 IFS=$ifs
 
 test "$cc" || die "$0: $cm -- command not found."
-test "$cp" && die "$0: $cm -- ambiguous command: matches $cc"
+test "$cp" && die "$0: $cm -- ambiguous command: matches $cc."
 
 unset cc cp cm
 #set -x
