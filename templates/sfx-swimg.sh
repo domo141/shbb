@@ -33,8 +33,8 @@ x_exec () { printf '+ %s\n' "$*" >&2; exec "$@"; exit not reached; }
 
 if test $# = 0
 then
-	die "Usage: ${0##*/} options... (try --)" '' \
-	    "(drop this sample check if no-opt execution is good...)"
+	die "Usage: ${0##*/} options... (try --) (or ifile ofile)" '' \
+	    "(drop/update this sample check to match usage)"
 fi
 
 # more sample checks...
@@ -122,7 +122,7 @@ in -s-)  test $# = 1 || die "No args for '-s'"
 	exit 1
 esac
 
-# Continue here is no sfx hints/ops to be done...
+# Continue here when no sfx hints/opts (in sample case above) to be done...
 
 mk_tmpdir
 tail -n +$SKIP "$this" | $zx -dc | tar -C $tmpdir -xf -
@@ -149,7 +149,7 @@ rm -rf $tmpdir
 x_exec md5sum "$1" "$2"
 
 exit
-# .zst is "dumb" suffix in this case as zstd used above.
-# content.tar.gz or content.tar.xz were also possible.
+# .zst is kinda "dumb" suffix in this particular case as $zstd used above.
+# content.tar.gz or content.tar.xz are also possible.
 # make sure there is just one \n after the .gz, .xz or .zst suffix before EOF
 content.tar.zst
