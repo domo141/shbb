@@ -12,7 +12,7 @@ user input, use e.g. printf %s\\n ... instead.
 · [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
-· [check all args are files](#check-all-args-are-files)
+· [check all args are files](#check-all-args-are-files)\
 · [silence set +x](#silence-set-x)\
 · [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)\
 · [test whether variable is unset](#test-whether-variable-is-unset)\
