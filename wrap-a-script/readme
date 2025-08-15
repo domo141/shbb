@@ -1,0 +1,12 @@
+
+Use #!hashbang line to wrap a script to another
+'''''''''''''''''''''''''''''''''''''''''''''''
+
+See the the behavior of these by executing
+(after checking all files here look OK):
+
+1$ ./inner-no-args.sh
+2$ ./inner-w-arg.sh
+
+3$ ./inner-no-args.sh cmd line args 4 5 6
+4$ ./inner-w-arg.sh cmd line args 4 5 6
