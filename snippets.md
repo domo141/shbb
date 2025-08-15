@@ -12,6 +12,7 @@ user input, use e.g. printf %s\\n ... instead.
 · [check whitespace (IFS) characters](#check-whitespace-IFS-characters)\
 · [printf multiple lines](#printf-multiple-lines)\
 · [check whether directory contains just one item](#check-whether-directory-contains-just-one-item)\
+· [check all args are files](#check-all-args-are-files)
 · [silence set +x](#silence-set-x)\
 · [create or truncate existing to empty file](#create-or-truncate-existing-to-empty-file)\
 · [test whether variable is unset](#test-whether-variable-is-unset)\
@@ -149,6 +150,17 @@ check whether directory contains just one item
     set +f
     onefile * # also onefile subdir/* would work
     test "$onefile" && echo $onefile || echo less or more than one file
+
+
+check all args are files
+------------------------
+
+note: test -f '' is false (not a file), too
+
+    for f; do test -f "$f" || { f=; break; }; done
+    test "$f" && echo all args files || echo not all args files
+    unset f
+    echo continue to do other things...
 
 
 silence set +x
