@@ -155,10 +155,10 @@ check whether directory contains just one item
 check all args are files
 ------------------------
 
-note: test -f '' is false (not a file), too
+note: test -f '' is false (not a file), too (and w/ zero args, $f unset)
 
     for f; do test -f "$f" || { f=; break; }; done
-    test "$f" && echo all args files || echo not all args files
+    test "${f-}" && echo all args files || echo not all args files
     unset f
     echo continue to do other things...
 

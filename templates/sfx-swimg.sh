@@ -139,8 +139,14 @@ x $zstd -o "$2" "$1"
 
 ls -l "$1" "$2"
 
+# have exit if there is more traps than just rm -rf $tmpdif
 exit
+# otherwise outcomment/remove exit to give up one fork w/ exec below
+exec rm -rf $tmpdir  # with exec, exit trap is not executed
 
+exit (not reached)
+
+# -v- this was older "advice", even harder to comprehend/get right -v-
 # the following 2 lines show case where $tmpdir can be removed before
 # executing (last) command with exec -- in that case trap does not run
 # these lines are not reached as exit is executed above
